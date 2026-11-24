@@ -63,9 +63,13 @@
 }
 
 /* Legende: tutte nella stessa cella, si vede solo quella del passo attivo */
+/* Attaccate alla mappa: annulla il gap di .mappa__stage e condivide il
+   bordo inferiore della mappa (niente linea doppia) */
 .legenda {
   display: grid;
+  margin-top: calc(-1 * var(--space-s));
   border: var(--border-width) solid var(--color-border);
+  border-top: 0;
   background: #fff;
 }
 
@@ -101,13 +105,57 @@
   white-space: nowrap;
 }
 
+/* Legenda 1: linea del flow e testo distanziati di 16px */
+.legenda__set[data-legenda="flow"] {
+  flex-wrap: nowrap;
+  gap: var(--space-fixed-xs);
+}
+
+.legenda__set[data-legenda="flow"] p {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Legende 2 e 3 (Figma: opz-1): pallino pieno da 24px, senza bordo */
 .legenda__chiave {
   flex: none;
   width: var(--mappa-legenda-swatch);
   height: var(--mappa-legenda-swatch);
-  border: var(--border-width) solid var(--color-border);
   border-radius: 50%;
   background: var(--voce-colore);
+}
+
+/* --------------------------------------------------------------------------
+   Gruppo di enti vicini sulla mappa (Figma: "Casi studio Flow"):
+   cerchio a spicchi, uno per ente, con il numero al centro.
+   --cluster-lato e --cluster-spicchi sono impostati da js/mappa.js
+   -------------------------------------------------------------------------- */
+.mappa__cluster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cluster-lato, 48px);
+  height: var(--cluster-lato, 48px);
+  padding: 0;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 50%;
+  background: var(--cluster-spicchi, var(--color-light));
+  color: var(--color-text);
+  font-feature-settings: "dlig" 1;
+  cursor: pointer;
+  transition: transform 200ms ease;
+}
+
+/* Il cerchio sta dentro .mappa__cluster-marker (posizionato da Mapbox):
+   l'ingrandimento resta centrato sul punto */
+.mappa__cluster.is-highlighted,
+.mappa__cluster:hover {
+  transform: scale(1.15);
+}
+
+.mappa__cluster:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-border);
+  outline-offset: 2px;
 }
 
 /* --------------------------------------------------------------------------
@@ -128,8 +176,11 @@
   padding-bottom: 140px;
 }
 
+/* Ultimo passo: alto almeno metà schermo, così a fine scorrimento il suo
+   inizio supera la metà e diventa attivo; sotto il grafico solo un margine */
 .step:last-child {
-  padding-bottom: 40vh;
+  min-height: 50vh;
+  padding-bottom: var(--space-xl);
 }
 
 .step[data-step="flow"] {
@@ -144,11 +195,17 @@
   padding: var(--space-fixed-xxs) 0;
   border-top: 0.5px solid var(--color-border);
   border-bottom: 0.5px solid var(--color-border);
+  cursor: pointer;   /* click: zoom sul caso studio (js/mappa.js) */
   transition: background-color 200ms ease;
 }
 
 .enti li.is-highlighted {
   background: var(--color-2);
+}
+
+.enti li:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-border);
+  outline-offset: -2px;
 }
 
 .enti__nome {
@@ -223,6 +280,14 @@
   display: none;
 }
 
+/* Pulsante "Torna alla vista iniziale" (sotto + e −, js/mappa.js):
+   quattro angoli che inquadrano un punto */
+.mappa__ctrl-vista .mapboxgl-ctrl-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='29' height='29' viewBox='0 0 29 29' fill='none' stroke='%230c0c0c' stroke-width='1.5'%3E%3Cpath d='M8 12V8h4M17 8h4v4M21 17v4h-4M12 21H8v-4'/%3E%3Ccircle cx='14.5' cy='14.5' r='2' fill='%230c0c0c' stroke='none'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .mappa__popup {
   display: flex;
   flex-direction: column;
@@ -235,6 +300,110 @@
 }
 
 /* --------------------------------------------------------------------------
+   Modi XS, S, M — sotto 992px: la pagina non scorre. In alto, fermi,
+   titolo + mappa + legenda; sotto, i passi in un contenitore alto quanto
+   lo spazio rimasto, che scorre al suo interno (js/mappa.js osserva il suo
+   scorrimento per cambiare passo)
+   -------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .page--mappa {
+    height: 100dvh;
+    overflow: hidden;
+    padding-bottom: var(--space-fixed-xs);
+  }
+
+  .mappa {
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);   /* tra legenda e contenuti a scorrimento */
+  }
+
+  .mappa__stage {
+    flex: none;
+  }
+
+  .mappa__map {
+    height: 32dvh;
+    min-height: 180px;
+  }
+
+  /* XS, S: mappa più bassa, più spazio ai contenuti a scorrimento */
+  @media (max-width: 767.98px) {
+    .mappa__map {
+      height: 26dvh;
+      min-height: 160px;
+    }
+  }
+
+  /* Legenda più compatta: testo Body small, padding e pallini ridotti */
+  .mappa {
+    --mappa-legenda-swatch: var(--space-fixed-xs);
+  }
+
+  .legenda__set {
+    padding: var(--space-fixed-xxs);
+  }
+
+  .legenda .text-body {
+    font-size: var(--text-body-small-size);
+  }
+
+  /* Contenitore dei passi: scorre al suo interno. container-type permette
+     ai passi di misurarsi sulla sua altezza (cqh) invece che sullo schermo */
+  .mappa__steps {
+    /* alta quanto lo spazio sotto la legenda (gap di .mappa) */
+    --mappa-sfumatura: var(--space-l);
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    container-type: size;
+    /* Sfumatura in alto, come la navbar: i contenuti svaniscono invece di
+       essere tagliati. Il contenitore sale nello spazio sotto la legenda e
+       ha altrettanto padding, così all'inizio nulla è sfumato e la
+       distanza dalla legenda resta --space-l. In basso sfuma già
+       .mappa__scroll-hint */
+    margin-top: calc(-1 * var(--mappa-sfumatura));
+    padding-top: var(--mappa-sfumatura);
+    /* opacità dei contenuti: 0 al bordo della legenda → 100 a fine sfumatura
+       (la navbar invece è piena fino a metà e sfuma solo dopo) */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--mappa-sfumatura));
+    mask-image: linear-gradient(to bottom, transparent 0, #000 var(--mappa-sfumatura));
+  }
+
+  /* Stesse proporzioni di L, ma rispetto al contenitore. flex: none: il
+     contenitore ha altezza fissa e altrimenti schiaccerebbe i passi */
+  .step {
+    flex: none;
+    min-height: 80cqh;
+  }
+
+  .step:last-child {
+    min-height: 50cqh;
+  }
+
+  /* Invito a scorrere largo quanto la pagina, entro i margini laterali.
+     L'SVG resta alla sua misura, centrato (object-fit: none: la freccia
+     non si deforma); ai lati lo stesso gradiente dell'SVG in CSS */
+  .mappa__scroll-hint {
+    right: var(--space-fixed-xs);
+    width: calc(100% - 2 * var(--space-fixed-xs));
+    height: 100px;
+    object-fit: none;
+    object-position: center;
+    /* solo nelle due fasce ai lati dell'SVG (largo 443.536px), così al
+       centro i gradienti non si sommano */
+    --hint-fascia: calc((100% - 443.536px) / 2);
+    --hint-gradiente: linear-gradient(to bottom, rgb(248 248 248 / 0), #f8f8f8);
+    background:
+      var(--hint-gradiente) left / var(--hint-fascia) 100% no-repeat,
+      var(--hint-gradiente) right / var(--hint-fascia) 100% no-repeat;
+  }
+}
+
+/* --------------------------------------------------------------------------
    Modo L — 992px: mappa ferma su 5 colonne, passi su 3
    -------------------------------------------------------------------------- */
 @media (min-width: 992px) {
@@ -242,13 +411,22 @@
     row-gap: 0;
   }
 
+  /* La griglia arriva fino al bordo pagina in basso: così la colonna
+     sinistra non viene spinta su alla fine dello scorrimento */
+  .page--mappa {
+    padding-bottom: var(--space-fixed-xs);
+  }
+
+  /* Ferma fin dall'inizio: "top" coincide con la posizione di partenza
+     (bordo pagina + spazio per la navbar) */
   .mappa__stage {
+    --mappa-stage-top: calc(var(--space-fixed-xs) + var(--mappa-top));
     position: sticky;
-    top: var(--mappa-top);
+    top: var(--mappa-stage-top);
     grid-column: 1 / span 5;
     align-self: start;
-    /* Alta quanto lo schermo meno navbar e bordo pagina */
-    height: calc(100dvh - var(--mappa-top) - var(--space-fixed-xs));
+    /* Alta quanto lo schermo meno navbar e bordi pagina sopra e sotto */
+    height: calc(100dvh - var(--mappa-stage-top) - var(--space-fixed-xs));
   }
 
   .mappa__map {

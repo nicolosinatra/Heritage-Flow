@@ -7,6 +7,6 @@
    ========================================================================== */
 
 window.HF_MAPBOX = {
-  token: "",
-  style: "mapbox://styles/mapbox/light-v11"
+  token: "pk.eyJ1Ijoibmljb2xvc2luYXRyYSIsImEiOiJjbXd1bGdqMmswMXJoMnhzaHczOTVyd2ttIn0.1klxrupad_ZEdv6mj0GcYw",
+  style: "mapbox://styles/nicolosinatra/cmwumbej100lw01sd61ghc608"
 };
