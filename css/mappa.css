@@ -1,0 +1,274 @@
+/* ==========================================================================
+   Pagina Mappa (mappa.html) — scrollytelling su mappa Mapbox
+   Griglia della pagina: 2 colonne (XS, S), 4 (M), 8 (L, XL), dalla
+   variabile --layout-columns-dense di style.css.
+   L/XL: mappa ferma sulle 5 colonne di sinistra, testi e grafici che
+   scorrono sulle 3 di destra. Il passo attivo (data-step su .mappa,
+   impostato da js/mappa.js) decide cosa mostrano mappa e legenda.
+   Approccio mobile-first: le regole base valgono per XS–M e sono una
+   prima impostazione (mappa sopra, testi sotto), da rifinire.
+   ========================================================================== */
+
+.mappa {
+  --mappa-top: 60px;                    /* spazio sotto la navbar fissa */
+  --mappa-gap: var(--space-fixed-xs);   /* spazio tra le colonne */
+  --mappa-legenda-swatch: 24px;
+  --mappa-duration: 400ms;
+
+  display: grid;
+  grid-template-columns: repeat(var(--layout-columns-dense), minmax(0, 1fr));
+  column-gap: var(--mappa-gap);
+  row-gap: var(--space-xl);
+  padding-top: var(--mappa-top);
+}
+
+/* Sotto L entrambe le colonne occupano tutta la griglia */
+.mappa__stage,
+.mappa__steps {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Colonna sinistra: titolo, mappa, legenda
+   -------------------------------------------------------------------------- */
+/* .mappa ha già lo spazio in alto: annulla quello di .page__main > :first-child */
+.mappa > .mappa__stage {
+  padding-top: 0;
+}
+
+.mappa__stage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.mappa__map {
+  position: relative;
+  height: 60vh;
+  min-height: 320px;
+  border: var(--border-width) solid var(--color-border);
+  background: var(--color-light);
+}
+
+/* Messaggio al posto della mappa (token mancante, errori) */
+.mappa__avviso {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-m);
+  text-align: center;
+}
+
+/* Legende: tutte nella stessa cella, si vede solo quella del passo attivo */
+.legenda {
+  display: grid;
+  border: var(--border-width) solid var(--color-border);
+  background: #fff;
+}
+
+.legenda__set {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-fixed-xxs) var(--space-fixed-xs);
+  padding: var(--space-fixed-xs);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--mappa-duration) ease,
+              visibility 0s linear var(--mappa-duration);
+}
+
+.mappa[data-step="flow"]       [data-legenda="flow"],
+.mappa[data-step="potenziale"] [data-legenda="potenziale"],
+.mappa[data-step="tipologia"]  [data-legenda="tipologia"] {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--mappa-duration) ease, visibility 0s linear;
+}
+
+.legenda__linea {
+  flex: none;
+}
+
+.legenda__voce {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-fixed-xxs);
+  white-space: nowrap;
+}
+
+.legenda__chiave {
+  flex: none;
+  width: var(--mappa-legenda-swatch);
+  height: var(--mappa-legenda-swatch);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 50%;
+  background: var(--voce-colore);
+}
+
+/* --------------------------------------------------------------------------
+   Colonna destra: passi dello scrollytelling
+   -------------------------------------------------------------------------- */
+.mappa__steps {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ogni passo è alto almeno quasi uno schermo, così ne è attivo uno alla
+   volta; l'ultimo lascia spazio per arrivare a metà schermo */
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  min-height: 80vh;
+  padding-bottom: 140px;
+}
+
+.step:last-child {
+  padding-bottom: 40vh;
+}
+
+.step[data-step="flow"] {
+  gap: var(--space-m);
+}
+
+/* Elenco enti (Figma: scheda enti) */
+.enti li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-fixed-xs);
+  padding: var(--space-fixed-xxs) 0;
+  border-top: 0.5px solid var(--color-border);
+  border-bottom: 0.5px solid var(--color-border);
+  transition: background-color 200ms ease;
+}
+
+.enti li.is-highlighted {
+  background: var(--color-2);
+}
+
+.enti__nome {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.enti__prov {
+  flex: none;
+  width: 32px;
+}
+
+/* Grafici a bolle (SVG generati da js/mappa.js) */
+.step__viz {
+  margin: 0;
+}
+
+.step__viz svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.bolla circle {
+  stroke: none;
+  transition: opacity 200ms ease;
+}
+
+.bolla text {
+  fill: var(--color-text);
+  font-family: var(--font-family);
+  font-feature-settings: "dlig" 1;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.step__viz:has(.bolla.is-highlighted) .bolla:not(.is-highlighted) circle {
+  opacity: 0.35;
+}
+
+/* Invito a scorrere: in fondo alla colonna destra, sparisce all'ultimo passo */
+.mappa__scroll-hint {
+  position: fixed;
+  z-index: 5;
+  right: var(--space-fixed-xs);
+  bottom: 0;
+  width: min(443.536px, calc(100% - 2 * var(--space-fixed-xs)));
+  height: auto;
+  pointer-events: none;
+  transition: opacity var(--mappa-duration) ease;
+}
+
+.mappa[data-step="tipologia"] .mappa__scroll-hint {
+  opacity: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Popup Mapbox con i caratteri del progetto
+   -------------------------------------------------------------------------- */
+.mappa .mapboxgl-popup-content {
+  padding: var(--space-fixed-xxs) var(--space-fixed-xs);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--color-light);
+  color: var(--color-text);
+  font-family: var(--font-family);
+}
+
+.mappa .mapboxgl-popup-tip {
+  display: none;
+}
+
+.mappa__popup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xxs);
+  max-width: 240px;
+}
+
+.mappa__popup-dato {
+  opacity: var(--opacity-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Modo L — 992px: mappa ferma su 5 colonne, passi su 3
+   -------------------------------------------------------------------------- */
+@media (min-width: 992px) {
+  .mappa {
+    row-gap: 0;
+  }
+
+  .mappa__stage {
+    position: sticky;
+    top: var(--mappa-top);
+    grid-column: 1 / span 5;
+    align-self: start;
+    /* Alta quanto lo schermo meno navbar e bordo pagina */
+    height: calc(100dvh - var(--mappa-top) - var(--space-fixed-xs));
+  }
+
+  .mappa__map {
+    flex: 1 1 0;
+    height: auto;
+    min-height: 0;
+  }
+
+  .mappa__steps {
+    grid-column: 6 / span 3;
+  }
+
+  .mappa__scroll-hint {
+    /* larga quanto la colonna destra (3 colonne su 8) */
+    width: calc((100% - 2 * var(--space-fixed-xs) - 7 * var(--mappa-gap)) * 3 / 8 + 2 * var(--mappa-gap));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mappa {
+    --mappa-duration: 1ms;
+  }
+}

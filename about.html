@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heritage Flow — About</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page">
+
+  <!-- Navbar (Figma: navbar / navbar-mobile) — pagina del menu: About -->
+  <header class="navbar">
+    <nav class="navbar__links" aria-label="Principale">
+      <!-- sulla voce della pagina corrente: pallino + colonna larga -->
+      <a class="navbar__item navbar__item--logo text-menu" href="heritage-flow.html"><span>HERITAGE FLOW</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="mappa.html"><span>Mappa</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="timeline.html"><span>Timeline</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="archivio.html"><span>Archivio</span></a>
+    </nav>
+    <!-- Menu (Figma: container-menu): aperto si allarga e si allunga con le voci.
+         Su mobile js/navbar.js aggiunge in cima le voci della navbar -->
+    <div class="navbar__menu-box">
+      <div class="navbar__menu-panel">
+        <button class="navbar__menu" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="navbar-menu"></button>
+        <div class="navbar__dropdown">
+          <nav class="navbar__dropdown-links" id="navbar-menu" aria-label="Menu">
+            <a class="navbar__menu-item text-menu" href="info.html"><span>Info</span></a>
+            <a class="navbar__menu-item text-menu" href="about.html" aria-current="page"><span>About</span></a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page__main">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="heading-group">
+        <p class="text-label">HERITAGE FLOW</p>
+        <h1 class="text-h1" id="page-title">About</h1>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/navbar.js"></script>
+</body>
+</html>

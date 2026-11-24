@@ -1,0 +1,3 @@
+Manca assets/mappa.png (la mappa di sfondo).
+Da Figma: seleziona il livello "Mappa" nel frame "default" (node-id 2035-2780),
+esportalo in PNG (1x o 2x) e salvalo in questa cartella come mappa.png.

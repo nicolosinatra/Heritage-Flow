@@ -1,0 +1,993 @@
+/* ==========================================================================
+   Approccio mobile-first: i valori base sono quelli del modo XS (375px);
+   i modi S, M e L sovrascrivono solo ciò che cambia.
+   ========================================================================== */
+
+/* ----------------------------------------------------------------------------
+   Font   
+   ---------------------------------------------------------------------------- */
+
+  @font-face {
+    font-family: "Apfel Grotezk";
+    src: url("../fonts/ApfelGrotezk-Regular.woff2") format("woff2"),
+        url("../fonts/ApfelGrotezk-Regular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Apfel Grotezk Brukt";
+    src: url("../fonts/ApfelGrotezk-Brukt.woff2") format("woff2"),
+        url("../fonts/ApfelGrotezk-Brukt.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+:root {
+  /* ------------------------------------------------------------------------
+     Colori — stili colore Figma
+     ------------------------------------------------------------------------ */
+
+  --color-main: #00966f;      /* Main Color */
+  --color-main-light: #00b384; /* Main Light */
+  --color-2: #ffbfc7;         /* Color 2 */
+  --color-3: #ff4832;         /* Color 3 */
+  --color-4: #68c0e7;         /* Color 4 */
+  --color-5: #ff84d3;         /* Color 5 */
+  --color-6: #ffdc5b;         /* Color 6 */
+  --color-7: #ff8655;         /* Color 7 */
+  --color-8: #c194fe;         /* Color 8 */
+  --color-9: #5fdb62;         /* Color 9 */
+  --color-10: #ff145c;        /* Color 10 */
+  --color-11: #9945e5;        /* Color 11 */
+  --color-12: #3ca917;        /* Color 12 */
+  --color-13: #ad796c;        /* Color 13 */
+  --color-14: #a79b92;        /* Color 14 */
+  --color-15: #86193e;        /* Color 15 */
+  --color-dark: #0c0c0c;      /* Dark */
+  --color-light: #f5f5f5;     /* Light */
+
+  /* Alias semantici (non sono stili Figma: ricavati dall'uso nei frame) */
+  --color-text: var(--color-dark);
+  --color-background: var(--color-light);
+  --color-border: var(--color-dark);
+  --color-divider: #555659;   /* linea puntinata tra le voci dell'elenco */
+  --opacity-muted: 0.6;       /* etichette secondarie (es. intestazioni colonna) */
+
+  /* ------------------------------------------------------------------------
+     Tipografia — Dimensioni in rem (1rem = 16px). Interlinea senza unità, 
+     spaziatura lettere in em (Figma: percentuale).
+     Le dimensioni qui sotto sono quelle dei modi XS e S; M, L e XL le
+     sovrascrivono più in basso. Interlinea e spaziatura lettere sono uguali
+     in tutti i modi. H2, H4, Body, Body small, Menu e Label seguono i frame
+     Figma della pagina heritage-flow (XS 375 → XL 1280).
+     ------------------------------------------------------------------------ */
+     
+  --font-family: "Apfel Grotezk", system-ui, sans-serif;
+  --font-family-brukt: "Apfel Grotezk Brukt", "Apfel Grotezk", system-ui, sans-serif;
+  --font-weight-regular: 400;
+
+  /* H1 - Titoli */
+  --text-h1-size: 3rem;                 /* 48px */
+  --text-h1-line-height: 0.95;
+  --text-h1-letter-spacing: 0;
+
+  /* H2 - Intestazioni */
+  --text-h2-size: 2rem;                 /* 32px */
+  --text-h2-line-height: 1.1;
+  --text-h2-letter-spacing: -0.01em;
+
+  /* H3 - Intestazioni secondarie */
+  --text-h3-size: 1.5rem;               /* 24px */
+  --text-h3-line-height: 1;
+  --text-h3-letter-spacing: 0;
+
+  /* H4 - Intestazioni terzarie */
+  --text-h4-size: 1.25rem;              /* 20px */
+  --text-h4-line-height: 0.95;
+  --text-h4-letter-spacing: 0;
+
+  /* Voci opzioni flow */
+  --text-flow-option-size: 2rem;        /* 32px */
+  --text-flow-option-line-height: 0.95;
+  --text-flow-option-letter-spacing: -0.01em;
+
+  /* Voci Menu */
+  --text-menu-size: 1rem;               /* 16px */
+  --text-menu-line-height: 0.95;
+  --text-menu-letter-spacing: 0;
+
+  /* Body (uguale in tutti i modi) */
+  --text-body-size: 1.25rem;            /* 20px */
+  --text-body-line-height: 1.2;
+  --text-body-letter-spacing: 0.02em;
+
+  /* Body small — testi di hero, "A chi si rivolge" e card
+     (non è uno stile Figma: Body con dimensione ridotta) */
+  --text-body-small-size: 1rem;         /* 16px */
+
+  /* Buttons */
+  --text-button-size: 1.125rem;         /* 18px */
+  --text-button-line-height: 1.05;
+  --text-button-letter-spacing: 0;
+
+  /* Label */
+  --text-label-size: 1rem;              /* 16px (uguale in tutti i modi) */
+  --text-label-line-height: 1.05;
+  --text-label-letter-spacing: 0;
+
+  /* ------------------------------------------------------------------------
+     Spaziature e layout — variabili Figma del gruppo Layout, modo XS (375px)
+     ------------------------------------------------------------------------ */
+  --layout-width: 375px;
+  --layout-columns-dense: 2;            /* Colonne - fitte */
+  --layout-columns-sparse: 2;           /* Colonne - rade */
+
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-s: 16px;
+  --space-m: 24px;
+  --space-l: 32px;
+  --space-xl: 40px;
+  --space-xxl: 64px;
+
+  /* Spaziature fisse (uguali in tutti i modi), dai frame Figma della pagina
+     heritage-flow: SpacingXXS e SpacingXS */
+  --space-fixed-xxs: 8px;   /* spazio interno di link navbar e chip, gap tra chip */
+  --space-fixed-xs: 16px;   /* bordo pagina, spazio sopra la navbar, occhiello → titolo */
+
+  /* Navbar */
+  --navbar-height: 28px;                /* altezza di voci e pulsante menu */
+  --navbar-menu-width: 80px;            /* Navbar-menu */
+  --navbar-menu-open-width: 300px;      /* Navbar-menuselected (da M in su) */
+  --navbar-menu-space: 56px;            /* menu aperto: spazio sopra le voci */
+  --navbar-duration: 300ms;
+  --navbar-ease: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* ------------------------------------------------------------------------
+     Altri valori ricorrenti nei frame (non sono variabili Figma)
+     ------------------------------------------------------------------------ */
+  --radius-pill: 100px;
+  --radius-card: 14px;
+  --border-width: 1px;
+  --border-width-card: 1.5px;
+  --border-width-strong: 2px;
+}
+
+/* Modo S — 576px */
+@media (min-width: 576px) {
+  :root {
+    --layout-width: 576px;
+  }
+}
+
+/* Modo M — 768px */
+@media (min-width: 768px) {
+  :root {
+    --layout-width: 768px;
+    --layout-columns-dense: 4;
+
+    --space-s: 24px;
+    --space-m: 32px;
+    --space-l: 40px;
+    --space-xl: 48px;
+    --space-xxl: 80px;
+
+    /* Tipografia M */
+    --text-h1-size: 4rem;               /* 64px */
+    --text-h3-size: 1.75rem;            /* 28px */
+    --text-flow-option-size: 2.25rem;   /* 36px */
+    --text-menu-size: 1.125rem;         /* 18px */
+    --text-button-size: 1.25rem;        /* 20px */
+  }
+}
+
+/* Modo L — 992px */
+@media (min-width: 992px) {
+  :root {
+    --layout-width: 992px;
+    --layout-columns-dense: 8;
+    --layout-columns-sparse: 4;
+
+    --space-s: 32px;
+    --space-m: 40px;
+    --space-l: 48px;
+    --space-xl: 64px;
+    --space-xxl: 96px;
+
+    /* Tipografia L */
+    --text-h1-size: 5rem;               /* 80px */
+    --text-h2-size: 2.75rem;            /* 44px */
+    --text-h3-size: 2rem;               /* 32px */
+    --text-h4-size: 1.5rem;             /* 24px */
+    --text-flow-option-size: 2.75rem;   /* 44px */
+    --text-menu-size: 1.25rem;          /* 20px */
+    --text-body-small-size: 1.125rem;   /* 18px */
+    --text-button-size: 1.5rem;         /* 24px */
+  }
+}
+
+/* Modo XL — 1280px */
+@media (min-width: 1280px) {
+  :root {
+    --layout-width: 1280px;
+
+    --navbar-menu-width: 96px;
+
+    /* Tipografia XL */
+    --text-h2-size: 3.5rem;             /* 56px */
+  }
+}
+/* --------------------------------------------------------------------------
+   Classi di utilità per gli stili testo
+   -------------------------------------------------------------------------- */
+.text-h1 { font: var(--font-weight-regular) var(--text-h1-size)/var(--text-h1-line-height) var(--font-family); letter-spacing: var(--text-h1-letter-spacing); }
+.text-h2 { font: var(--font-weight-regular) var(--text-h2-size)/var(--text-h2-line-height) var(--font-family); letter-spacing: var(--text-h2-letter-spacing); }
+.text-h2-brukt { font: var(--font-weight-regular) var(--text-h2-size)/var(--text-h2-line-height) var(--font-family-brukt); letter-spacing: var(--text-h2-letter-spacing); }
+.text-h3 { font: var(--font-weight-regular) var(--text-h3-size)/var(--text-h3-line-height) var(--font-family); letter-spacing: var(--text-h3-letter-spacing); }
+.text-h3-brukt { font: var(--font-weight-regular) var(--text-h3-size)/var(--text-h3-line-height) var(--font-family-brukt); letter-spacing: var(--text-h3-letter-spacing); }
+.text-h4 { font: var(--font-weight-regular) var(--text-h4-size)/var(--text-h4-line-height) var(--font-family); letter-spacing: var(--text-h4-letter-spacing); }
+.text-flow-option { font: var(--font-weight-regular) var(--text-flow-option-size)/var(--text-flow-option-line-height) var(--font-family); letter-spacing: var(--text-flow-option-letter-spacing); }
+.text-menu { font: var(--font-weight-regular) var(--text-menu-size)/var(--text-menu-line-height) var(--font-family); letter-spacing: var(--text-menu-letter-spacing); }
+.text-body { font: var(--font-weight-regular) var(--text-body-size)/var(--text-body-line-height) var(--font-family); letter-spacing: var(--text-body-letter-spacing); }
+.text-body-small { font: var(--font-weight-regular) var(--text-body-small-size)/var(--text-body-line-height) var(--font-family); letter-spacing: var(--text-body-letter-spacing); }
+.text-button { font: var(--font-weight-regular) var(--text-button-size)/var(--text-button-line-height) var(--font-family); letter-spacing: var(--text-button-letter-spacing); }
+.text-label { font: var(--font-weight-regular) var(--text-label-size)/var(--text-label-line-height) var(--font-family); letter-spacing: var(--text-label-letter-spacing); }
+
+
+/* ==========================================================================
+   Mobile-first: le regole base sono quelle di XS, i modi successivi
+   sovrascrivono solo ciò che cambia.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Pagina
+   Sfondo come nei frame: Light con un filo verde (Color 9) ai due bordi
+   -------------------------------------------------------------------------- */
+.page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  margin: 0;
+  padding: var(--space-fixed-xs) var(--space-fixed-xs) 100px;
+  background-color: var(--color-background);
+  background-image: linear-gradient(
+    90deg,
+    var(--color-9) 0%,
+    var(--color-light) 1%,
+    var(--color-light) 99%,
+    var(--color-9) 100%
+  );
+  background-attachment: fixed;
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-feature-settings: "dlig" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
+}
+
+/* Testi rifilati alla linea delle maiuscole e alla linea di base, come in
+   Figma (text-box-trim): le spaziature tra i blocchi tornano con il design */
+.page :is(h1, h2, h3, p, li, a, span) {
+  text-box: trim-both cap alphabetic;
+}
+
+/* :where() non aggiunge specificità: le classi dei componenti
+   (es. .ambiti con il suo padding) possono sovrascrivere questi reset */
+.page :where(h1, h2, h3, p, ul, ol, figure) {
+  margin: 0;
+}
+
+.page :where(ul, ol) {
+  padding: 0;
+  list-style: none;
+}
+
+/* Gruppo occhiello + titolo */
+.heading-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xs);
+}
+
+/* --------------------------------------------------------------------------
+   Navbar — fissa in alto, su una sfumatura chiara (bg-header in Figma):
+   Light pieno fino a metà altezza, poi in dissolvenza fino a trasparente.
+   Componenti Figma: navbar (da M), navbar-mobile (XS/S), container-menu.
+
+   - La voce della pagina corrente ha aria-current="page": mostra il pallino
+     e ha la colonna più larga (desktop) / è l'unica visibile (mobile).
+   - Menu aperto (.navbar--open, gestito da js/navbar.js): il pulsante si
+     allarga e le due linee diventano una X.
+   -------------------------------------------------------------------------- */
+.navbar {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  right: var(--space-fixed-xs);
+  left: var(--space-fixed-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-fixed-xs);
+  padding: var(--space-fixed-xs) 0 var(--space-m);
+  background: linear-gradient(
+    to bottom,
+    var(--color-light) 0%,
+    var(--color-light) 50%,
+    #f5f5f500 100%
+  );
+}
+
+/* Riga delle voci in flex: la larghezza relativa di ogni voce è il suo
+   flex-grow (equivale alle colonne fr di Figma) e si anima al cambio pagina */
+.navbar__links {
+  display: flex;
+  flex: 1 1 0;
+  gap: var(--space-fixed-xs);
+  min-width: 0;
+}
+
+/* Voce: alta 28px come il pulsante menu */
+.navbar__item {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-fixed-xxs);
+  height: var(--navbar-height);
+  /* Niente padding laterale sulla voce (con flex-basis 0 si sommerebbe alla
+     larghezza e falserebbe le proporzioni): i 16px sono un margine interno */
+  padding: 0;
+  overflow: hidden;
+  background: var(--color-dark);
+  color: var(--color-light);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: flex-grow var(--navbar-duration) var(--navbar-ease);
+}
+
+/* Il testo occupa solo l'altezza delle maiuscole, come in Figma
+   (text-box-trim): così risulta centrato otticamente nei 28px */
+.navbar__item span {
+  margin: 0 var(--space-fixed-xs);
+  text-box: trim-both cap alphabetic;
+}
+
+.navbar__item[aria-current="page"] span {
+  margin-left: 0; /* il margine sinistro passa al pallino */
+}
+
+/* Pallino della pagina corrente */
+.navbar__item[aria-current="page"]::before {
+  content: "";
+  flex: none;
+  margin-left: var(--space-fixed-xs);
+  width: 12px;
+  height: 12px;
+  background: url("../assets/heritage-flow/pallino-logo.svg") center / contain no-repeat;
+}
+
+.navbar__item:focus-visible,
+.navbar__menu:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
+}
+
+/* Mobile: si vede solo la voce della pagina corrente (il logo se nessuna
+   voce è corrente), larga quanto tutta la riga fino al pulsante menu */
+.navbar__item:not([aria-current="page"]) {
+  display: none;
+}
+
+.navbar__links:not(:has([aria-current="page"])) .navbar__item--logo {
+  display: flex;
+}
+
+.navbar__item--logo {
+  min-width: 180px;
+}
+
+/* --------------------------------------------------------------------------
+   Menu (container-menu): un contenitore scuro che, aperto, si allarga e si
+   allunga verso il basso. In alto il pulsante con le due linee (→ X), sotto
+   le voci del menu una sotto l'altra, con lo stile delle voci della navbar.
+   Il contenitore occupa nella riga solo i 28px del pulsante: la parte che
+   si allunga scende sopra il contenuto della pagina
+   -------------------------------------------------------------------------- */
+.navbar__menu-box {
+  position: relative;
+  flex: none;
+  width: var(--navbar-menu-width);
+  height: var(--navbar-height);
+  transition: width var(--navbar-duration) var(--navbar-ease),
+              flex-grow var(--navbar-duration) var(--navbar-ease);
+}
+
+/* Righe: pulsante (28px) + voci (0fr chiuso → 1fr aperto: altezza animata) */
+.navbar__menu-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: grid;
+  grid-template-rows: var(--navbar-height) 0fr;
+  background: var(--color-dark);
+  transition: grid-template-rows var(--navbar-duration) var(--navbar-ease);
+}
+
+.navbar--open .navbar__menu-panel {
+  grid-template-rows: var(--navbar-height) 1fr;
+}
+
+/* Pulsante: due linee da 4px a 4px di distanza */
+.navbar__menu {
+  position: relative;
+  width: 100%;
+  height: var(--navbar-height);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Le linee restano lunghe quanto nel pulsante chiuso, allineate a destra */
+.navbar__menu::before,
+.navbar__menu::after {
+  content: "";
+  position: absolute;
+  right: var(--space-fixed-xs);
+  width: calc(var(--navbar-menu-width) - 2 * var(--space-fixed-xs));
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-light);
+  transition: top var(--navbar-duration) var(--navbar-ease),
+              transform var(--navbar-duration) var(--navbar-ease);
+}
+
+.navbar__menu::before { top: calc(50% - 6px); } /* 4px linea + 2px (metà distanza) */
+.navbar__menu::after  { top: calc(50% + 2px); } /* 2px (metà distanza) */
+
+/* Menu aperto: le linee si sovrappongono al centro e ruotano a X */
+.navbar--open .navbar__menu::before,
+.navbar--open .navbar__menu::after {
+  top: calc(50% - 2px);
+}
+
+.navbar--open .navbar__menu::before { transform: rotate(-10deg); }
+.navbar--open .navbar__menu::after  { transform: rotate(10deg); }
+
+/* Voci del menu: nascoste (e fuori dal Tab) a menu chiuso */
+.navbar__dropdown {
+  min-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  transition: visibility 0s linear var(--navbar-duration);
+}
+
+.navbar--open .navbar__dropdown {
+  visibility: visible;
+  transition: visibility 0s linear;
+}
+
+.navbar__dropdown-links {
+  display: flex;
+  flex-direction: column;
+  /* Spazio vuoto fisso tra la riga con la X e la prima voce: le voci
+     restano in basso nel menu aperto */
+  padding-top: var(--navbar-menu-space);
+  padding-bottom: var(--space-xs); /* spazio sotto l'ultima voce del menu aperto */
+}
+
+/* Voce del menu: stessa resa delle voci della navbar (28px, testo chiaro,
+   16px di margine, pallino sulla pagina corrente) */
+.navbar__menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-fixed-xxs);
+  height: var(--navbar-height);
+  padding: 0 var(--space-fixed-xs);
+  overflow: hidden;
+  color: var(--color-light);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navbar__menu-item span {
+  text-box: trim-both cap alphabetic;
+}
+
+.navbar__menu-item[aria-current="page"]::before {
+  content: "";
+  flex: none;
+  width: 12px;
+  height: 12px;
+  background: url("../assets/heritage-flow/pallino-logo.svg") center / contain no-repeat;
+}
+
+.navbar__menu-item:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: calc(var(--border-width-strong) * -1);
+}
+
+/* Mobile, menu aperto: la barra delle voci si comprime mentre il menu
+   si espande fino a occupare la riga (flex-grow 1 → 0 e 0 → 1 insieme,
+   così la somma resta costante e il movimento è continuo). Al secondo
+   click lo stesso movimento al contrario */
+@media (max-width: 767px) {
+  .navbar__links {
+    overflow: hidden;
+    transition: flex-grow var(--navbar-duration) var(--navbar-ease),
+                margin-right var(--navbar-duration) var(--navbar-ease),
+                visibility 0s linear;
+  }
+
+  .navbar--open .navbar__links {
+    flex-grow: 0;
+    margin-right: calc(-1 * var(--space-fixed-xs)); /* annulla il gap */
+    visibility: hidden; /* a fine animazione: voci non raggiungibili col Tab */
+    transition: flex-grow var(--navbar-duration) var(--navbar-ease),
+                margin-right var(--navbar-duration) var(--navbar-ease),
+                visibility 0s linear var(--navbar-duration);
+  }
+
+  .navbar--open .navbar__menu-box {
+    flex-grow: 1;
+  }
+}
+
+/* Le voci della navbar copiate nel menu (js/navbar.js) servono solo su
+   mobile, dove nella barra si vede solo la voce corrente */
+@media (min-width: 768px) {
+  .navbar__menu-item--mobile {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --navbar-duration: 1ms;
+  }
+}
+
+/* Contenuto: lascia spazio sotto la navbar */
+.page__main {
+  padding-top: 60px;
+}
+
+/* --------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------
+   Spaziature comuni a tutte le sezioni (pagine heritage-flow e info)
+   - ai lati: --space-s su mobile, --space-l da S (576px)
+   - sopra e sotto: --space-xl (la prima sezione sopra: --space-m)
+   - tra intestazione e contenuto: --space-xl
+   -------------------------------------------------------------------------- */
+.hero,
+.audience,
+.section {
+  padding: var(--space-xl) var(--space-s);
+}
+
+.page__main > :first-child {
+  padding-top: var(--space-m);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.hero__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+.hero__illustration {
+  display: flex;
+  align-items: center;
+}
+
+.hero__illustration img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* --------------------------------------------------------------------------
+   A chi si rivolge
+   -------------------------------------------------------------------------- */
+.audience {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.audience__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.audience__texts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-fixed-xxs);
+}
+
+.chip {
+  padding: var(--space-fixed-xxs) var(--space-s);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-2);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Sezioni "Il progetto" e "Nuovi flow turistici"
+   -------------------------------------------------------------------------- */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.section__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+.section__title { max-width: 690px; }
+.section__lead  { max-width: 670px; }
+
+/* Card degli ambiti: 3 in riga, poi 2 + 1, poi una per riga */
+.ambiti {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-m);
+}
+
+.card-ambito {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: var(--space-fixed-xs);
+  min-width: 200px;
+  padding: 28px;
+  border: var(--border-width-card) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-main-light);
+}
+
+.flow-schema {
+  margin: 0;
+}
+
+.flow-schema img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ==========================================================================
+   Pagina Info (info.html): obiettivo del progetto e indici
+   Riusa .section, .heading-group, .card-ambito e le classi di testo;
+   aggiunge le card degli indici, le barre dell'esempio e l'elenco puntinato
+   ========================================================================== */
+
+/* Ogni indice ha un colore della palette, usato nella card e nelle barre */
+.indice--digitale,      .barra--digitale      { --indice-color: var(--color-4); }
+.indice--esperienza,    .barra--esperienza    { --indice-color: var(--color-5); }
+.indice--inclusivita,   .barra--inclusivita   { --indice-color: var(--color-6); }
+.indice--ecosistema,    .barra--ecosistema    { --indice-color: var(--color-9); }
+.indice--comunicazione, .barra--comunicazione { --indice-color: var(--color-8); }
+
+/* --------------------------------------------------------------------------
+   Card degli indici: una colonna su mobile, poi quante ne stanno (min 280px)
+   -------------------------------------------------------------------------- */
+.indici {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-m);
+}
+
+.indice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  padding: 28px;
+  border: var(--border-width-card) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--indice-color);
+}
+
+.indice__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xxs);
+}
+
+.indice__caption {
+  opacity: var(--opacity-muted);
+}
+
+/* Voci della scheda separate dalla linea puntinata */
+.indice__voci li {
+  padding: var(--space-fixed-xxs) 0;
+  border-bottom: var(--border-width) dotted var(--color-divider);
+}
+
+/* --------------------------------------------------------------------------
+   Esempio: barre punteggio / margine per un caso studio
+   -------------------------------------------------------------------------- */
+.esempio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+  max-width: 900px;
+  padding: 28px;
+  border: var(--border-width-card) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-light);
+}
+
+.esempio__titolo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xxs);
+}
+
+.esempio__titolo .text-label {
+  opacity: var(--opacity-muted);
+}
+
+.esempio__barre {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+
+/* Mobile: nome sopra, barra e valore sotto */
+.barra {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "nome   nome"
+    "barra  valore";
+  align-items: center;
+  column-gap: var(--space-fixed-xs);
+  row-gap: var(--space-fixed-xxs);
+}
+
+.barra__nome   { grid-area: nome; }
+.barra__traccia { grid-area: barra; }
+.barra__valore {
+  grid-area: valore;
+  min-width: 140px; /* uguale per tutte le righe: le barre hanno la stessa lunghezza */
+  white-space: nowrap;
+}
+
+/* Traccia = 100. Il focus è il margine di miglioramento: la parte colorata
+   (a sinistra) è il potenziale ancora da attivare, la parte chiara (a
+   destra) è lo stato attuale */
+.barra__traccia {
+  position: relative;
+  display: block;
+  height: 16px;
+  overflow: hidden;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--indice-color);
+}
+
+/* Barra specchiata: il potenziale (colore) parte da sinistra, lo stato
+   attuale (Light) occupa la parte destra */
+.barra__attuale {
+  display: block;
+  width: calc(var(--valore) * 1%);
+  height: 100%;
+  margin-left: auto;
+  border-left: var(--border-width) solid var(--color-border);
+  background: var(--color-light);
+}
+
+/* Stato attuale 0: niente bordo, la barra è tutta margine */
+.barra[style*="--valore: 0;"] .barra__attuale,
+.barra[style$="--valore: 0"] .barra__attuale {
+  border-left: 0;
+}
+
+/* Valore: in evidenza il margine, più tenue lo stato attuale */
+.barra__valore {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-fixed-xxs);
+}
+
+.barra__stato {
+  opacity: var(--opacity-muted);
+}
+
+.esempio__legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-fixed-xxs) var(--space-m);
+}
+
+.esempio__voce-legenda {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-fixed-xxs);
+}
+
+.esempio__chiave {
+  flex: none;
+  width: 24px;
+  height: 12px;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+/* Margine: i colori dei cinque indici */
+.esempio__chiave--margine {
+  background: linear-gradient(90deg,
+    var(--color-4) 0 20%, var(--color-5) 20% 40%, var(--color-6) 40% 60%,
+    var(--color-9) 60% 80%, var(--color-8) 80% 100%);
+}
+
+.esempio__chiave--attuale {
+  background: var(--color-light);
+}
+
+/* --------------------------------------------------------------------------
+   Elenco "A cosa servono": voci separate dalla linea puntinata
+   -------------------------------------------------------------------------- */
+.elenco {
+  border-top: var(--border-width) dotted var(--color-divider);
+}
+
+.elenco__voce {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xs);
+  padding: var(--space-m) 0;
+  border-bottom: var(--border-width) dotted var(--color-divider);
+}
+
+.info-nota {
+  max-width: 670px;
+  opacity: var(--opacity-muted);
+}
+
+/* M: barre con nome a sinistra; elenco su due colonne (titolo | testo) */
+@media (min-width: 768px) {
+  .barra {
+    grid-template-columns: minmax(180px, 1fr) 2fr auto;
+    grid-template-areas: "nome barra valore";
+  }
+
+  .elenco__voce {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-l);
+    align-items: baseline;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Modo S — 576px
+   -------------------------------------------------------------------------- */
+@media (min-width: 576px) {
+  .hero,
+  .audience,
+  .section {
+    padding-right: var(--space-l);
+    padding-left: var(--space-l);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Modo M — 768px: navbar estesa
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .navbar {
+    padding-bottom: var(--space-s);
+  }
+
+  /* Desktop: tutte le voci visibili. Larghezze relative (flex-grow) come
+     le colonne Figma: voce corrente 1, logo 0.65 (se non è lui il
+     corrente), altre 0.5. Cambiando voce corrente si animano */
+  .navbar__item:not([aria-current="page"]) {
+    display: flex;
+    flex-grow: 0.5;
+  }
+
+  .navbar__links:where(:has(.navbar__item--secondary[aria-current="page"])) .navbar__item--logo {
+    flex-grow: 0.65;
+  }
+
+  /* Menu aperto: le voci restano, senza pallino, con larghezze 1.3 / 1 / 1 / 1;
+     il pulsante si allarga a 300px */
+  .navbar--open .navbar__links {
+    display: flex;
+  }
+
+  .navbar--open .navbar__item,
+  .navbar--open .navbar__item:not([aria-current="page"]) {
+    flex-grow: 1;
+  }
+
+  .navbar--open .navbar__item--logo,
+  .navbar--open .navbar__item--logo:not([aria-current="page"]) {
+    flex-grow: 1.3;
+  }
+
+  .navbar--open .navbar__item::before {
+    display: none;
+  }
+
+  .navbar--open .navbar__item[aria-current="page"] span {
+    margin-left: var(--space-fixed-xs);
+  }
+
+  .navbar--open .navbar__menu-box {
+    flex-grow: 0;
+    width: var(--navbar-menu-open-width);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Modo L — 992px: hero e "A chi si rivolge" su due colonne
+   -------------------------------------------------------------------------- */
+@media (min-width: 992px) {
+  .hero {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .hero__text,
+  .hero__illustration {
+    flex: 1 0 0;
+    min-width: 0;
+  }
+
+  .hero__illustration {
+    aspect-ratio: 384 / 450;
+  }
+
+  .audience {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-xxl);
+  }
+
+  .audience > * {
+    flex: 1 0 0;
+    min-width: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Modo XL — 1280px
+   -------------------------------------------------------------------------- */
+@media (min-width: 1280px) {
+  .hero__illustration {
+    aspect-ratio: 506 / 470;
+    padding: 10px 18px;
+  }
+}

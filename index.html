@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heritage Flow</title>
+  <meta name="description" content="Una piattaforma per la lettura del patrimonio culturale e creativo in Emilia-Romagna">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+  <!-- data-state: "default" | "sx" | "dx" (aggiornato da js/home.js) -->
+  <main class="home" data-state="default">
+
+    <!-- Mappa di sfondo -->
+    <div class="home__map" aria-hidden="true">
+      <img src="assets/img/Mappa.jpg" alt="">
+    </div>
+
+    <!-- Dissolvenza chiara sopra la mappa (Rectangle 34) -->
+    <div class="home__fade" aria-hidden="true"></div>
+
+    <header class="home__header">
+      <h1 class="logo" aria-label="Heritage Flow">
+        <picture>
+          <!-- Fino al layout M (< 992px): logo small su più righe -->
+          <source media="(max-width: 991px)" srcset="assets/logo/logo-small.svg">
+          <img src="assets/logo/logo.svg" alt="">
+        </picture>
+      </h1>
+
+      <p class="home__description text-h3">
+        Una piattaforma per la lettura del patrimonio culturale e creativo in Emilia-Romagna
+      </p>
+    </header>
+
+    <!-- Sfumature verdi (mix-blend-mode: color): una per lato, in dissolvenza -->
+    <div class="home__tint home__tint--sx" aria-hidden="true"></div>
+    <div class="home__tint home__tint--dx" aria-hidden="true"></div>
+
+    <!-- Scelta iniziale: visitatore / istituzione -->
+    <div class="home__choice">
+      <span class="home__label text-h3">visitatore</span>
+
+      <!-- Switch: il cursore si sposta con data-state (stili in css/home.css) -->
+      <span class="switch" aria-hidden="true"><span class="switch__thumb"></span></span>
+
+      <span class="home__label text-h3">istituzione</span>
+    </div>
+
+    <!-- Aree cliccabili: metà sinistra → visitatore, metà destra → istituzione.
+         La fascia centrale (±--home-center-margin, in css/home.css) è neutra:
+         non è cliccabile e mostra la versione default -->
+
+    <!--visitatore-->
+    <a class="home__half home__half--sx" href="heritage-flow.html" data-side="sx" aria-label="Entra come visitatore"></a>
+    <!--istituzione-->
+    <a class="home__half home__half--dx" href="heritage-flow.html" data-side="dx" aria-label="Entra come istituzione"></a>
+
+  </main>
+
+  <script src="js/home.js"></script>
+</body>
+</html>

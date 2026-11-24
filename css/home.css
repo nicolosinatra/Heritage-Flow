@@ -1,0 +1,299 @@
+
+:root {
+  /* Valori della homepage non presenti nei token */
+  --home-margin-x: 60px;                 /* margine laterale di logo e descrizione */
+  --home-logo-top: 100px;
+  --home-logo-gap: 56px;                 /* distanza logo → descrizione */
+  --home-choice-gap: 65px;               /* distanza etichette ↔ switch */
+  --home-switch-width: 300px;
+  --home-label-line-height: 1;        /* "visitatore" / "istituzione" */
+
+  /* Fascia centrale neutra (per lato, consigliato 50–100px): non è cliccabile
+     e riporta alla versione default. Letta anche da js/home.js */
+  --home-center-margin: 75px;
+
+  /* Transizioni tra le tre versioni */
+  --home-duration: 300ms;
+  --home-ease: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Altezza dello switch (Figma desktop: 28px accanto al testo H3 da 32px).
+     Tutte le altre misure dello switch sono in proporzione a questa */
+  --home-switch-height: 28px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-feature-settings: "dlig" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   Contenitore a tutto schermo
+   isolation: isolate → il mix-blend-mode delle sfumature agisce solo qui
+   -------------------------------------------------------------------------- */
+.home {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--color-background);
+}
+
+/* --------------------------------------------------------------------------
+   Mappa: alta quanto lo schermo, centrata, con le proporzioni del file Figma
+   -------------------------------------------------------------------------- */
+.home__map {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.home__map img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* riempie lo schermo senza deformare: ritaglia l'eccesso */
+  object-position: center;
+}
+
+/* Dissolvenza chiara: da --color-light a trasparente, in diagonale */
+.home__fade {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    166.55deg,
+    var(--color-light) 18.14%,
+    rgb(245 245 245 / 0) 76.94%
+  );
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Logo e descrizione
+   -------------------------------------------------------------------------- */
+.home__header {
+  position: absolute;
+  top: min(var(--home-logo-top), 9.26vh);
+  right: min(var(--home-margin-x), var(--space-xs));
+  left: min(var(--home-margin-x), var(--space-xs));
+}
+
+@media (min-width: 768px) {
+  .home__header, .home__description {
+    right: var(--home-margin-x);
+    left: var(--home-margin-x);
+  }
+}
+
+/* Nessun aspect-ratio fisso: l'altezza segue il file mostrato
+   (logo.svg da L in su, logo-small.svg fino a M) */
+.logo {
+  position: relative;
+  width: 100%;
+  margin: 0;
+}
+
+.logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.home__description {
+  right: min(var(--home-margin-x), var(--space-xs));
+  left: min(var(--home-margin-x), var(--space-xs));
+  /* Su schermi stretti il testo si riduce, senza superare la misura H3 */
+  font-size: clamp(1.125rem, 2.5vw, var(--text-h3-size));
+  line-height: var(--text-h3-line-height);
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* Mobile e M (fino a 991px, logo su più righe): descrizione 16px più in basso */
+@media (max-width: 991px) {
+  .home__description {
+    margin-top: calc(1em + 16px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Sfumature verdi (una per lato) che si dissolvono tra una versione e l'altra
+   -------------------------------------------------------------------------- */
+.home__tint {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  mix-blend-mode: color;
+  pointer-events: none;
+  transition: opacity var(--home-duration) var(--home-ease);
+}
+
+/* sx: da verde (sinistra) a chiaro, fino all'80% */
+.home__tint--sx {
+  background-image: linear-gradient(to right, var(--color-9) 0%, var(--color-light) 80%);
+}
+
+/* dx: da chiaro (dal 20%) a verde (destra) */
+.home__tint--dx {
+  background-image: linear-gradient(to right, var(--color-light) 20%, var(--color-9) 100%);
+}
+
+.home[data-state="sx"] .home__tint--sx,
+.home[data-state="dx"] .home__tint--dx {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Scelta iniziale: visitatore — switch — istituzione
+   -------------------------------------------------------------------------- */
+.home__choice {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--home-choice-gap);
+  padding-left: var(--space-xs);
+  transform: translateY(-50%);
+}
+
+.home__label {
+  white-space: nowrap;
+  line-height: var(--home-label-line-height);
+}
+
+/* Switch in HTML/CSS (prima SVG 300×28): le misure di Figma sono espresse
+   in proporzione all'altezza h, così l'altezza può cambiare senza deformare
+   bordo, arrotondamento e cursore.
+     bordo 2.56/28 h · cursore 48×16.88 su 28 h · distanza dal bordo 5.56/28 h */
+.switch {
+  --h: var(--home-switch-height);
+  --border: calc(var(--h) * 2.56 / 28);
+  --thumb-w: calc(var(--home-switch-width) * 48 / 300); /* 16% della larghezza */
+  --thumb-h: calc(var(--h) * 16.88 / 28);
+  --thumb-inset: calc(var(--h) * 5.56 / 28);
+
+  position: relative;
+  flex: 0 1 var(--home-switch-width);
+  width: var(--home-switch-width);
+  max-width: 100%;
+  height: var(--h);
+  border-radius: var(--radius-pill);
+  /* Bordo come ombra interna: un border da 2.56px verrebbe arrotondato a 2px */
+  box-shadow: inset 0 0 0 var(--border) var(--color-dark);
+}
+
+/* Cursore: al centro (default), a sinistra (sx) o a destra (dx) */
+.switch__thumb {
+  position: absolute;
+  top: 50%;
+  left: calc(50% - var(--thumb-w) / 2);
+  width: var(--thumb-w);
+  height: var(--thumb-h);
+  border-radius: var(--radius-pill);
+  background: var(--color-9);
+  transform: translateY(-50%);
+  transition: left var(--home-duration) var(--home-ease);
+}
+
+.home[data-state="sx"] .switch__thumb { left: var(--thumb-inset); }
+.home[data-state="dx"] .switch__thumb { left: calc(100% - var(--thumb-w) - var(--thumb-inset)); }
+
+/* --------------------------------------------------------------------------
+   Aree cliccabili: ogni metà dello schermo è un link, sopra a tutto il resto.
+   La fascia centrale larga 2 × --home-center-margin resta fuori dai link,
+   quindi non è cliccabile
+   -------------------------------------------------------------------------- */
+.home__half {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  width: calc(50% - var(--home-center-margin));
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  /* Touch: il trascinamento serve all'anteprima, non a scorrere la pagina;
+     la pressione lunga non apre il menu del link né seleziona testo */
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.home__half--sx { left: 0; }
+.home__half--dx { right: 0; }
+
+.home__half:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-dark);
+  outline-offset: calc(var(--border-width-strong) * -1);
+}
+
+/* Schermi stretti: gap e switch si riducono */
+@media (max-width: 767px) {
+  .home {
+    --home-choice-gap: var(--space-fixed-xs); /* 16px tra etichette e switch */
+    --home-switch-width: 96px;
+    /* Stessa proporzione del desktop: altezza = 28/32 della dimensione
+       del testo delle etichette (H3) */
+    --home-switch-height: calc(var(--text-h3-size) * 28 / 32);
+    --home-logo-top: 48px;
+    --home-center-margin: 56px; /* fascia centrale neutra più stretta: 112px in tutto */
+  }
+
+  /* Mobile: logo (e descrizione sotto di lui) a 48px fissi dal top */
+  .home__header {
+    top: var(--home-logo-top);
+  }
+
+  .home__label {
+    font-size: var(--text-h3-size);
+  }
+
+  /* Mobile: pagina bloccata, nessuno scorrimento verticale (né rimbalzo)
+     mentre si trascina il dito per lo switch */
+  html,
+  body {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  .home {
+    height: 100vh;
+    height: 100dvh;      /* esattamente l'area visibile, barre del browser escluse */
+    min-height: 0;
+    touch-action: none;  /* anche fuori dalle due metà (fascia centrale) */
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Accessibilità: movimento ridotto
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --home-duration: 1ms;
+  }
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heritage Flow — Mappa</title>
+
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mappa.css">
+</head>
+<body class="page page--mappa">
+
+  <!-- Navbar (Figma: navbar / navbar-mobile) — voce corrente: Mappa -->
+  <header class="navbar">
+    <nav class="navbar__links" aria-label="Principale">
+      <!-- aria-current="page" sulla voce della pagina corrente: pallino + colonna larga -->
+      <a class="navbar__item navbar__item--logo text-menu" href="heritage-flow.html"><span>HERITAGE FLOW</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="mappa.html" aria-current="page"><span>Mappa</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="timeline.html"><span>Timeline</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="archivio.html"><span>Archivio</span></a>
+    </nav>
+    <!-- Menu (Figma: container-menu): aperto si allarga e si allunga con le voci.
+         Su mobile js/navbar.js aggiunge in cima le voci della navbar -->
+    <div class="navbar__menu-box">
+      <div class="navbar__menu-panel">
+        <button class="navbar__menu" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="navbar-menu"></button>
+        <div class="navbar__dropdown">
+          <nav class="navbar__dropdown-links" id="navbar-menu" aria-label="Menu">
+            <a class="navbar__menu-item text-menu" href="info.html"><span>Info</span></a>
+            <a class="navbar__menu-item text-menu" href="about.html"><span>About</span></a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Scrollytelling: data-step indica il passo attivo (js/mappa.js) e
+       determina cosa mostrano mappa e legenda -->
+  <main class="page__main mappa" data-step="flow">
+
+    <!-- Colonna sinistra (L/XL: 5 colonne su 8), ferma durante lo scorrimento -->
+    <div class="mappa__stage">
+      <h1 class="mappa__title text-h3">
+        Flow sul patrimonio industriale dal 1920 ad oggi del settore automotive per le famiglie
+      </h1>
+
+      <div class="mappa__map" id="mappa-map" role="region" aria-label="Mappa interattiva dei patrimoni"></div>
+
+      <!-- Legende (Figma: Legenda 1, 2, 3): una per passo, nella stessa cella -->
+      <div class="legenda" aria-live="polite">
+        <div class="legenda__set" data-legenda="flow">
+          <img class="legenda__linea" src="assets/mappa/legenda-flow.svg" width="36" height="10" alt="">
+          <p class="text-body">Rappresentazione del Flow generato</p>
+        </div>
+        <ul class="legenda__set" data-legenda="potenziale" data-voci="classiPotenziale"></ul>
+        <ul class="legenda__set" data-legenda="tipologia" data-voci="tipi"></ul>
+      </div>
+    </div>
+
+    <!-- Colonna destra (L/XL: 3 colonne su 8): un passo per sezione -->
+    <div class="mappa__steps">
+      <section class="step" data-step="flow" aria-labelledby="step-enti">
+        <h2 class="step__title text-h3" id="step-enti">Enti e patrimoni coinvolti</h2>
+        <ul class="enti text-label" data-elenco="enti"></ul>
+      </section>
+
+      <section class="step" data-step="potenziale" aria-labelledby="step-potenziale">
+        <h2 class="step__title text-h3" id="step-potenziale">Potenziale di valorizzazione di ciascun patrimonio</h2>
+        <figure class="step__viz" data-grafico="potenziale"></figure>
+      </section>
+
+      <section class="step" data-step="tipologia" aria-labelledby="step-tipologia">
+        <h2 class="step__title text-h3" id="step-tipologia">Tra questi quanti detengono patrimoni fisici, digitali o digitalizzati</h2>
+        <figure class="step__viz" data-grafico="tipologia"></figure>
+      </section>
+    </div>
+
+    <!-- Invito a scorrere (Figma: white-gradient) -->
+    <img class="mappa__scroll-hint" src="assets/mappa/white-gradient.svg" width="443.536" height="100" alt="">
+  </main>
+
+  <script src="js/navbar.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.js"></script>
+  <script src="js/mapbox-config.js"></script>
+  <script src="js/mappa-dati.js"></script>
+  <script src="js/mappa.js"></script>
+</body>
+</html>

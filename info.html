@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heritage Flow — Info</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page">
+
+  <!-- Navbar (Figma: navbar / navbar-mobile) — pagina del menu: Info -->
+  <header class="navbar">
+    <nav class="navbar__links" aria-label="Principale">
+      <!-- sulla voce della pagina corrente: pallino + colonna larga -->
+      <a class="navbar__item navbar__item--logo text-menu" href="heritage-flow.html"><span>HERITAGE FLOW</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="mappa.html"><span>Mappa</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="timeline.html"><span>Timeline</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="archivio.html"><span>Archivio</span></a>
+    </nav>
+    <!-- Menu (Figma: container-menu): aperto si allarga e si allunga con le voci.
+         Su mobile js/navbar.js aggiunge in cima le voci della navbar -->
+    <div class="navbar__menu-box">
+      <div class="navbar__menu-panel">
+        <button class="navbar__menu" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="navbar-menu"></button>
+        <div class="navbar__dropdown">
+          <nav class="navbar__dropdown-links" id="navbar-menu" aria-label="Menu">
+            <a class="navbar__menu-item text-menu" href="info.html" aria-current="page"><span>Info</span></a>
+            <a class="navbar__menu-item text-menu" href="about.html"><span>About</span></a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page__main">
+
+    <!-- Obiettivo -->
+    <section class="section info-intro" aria-labelledby="page-title">
+      <div class="section__intro">
+        <div class="heading-group">
+          <p class="text-label">INFO · OBIETTIVO DEL PROGETTO</p>
+          <h1 class="section__title text-h2" id="page-title">Far emergere il potenziale dei patrimoni nascosti</h1>
+        </div>
+        <p class="section__lead text-body">
+          In Emilia-Romagna esiste un patrimonio diffuso che oggi resta nascosto o poco valorizzato: collezioni private, archivi, botteghe storiche, musei civici, saperi tecnico-industriali. Heritage Flow vuole portarlo alla luce, metterlo in relazione e far emergere il suo potenziale di valorizzazione.
+        </p>
+      </div>
+    </section>
+
+    <!-- Tre passi -->
+    <section class="section" aria-labelledby="steps-title">
+      <div class="heading-group">
+        <p class="text-label">COME</p>
+        <h2 class="section__title text-h2" id="steps-title">Tre passi, dal singolo patrimonio al territorio</h2>
+      </div>
+      <ol class="ambiti">
+        <li class="card-ambito">
+          <p class="text-label">01</p>
+          <h3 class="text-h4">Far emergere</h3>
+          <p class="text-body-small">Ogni patrimonio, materiale o immateriale, viene descritto con la stessa scheda analitica, anche quando non è accessibile in digitale o è aperto solo su appuntamento.</p>
+        </li>
+        <li class="card-ambito">
+          <p class="text-label">02</p>
+          <h3 class="text-h4">Mettere in relazione</h3>
+          <p class="text-body-small">Ogni patrimonio viene letto insieme agli altri: luoghi, filiere, servizi, eventi e soggetti con cui può costruire percorsi e reti.</p>
+        </li>
+        <li class="card-ambito">
+          <p class="text-label">03</p>
+          <h3 class="text-h4">Valorizzare</h3>
+          <p class="text-body-small">Dati confrontabili indicano dove intervenire per primo e orientano le scelte di enti locali e operatori turistici.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- I cinque indici -->
+    <section class="section" aria-labelledby="indici-title">
+      <div class="section__intro">
+        <div class="heading-group">
+          <p class="text-label">GLI INDICI</p>
+          <h2 class="section__title text-h2" id="indici-title">Cinque indici per misurare il potenziale</h2>
+        </div>
+        <p class="section__lead text-body">
+          Dalle voci della scheda analitica si calcolano cinque indici, ciascuno da 0 a 100. Più che un voto, ogni indice è una misura di quanto potenziale resta da attivare: il margine di miglioramento, cioè 100 meno il punteggio, mostra dove un intervento può fare la differenza.
+        </p>
+      </div>
+      <ul class="indici">
+        <li class="indice indice--digitale">
+          <div class="heading-group">
+            <p class="text-label">INDICE 01</p>
+            <h3 class="text-h4">Maturità digitale</h3>
+          </div>
+          <p class="text-body-small">Quanto il patrimonio è accessibile e raccontato in digitale.</p>
+          <div class="indice__block">
+            <p class="indice__caption text-label">Voci della scheda</p>
+            <ul class="indice__voci text-body-small">
+              <li>Supporto o forma di accesso</li>
+              <li>Tecnologie digitali utilizzate</li>
+              <li>Fruizione digitale</li>
+              <li>Valorizzazione digitale</li>
+            </ul>
+          </div>
+          <div class="indice__block">
+            <p class="indice__caption text-label">Serve a</p>
+            <p class="text-body-small">Individuare i patrimoni da digitalizzare per renderli visibili anche a distanza.</p>
+          </div>
+        </li>
+
+        <li class="indice indice--esperienza">
+          <div class="heading-group">
+            <p class="text-label">INDICE 02</p>
+            <h3 class="text-h4">Esperienza e design</h3>
+          </div>
+          <p class="text-body-small">Quanto sono varie le esperienze offerte al pubblico e quanto contribuisce il design.</p>
+          <div class="indice__block">
+            <p class="indice__caption text-label">Voci della scheda</p>
+            <ul class="indice__voci text-body-small">
+              <li>Forme attuali di valorizzazione</li>
+              <li>Tipo di fruizione</li>
+              <li>Discipline del design coinvolte</li>
+              <li>Impatto e obiettivi</li>
+            </ul>
+          </div>
+          <div class="indice__block">
+            <p class="indice__caption text-label">Serve a</p>
+            <p class="text-body-small">Capire dove progettare nuove esperienze di visita e nuovi formati di racconto.</p>
+          </div>
+        </li>
+
+        <li class="indice indice--inclusivita">
+          <div class="heading-group">
+            <p class="text-label">INDICE 03</p>
+            <h3 class="text-h4">Inclusività e accessibilità</h3>
+          </div>
+          <p class="text-body-small">Quanto il patrimonio è raggiungibile e aperto a pubblici diversi.</p>
+          <div class="indice__block">
+            <p class="indice__caption text-label">Voci della scheda</p>
+            <ul class="indice__voci text-body-small">
+              <li>Accessibilità</li>
+              <li>Tipologia di fruitore</li>
+              <li>Fasce di età</li>
+              <li>Mezzi di trasporto</li>
+              <li>Servizi garantiti</li>
+            </ul>
+          </div>
+          <div class="indice__block">
+            <p class="indice__caption text-label">Serve a</p>
+            <p class="text-body-small">Ampliare i pubblici e ridurre le barriere fisiche, economiche e linguistiche.</p>
+          </div>
+        </li>
+
+        <li class="indice indice--ecosistema">
+          <div class="heading-group">
+            <p class="text-label">INDICE 04</p>
+            <h3 class="text-h4">Connessione all’ecosistema</h3>
+          </div>
+          <p class="text-body-small">Quanto il patrimonio è già inserito in una rete di luoghi, soggetti ed eventi.</p>
+          <div class="indice__block">
+            <p class="indice__caption text-label">Voci della scheda</p>
+            <ul class="indice__voci text-body-small">
+              <li>Connessioni con altri siti</li>
+              <li>Connessioni con stakeholder</li>
+              <li>Altre tipologie di patrimonio</li>
+              <li>Eventi collaterali</li>
+              <li>Area d’influenza</li>
+            </ul>
+          </div>
+          <div class="indice__block">
+            <p class="indice__caption text-label">Serve a</p>
+            <p class="text-body-small">Mettere in relazione patrimoni vicini o complementari e costruire itinerari.</p>
+          </div>
+        </li>
+
+        <li class="indice indice--comunicazione">
+          <div class="heading-group">
+            <p class="text-label">INDICE 05</p>
+            <h3 class="text-h4">Comunicazione e sostenibilità</h3>
+          </div>
+          <p class="text-body-small">Come il patrimonio si fa conoscere e quanto è sostenibile e monitorato.</p>
+          <div class="indice__block">
+            <p class="indice__caption text-label">Voci della scheda</p>
+            <ul class="indice__voci text-body-small">
+              <li>Comunicazione e promozione</li>
+              <li>Sostenibilità</li>
+              <li>Monitoraggio dei visitatori</li>
+              <li>Orari di apertura</li>
+            </ul>
+          </div>
+          <div class="indice__block">
+            <p class="indice__caption text-label">Serve a</p>
+            <p class="text-body-small">Rendere il patrimonio riconoscibile e gestire i flussi di visita nel tempo.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Esempio -->
+    <section class="section" aria-labelledby="esempio-title">
+      <div class="section__intro">
+        <div class="heading-group">
+          <p class="text-label">UN ESEMPIO</p>
+          <h2 class="section__title text-h2" id="esempio-title">Dal punteggio al potenziale</h2>
+        </div>
+        <p class="section__lead text-body">
+          La Collezione Bandini di Forlì è ben inserita nella rete della Motor Valley, ma non è accessibile in digitale e si visita solo su prenotazione. Gli indici rendono visibile quanto potenziale resta da attivare: il margine più ampio è nel digitale, poi nella comunicazione e nell’accessibilità.
+        </p>
+      </div>
+      <figure class="esempio">
+        <figcaption class="esempio__titolo">
+          <span class="text-h4">Collezione Bandini</span>
+          <span class="text-label">Collezione privata · Forlì</span>
+        </figcaption>
+        <ul class="esempio__barre">
+          <li class="barra barra--digitale" style="--valore: 0">
+            <span class="barra__nome text-body-small">Maturità digitale</span>
+            <span class="barra__traccia" aria-hidden="true"><span class="barra__attuale"></span></span>
+            <span class="barra__valore"><span class="barra__margine text-h4">+100</span> <span class="barra__stato text-label">attuale 0</span></span>
+          </li>
+          <li class="barra barra--esperienza" style="--valore: 40">
+            <span class="barra__nome text-body-small">Esperienza e design</span>
+            <span class="barra__traccia" aria-hidden="true"><span class="barra__attuale"></span></span>
+            <span class="barra__valore"><span class="barra__margine text-h4">+60</span> <span class="barra__stato text-label">attuale 40</span></span>
+          </li>
+          <li class="barra barra--inclusivita" style="--valore: 26">
+            <span class="barra__nome text-body-small">Inclusività e accessibilità</span>
+            <span class="barra__traccia" aria-hidden="true"><span class="barra__attuale"></span></span>
+            <span class="barra__valore"><span class="barra__margine text-h4">+74</span> <span class="barra__stato text-label">attuale 26</span></span>
+          </li>
+          <li class="barra barra--ecosistema" style="--valore: 71">
+            <span class="barra__nome text-body-small">Connessione all’ecosistema</span>
+            <span class="barra__traccia" aria-hidden="true"><span class="barra__attuale"></span></span>
+            <span class="barra__valore"><span class="barra__margine text-h4">+29</span> <span class="barra__stato text-label">attuale 71</span></span>
+          </li>
+          <li class="barra barra--comunicazione" style="--valore: 19">
+            <span class="barra__nome text-body-small">Comunicazione e sostenibilità</span>
+            <span class="barra__traccia" aria-hidden="true"><span class="barra__attuale"></span></span>
+            <span class="barra__valore"><span class="barra__margine text-h4">+81</span> <span class="barra__stato text-label">attuale 19</span></span>
+          </li>
+        </ul>
+        <p class="esempio__legenda text-label">
+          <span class="esempio__voce-legenda"><span class="esempio__chiave esempio__chiave--margine" aria-hidden="true"></span>Margine di miglioramento (potenziale)</span>
+          <span class="esempio__voce-legenda"><span class="esempio__chiave esempio__chiave--attuale" aria-hidden="true"></span>Stato attuale</span>
+        </p>
+      </figure>
+    </section>
+
+    <!-- A cosa servono -->
+    <section class="section" aria-labelledby="uso-title">
+      <div class="heading-group">
+        <p class="text-label">A COSA SERVONO</p>
+        <h2 class="section__title text-h2" id="uso-title">Uno strumento per decidere insieme</h2>
+      </div>
+      <ul class="elenco">
+        <li class="elenco__voce">
+          <h3 class="text-h4">Confrontare patrimoni diversi</h3>
+          <p class="text-body-small">Musei d’impresa, collezioni private, archivi, botteghe e musei civici vengono letti con lo stesso metro, a prescindere da dimensione e notorietà.</p>
+        </li>
+        <li class="elenco__voce">
+          <h3 class="text-h4">Vedere dove intervenire</h3>
+          <p class="text-body-small">Il margine di miglioramento indica, per ogni patrimonio, le leve con più potenziale ancora da attivare.</p>
+        </li>
+        <li class="elenco__voce">
+          <h3 class="text-h4">Mettere in relazione</h3>
+          <p class="text-body-small">Accostare patrimoni con profili complementari, per esempio chi è forte nell’ecosistema e chi nel digitale, per costruire percorsi, reti e nuovi flow turistici.</p>
+        </li>
+        <li class="elenco__voce">
+          <h3 class="text-h4">Orientare le scelte</h3>
+          <p class="text-body-small">Offrire a enti locali e operatori turistici una base condivisa e leggibile per decidere priorità e investimenti.</p>
+        </li>
+        <li class="elenco__voce">
+          <h3 class="text-h4">Seguire l’evoluzione</h3>
+          <p class="text-body-small">Ripetere la lettura nel tempo per misurare l’effetto degli interventi sul singolo patrimonio e sul territorio.</p>
+        </li>
+      </ul>
+      <p class="info-nota text-label">
+        Prima applicazione: 11 casi studio della Motor Valley emiliano-romagnola, schedati con il modello di scheda analitica di Heritage Flow.
+      </p>
+    </section>
+
+  </main>
+
+  <script src="js/navbar.js"></script>
+</body>
+</html>
