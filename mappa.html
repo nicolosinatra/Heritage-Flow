@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/mappa.css">
+  <link rel="stylesheet" href="css/genera.css">
 </head>
 <body class="page page--mappa">
 
@@ -34,6 +35,23 @@
       </div>
     </div>
   </header>
+
+  <!-- Genera un nuovo flow (Figma: GenerareFlow-L). Schermata iniziale che
+       copre la pagina sotto la navbar; si compone la frase scegliendo i
+       campi, "Genera" la chiude e mostra il flow. Contenuto creato da
+       js/genera.js -->
+  <section class="genera" id="genera" tabindex="-1" aria-labelledby="genera-titolo">
+    <div class="genera__frase">
+      <h2 class="genera__titolo text-h2" id="genera-titolo">
+        Genera un nuovo <span class="text-h2-brukt">flow</span> per il turismo
+      </h2>
+      <p class="genera__composizione text-h2" data-genera="frase"></p>
+    </div>
+    <div class="genera__opzioni">
+      <ul class="genera__campi" data-genera="campi" aria-label="Campi della frase"></ul>
+      <div class="genera__pannello" data-genera="pannello" aria-live="polite"></div>
+    </div>
+  </section>
 
   <!-- Scrollytelling: data-step indica il passo attivo (js/mappa.js) e
        determina cosa mostrano mappa e legenda -->
@@ -81,6 +99,7 @@
   </main>
 
   <script src="js/navbar.js"></script>
+  <script src="js/genera.js"></script>
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.js"></script>
   <script src="js/mapbox-config.js"></script>
   <script src="js/mappa-dati.js"></script>

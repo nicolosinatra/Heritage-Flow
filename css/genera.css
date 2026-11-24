@@ -1,0 +1,413 @@
+/* ==========================================================================
+   Genera un nuovo flow (Figma: GenerareFlow-L) — schermata iniziale della
+   pagina Mappa, creata da js/genera.js.
+   Copre la pagina sotto la navbar (che resta sopra e usabile) finché non si
+   preme "Genera". Senza JavaScript non compare e si vede subito la mappa.
+   Misure del frame L: bordo 3px, raggio 50px, padding --space-xxl, frase
+   H2 + pillole "Voci opzioni flow", campi a sinistra larghi max 256px.
+   ========================================================================== */
+
+.genera {
+  --genera-bordo: 3px;
+  --genera-raggio: 24px;
+  --genera-duration: 400ms;
+
+  position: fixed;
+  z-index: 9;                       /* sotto la navbar (10) */
+  /* come i contenuti della pagina: bordo + navbar + spazio */
+  top: calc(var(--space-fixed-xs) * 3 + var(--navbar-height));
+  right: var(--space-fixed-xs);
+  bottom: var(--space-fixed-xs);
+  left: var(--space-fixed-xs);
+  display: none;
+  flex-direction: column;
+  gap: var(--space-xl);
+  padding: var(--space-m);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: var(--genera-bordo) solid var(--color-border);
+  border-radius: var(--genera-raggio);
+  background: var(--color-light);
+  backdrop-filter: blur(2px);
+  color: var(--color-text);
+  transition: opacity var(--genera-duration) ease;
+}
+
+/* Aperta (classe su <html> da js/genera.js): la pagina sotto non scorre */
+.genera-aperta {
+  overflow: hidden;
+}
+
+.genera-aperta .genera {
+  display: flex;
+}
+
+/* La pagina sotto non si vede (negli angoli arrotondati traspariva), ma
+   resta impaginata: la mappa si prepara con le misure giuste */
+.genera-aperta .page__main {
+  visibility: hidden;
+}
+
+.genera.is-chiusa {
+  opacity: 0;
+}
+
+
+.genera:focus {
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   Frase (Figma: Titolo+fraseFlow)
+   -------------------------------------------------------------------------- */
+.genera__frase {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+/* Non si restringono: la frase ha un'altezza minima (spazio per le
+   anteprime, js/genera.js) che altrimenti diventerebbe il suo limite e
+   l'ultima riga uscirebbe. Se il contenuto è troppo, .genera scorre */
+.genera__frase,
+.genera__opzioni,
+.genera__titolo,
+.genera__composizione {
+  flex-shrink: 0;
+}
+
+.genera__titolo,
+.genera__composizione {
+  margin: 0;
+}
+
+.genera__composizione {
+  display: flex;
+  flex-wrap: wrap;
+  /* righe in alto: con lo spazio riservato alle anteprime (js/genera.js)
+     la frase non si sposta passando da un ⊕ all'altro */
+  align-content: flex-start;
+  align-items: center;
+  gap: var(--space-fixed-xs);
+}
+
+/* Parole + pillola restano sulla stessa riga */
+.genera__pezzo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-fixed-xs);
+  white-space: nowrap;
+  transition: opacity var(--genera-duration) ease;
+}
+
+/* Virgola tra più voci dello stesso campo: attaccata alla pillola che la
+   precede (annulla quasi tutto il gap del pezzo, lascia --space-fixed-xxs/2) */
+.genera__virgola {
+  margin-left: calc(var(--space-fixed-xxs) / 2 - var(--space-fixed-xs));
+}
+
+
+/* "al ___" mentre si sceglie la data di inizio, e anteprima del campo che
+   ⊕ aggiungerebbe (Figma: GenerareFlow-L/Variant11) */
+.genera__pezzo.is-attesa,
+.genera__pezzo.is-anteprima {
+  opacity: 0.3;
+}
+
+.genera__pezzo.is-anteprima {
+  pointer-events: none;
+}
+
+/* La pillola: il pulsante è solo il contenitore, l'aspetto (bordo, padding,
+   riempimento) è su .genera__pillola-testo, così sotto L può andare a capo
+   come il testo */
+.genera__pillola {
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-text);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* .genera davanti: vince su ".page :is(h2, p, … span)" di style.css, che
+   rifila il testo (text-box). La pillola, come in Figma, non va rifilata;
+   la frase nemmeno: sotto L è testo continuo e il rifilo taglierebbe
+   l'ultima riga alla linea di base, lasciando fuori le pillole */
+.genera .genera__pillola-testo,
+.genera .genera__composizione {
+  text-box: normal;
+}
+
+/* Sotto L anche il titolo fa parte del testo continuo */
+@media (max-width: 991.98px) {
+  .genera .genera__titolo {
+    text-box: normal;
+  }
+}
+
+.genera__pillola-testo {
+  display: inline-block;
+  padding: var(--space-fixed-xxs) var(--space-s);
+  border: var(--genera-bordo) solid var(--genera-colore);
+  border-radius: var(--radius-pill);
+  transition: background-color 200ms ease;
+}
+
+.genera__pillola:disabled {
+  color: var(--color-text);
+  cursor: default;
+}
+
+/* Passandoci sopra (per sostituire la voce) si riempie del colore del campo */
+.genera__pillola:not(:disabled):hover .genera__pillola-testo {
+  background: var(--genera-colore);
+}
+
+/* --------------------------------------------------------------------------
+   Sotto L (XS, S, M): la frase è testo continuo con interlinea fissa.
+   Ogni riga, con o senza pillole, è alta quanto una pillola più
+   --space-fixed-xxs; le pillole (testo H3, come il rapporto 56/44 del
+   frame L) e anche quelle lunghe vanno a capo come il testo, con il bordo
+   chiuso su ogni riga
+   -------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  /* Titolo e frase sono un unico testo: "…per il turismo sul patrimonio…"
+     (font e interlinea qui danno l'altezza a tutte le righe) */
+  .genera__frase {
+    --genera-riga: calc(var(--text-h3-size) * var(--text-flow-option-line-height)
+      + 2 * var(--space-fixed-xxs) + 2 * var(--genera-bordo) + var(--space-fixed-xxs));
+    display: block;
+    font-size: var(--text-h2-size);
+    line-height: var(--genera-riga);
+  }
+
+  /* "turismo" e "sul" sono parole: tra loro il normale spazio */
+  .genera__titolo {
+    display: inline;
+  }
+
+  .genera__composizione {
+    display: inline;
+    line-height: var(--genera-riga);
+  }
+
+  .genera__pezzo {
+    display: inline;
+    white-space: normal;
+  }
+
+  /* spazio tra parole, pillole e pezzi (al posto del gap) */
+  .genera__pezzo > * {
+    margin-right: var(--space-fixed-xs);
+  }
+
+  .genera__pillola {
+    max-width: 100%;
+    font-size: var(--text-h3-size);
+    line-height: var(--genera-riga);
+    vertical-align: middle;   /* centrata sulla riga, non sulla linea di base */
+    text-align: left;
+    white-space: normal;
+  }
+
+  /* Da inline il riquadro si misura sull'altezza piena dei caratteri
+     (più alta della riga 0.95): padding verticale dimezzato, così la
+     pillola ha le proporzioni di L e resta aria tra le righe */
+  .genera__pillola-testo {
+    display: inline;
+    padding: calc(var(--space-fixed-xxs) / 2) var(--space-fixed-xs);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Opzioni (Figma: Opzioni a scelta): campi a sinistra, scelta a destra
+   -------------------------------------------------------------------------- */
+.genera__opzioni {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.genera__campi {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xxs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: opacity var(--genera-duration) ease;
+}
+
+/* Mentre si sceglie un valore la colonna è spenta (Figma: opacity 30%) */
+.genera__campi.is-spenta {
+  opacity: 0.3;
+}
+
+.genera__campo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-fixed-xs);
+}
+
+.genera__campo-nome {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Pulsanti ⊖ ⊕: area 20px come in Figma, l'SVG (21.25px) sborda di poco */
+.genera__icona {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.genera__icona img {
+  display: block;
+  width: 21.25px;
+  height: 21.25px;
+  margin: -0.625px;
+}
+
+.genera__icona:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Colonna spenta: l'opacità è già sull'intera colonna */
+.genera__campi.is-spenta .genera__icona:disabled {
+  opacity: 1;
+}
+
+.genera__icona:focus-visible,
+.genera__pillola:focus-visible,
+.genera__opzione:focus-visible,
+.genera__bottone:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-border);
+  outline-offset: 2px;
+}
+
+/* Pannello a destra */
+.genera__pannello {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.genera__pannello p {
+  margin: 0;
+}
+
+.genera__scelta {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-fixed-xs) + var(--space-fixed-xxs));   /* 24px */
+}
+
+.genera__gruppo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xs);
+}
+
+.genera__voci {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;   /* la freccia "indietro" dei decenni al centro */
+  gap: var(--space-fixed-xxs);
+}
+
+/* Voci selezionabili: pieno e bordo del colore del campo */
+.genera__opzione {
+  padding: var(--space-fixed-xxs) var(--space-fixed-xs);
+  border: var(--genera-bordo) solid var(--genera-colore);
+  border-radius: var(--radius-pill);
+  background: var(--genera-colore);
+  color: var(--color-text);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 200ms ease;
+}
+
+.genera__opzione--data {
+  padding-inline: var(--space-s);
+}
+
+.genera__opzione:hover,
+.genera__opzione[aria-pressed="true"] {
+  border-color: var(--color-border);
+}
+
+/* Invito + "Genera" */
+.genera__invito {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xl);
+}
+
+.genera__bottone {
+  padding: var(--space-fixed-xxs);
+  border: 0;
+  background: var(--color-dark);
+  color: var(--color-light);
+  cursor: pointer;
+  transition: background-color 200ms ease;
+}
+
+.genera__bottone:hover {
+  background: var(--color-main);
+}
+
+/* --------------------------------------------------------------------------
+   Modo M — 768px: campi e scelta affiancati
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .genera {
+    padding: var(--space-xl);
+  }
+
+  .genera__opzioni {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-xl);
+  }
+
+  .genera__campi {
+    flex: 1 1 0;
+    max-width: 256px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Modo L — 992px: misure del frame Figma
+   -------------------------------------------------------------------------- */
+@media (min-width: 992px) {
+  .genera {
+    --genera-raggio: 50px;
+    padding: var(--space-xxl);
+  }
+
+  .genera__opzioni {
+    gap: var(--space-xxl);
+  }
+
+  .genera__invito {
+    gap: var(--space-xxl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .genera {
+    --genera-duration: 1ms;
+  }
+}
