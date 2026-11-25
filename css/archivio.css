@@ -24,32 +24,56 @@
 }
 
 /* --------------------------------------------------------------------------
-   Barra con il pulsante Filtri (stile delle voci della navbar)
+   Pulsante Filtri (Figma: Frame 180): in alto a sinistra, sotto la navbar.
+   Fondo scuro, 8px di spazio interno, icona + testo allineati in basso
    -------------------------------------------------------------------------- */
+/* Testata (pulsante + intestazioni): resta ferma sotto la navbar mentre la
+   pagina scorre e sta sopra la sua sfumatura (z-index della navbar: 10),
+   altrimenti il pulsante non sarebbe cliccabile. Con il menu della navbar
+   aperto scende sotto, per non coprirlo. Non intercetta i click: solo il
+   pulsante */
+.archivio__testa {
+  position: sticky;
+  z-index: 11;
+  top: calc(2 * var(--space-fixed-xs) + var(--navbar-height));
+  /* 16px sotto la navbar come nel Figma (y 60): toglie il bordo pagina che
+     si somma allo spazio di .page__main */
+  margin-top: calc(-1 * var(--space-fixed-xs));
+  pointer-events: none;
+}
+
+.page:has(.navbar--open) .archivio__testa {
+  z-index: 9;
+}
+
 .archivio__barra {
   display: flex;
-  justify-content: flex-end;
-  padding-bottom: var(--space-fixed-xs);
+  justify-content: flex-start;
+  padding-bottom: var(--space-s); /* Figma XL: 32px fino alle intestazioni */
 }
 
 .archivio__filtri-pulsante {
   display: flex;
-  align-items: center;
-  height: var(--navbar-height);
-  padding: 0 var(--space-fixed-xs);
+  align-items: flex-end;
+  gap: var(--space-fixed-xxs);
+  padding: var(--space-fixed-xxs);
   border: 0;
   background: var(--color-dark);
   color: var(--color-light);
   cursor: pointer;
+  pointer-events: auto;
+}
+
+.archivio__filtri-pulsante::before {
+  content: "";
+  flex: none;
+  width: 13.0036px;
+  height: 12px;
+  background: url("../assets/archivio/icona-filtri.svg") center / contain no-repeat;
 }
 
 .archivio__filtri-pulsante span {
   text-box: trim-both cap alphabetic;
-}
-
-.archivio__filtri-pulsante[aria-expanded="true"] {
-  background: var(--color-main);
-  color: var(--color-dark);
 }
 
 .archivio__filtri-pulsante:focus-visible {
@@ -157,8 +181,71 @@
    Modo L — 992px, vista elenco: tabella
    -------------------------------------------------------------------------- */
 @media (min-width: 992px) {
+  /* position: relative: le etichette per gli screen reader (position:
+     absolute) restano dentro la tabella che scorre; altrimenti sporgono
+     nella pagina, che diventa larga quanto la tabella e continua a
+     scorrere di lato quando le colonne sono finite */
   .archivio:not(.archivio--griglia) .archivio__tabella {
+    position: relative;
     overflow-x: auto;
+    /* ai bordi lo scorrimento del trackpad si ferma qui: non passa alla
+       pagina e non fa scattare il gesto "indietro" del browser */
+    overscroll-behavior-x: contain;
+  }
+
+  /* Testata fissa con fondo pieno: le voci le scorrono sotto */
+  .archivio:not(.archivio--griglia) .archivio__testa {
+    background: var(--color-light);
+  }
+
+  /* Navbar: il fondo pieno arriva fino alla testata (y 60) invece di
+     sfumare a metà altezza, così le voci sparite sotto le intestazioni non
+     ricompaiono nella striscia tra testata e navbar. La sfumatura della
+     testata (sotto le intestazioni) fa da sfumatura per entrambe */
+  .page:has(.archivio:not(.archivio--griglia)) .navbar {
+    background: var(--color-light);
+  }
+
+  /* Sfumatura sotto le intestazioni (come la navbar: Light pieno, poi in
+     dissolvenza): le voci che scorrono sotto non sono tagliate di netto.
+     Solo quando la pagina è scorsa (.is-ferma, da JS) */
+  .archivio:not(.archivio--griglia) .archivio__testa::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    height: var(--space-m);
+    background: linear-gradient(
+      to bottom,
+      var(--color-light) 0%,
+      var(--color-light) 50%,
+      rgb(245 245 245 / 0) 100%
+    );
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__testa.is-ferma::after {
+    opacity: 1;
+  }
+
+  /* Le intestazioni stanno fuori dalla tabella che scorre, in una
+     finestra che non si scorre a mano (overflow hidden: contiene anche la
+     loro larghezza, che altrimenti allargherebbe la pagina). JS le porta
+     allo stesso scorrimento orizzontale della tabella; "Caso studio" resta
+     ferma (sticky) come la colonna dei nomi */
+  .archivio:not(.archivio--griglia) .archivio__intestazioni-finestra {
+    overflow: hidden;
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__intestazioni > :first-child {
+    position: sticky;
+    z-index: 1;
+    left: 0;
+    align-self: stretch;
+    align-content: center;
+    background: var(--color-light);
   }
 
   .archivio:not(.archivio--griglia) .archivio__intestazioni,
@@ -168,10 +255,13 @@
     column-gap: var(--space-s);
   }
 
+  /* Testo attenuato con il colore, non con opacity sulla riga: altrimenti
+     anche il fondo della cella "Caso studio" (bloccata) sarebbe
+     trasparente e lascerebbe vedere le intestazioni che le scorrono sotto */
   .archivio:not(.archivio--griglia) .archivio__intestazioni {
     display: grid;
     padding-bottom: var(--space-fixed-xs);
-    opacity: var(--opacity-muted);
+    color: color-mix(in srgb, var(--color-text) calc(var(--opacity-muted) * 100%), transparent);
   }
 
   .archivio:not(.archivio--griglia) .archivio__voce {
@@ -207,8 +297,7 @@
   /* Colonna dei nomi bloccata durante lo scorrimento orizzontale (come la
      prima colonna di Excel). Il nome occupa tutta l'altezza della riga,
      con il testo centrato, e copre ciò che gli scorre sotto */
-  .archivio:not(.archivio--griglia) .archivio__nome,
-  .archivio:not(.archivio--griglia) .archivio__intestazioni > :first-child {
+  .archivio:not(.archivio--griglia) .archivio__nome {
     position: sticky;
     z-index: 1;
     left: 0;
@@ -217,42 +306,44 @@
     background: var(--color-light);
   }
 
-  /* Sfumatura a destra della colonna dei nomi (come la navbar: Light
-     pieno, poi in dissolvenza): i casi che scorrono sotto i nomi spariscono
-     gradualmente. Copre lo spazio tra le colonne più --space-s; c'è solo
-     quando la tabella è scorsa verso destra */
-  .archivio:not(.archivio--griglia) .archivio__nome::after,
-  .archivio:not(.archivio--griglia) .archivio__intestazioni > :first-child::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 100%;
-    width: calc(2 * var(--space-s));
-    background: linear-gradient(
-      to right,
-      var(--color-light) 0%,
-      var(--color-light) 50%,
-      rgb(245 245 245 / 0) 100%
-    );
-    opacity: 0;
-    transition: opacity 200ms ease;
-    pointer-events: none;
+  /* "Caso studio" ha il testo rifilato (text-box): il fondo si allarga
+     sopra e sotto senza spostare il testo, così copre anche le lettere
+     discendenti delle intestazioni che gli scorrono sotto */
+  .archivio:not(.archivio--griglia) .archivio__intestazioni > :first-child {
+    margin-block: calc(-1 * var(--space-fixed-xxs));
+    padding-block: var(--space-fixed-xxs);
   }
 
-  .archivio__tabella--scorsa .archivio__nome::after,
-  .archivio__tabella--scorsa .archivio__intestazioni > :first-child::after {
-    opacity: 1;
-  }
-
-  /* Sfumatura sul bordo destro quando altre colonne sono nascoste a
-     destra: le colonne compaiono gradualmente scorrendo */
-  .archivio:not(.archivio--griglia) .archivio__tabella--altro {
+  /* Sfumature sui bordi della parte che scorre (maschera sul contenitore,
+     un solo gradiente CSS, uguale su intestazioni e tabella):
+     - a sinistra, subito dopo la colonna dei nomi bloccata (larga
+       --archivio-nomi, calcolata in JS): le voci che scorrono verso sinistra
+       si dissolvono prima di sparire dietro i nomi. Solo quando la tabella
+       è scorsa (.is-scorsa);
+     - a destra, sul bordo: le colonne nascoste compaiono gradualmente.
+       Solo se ci sono altre colonne a destra (.is-altro).
+     Fuori da questi casi il colore dello stop è #000 (nessuna sfumatura) */
+  .archivio:not(.archivio--griglia) .archivio__scorre {
+    --sfumatura: calc(2 * var(--space-s));
+    --sfumatura-sx: #000;
+    --sfumatura-dx: #000;
     mask-image: linear-gradient(
-      to left,
-      transparent 0,
-      #000 calc(2 * var(--space-s))
+      to right,
+      #000 0,
+      #000 var(--archivio-nomi, 0px),
+      var(--sfumatura-sx) var(--archivio-nomi, 0px),
+      #000 calc(var(--archivio-nomi, 0px) + var(--sfumatura)),
+      #000 calc(100% - var(--sfumatura)),
+      var(--sfumatura-dx) 100%
     );
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__scorre.is-scorsa {
+    --sfumatura-sx: transparent;
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__scorre.is-altro {
+    --sfumatura-dx: transparent;
   }
 
   /* I titoli dei gruppi sono già nelle intestazioni: restano per gli
@@ -292,7 +383,11 @@
     padding: 0;
     border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-pill);
-    background: var(--color-light) center / auto no-repeat;
+    /* proprietà separate: lo shorthand azzererebbe l'immagine della
+       freccia impostata nelle regole --avanti / --indietro */
+    background-color: var(--color-light);
+    background-position: center;
+    background-repeat: no-repeat;
     cursor: pointer;
     opacity: 0;
     translate: var(--freccia-scarto) -50%;
@@ -300,7 +395,7 @@
     transition: opacity 200ms ease, translate 200ms ease, background-color 200ms ease;
   }
 
-  .archivio__freccia--avanti {
+  .archivio:not(.archivio--griglia) .archivio__freccia--avanti:not([hidden]) {
     right: calc(var(--space-fixed-xs) + var(--space-fixed-xxs));
     background-image: url("../assets/archivio/freccia-destra.svg");
   }
@@ -359,9 +454,45 @@
 
 @media (min-width: 576px) {
   .archivio__filtri {
-    left: auto;
+    right: auto;
     width: 280px;
   }
+}
+
+/* "Comprimi": cerchio 28px con la freccia (icone Figma) + testo. Al
+   passaggio del mouse il cerchio diventa pieno (variante hover) */
+.filtri__comprimi {
+  display: flex;
+  align-items: center;
+  gap: var(--space-fixed-xxs);
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.filtri__comprimi::before {
+  content: "";
+  flex: none;
+  width: 28px;
+  height: 28px;
+  background: url("../assets/archivio/comprimi.svg") center / contain no-repeat;
+}
+
+.filtri__comprimi:hover::before,
+.filtri__comprimi:focus-visible::before {
+  background-image: url("../assets/archivio/comprimi-hover.svg");
+}
+
+.filtri__comprimi span {
+  text-box: trim-both cap alphabetic;
+}
+
+.filtri__comprimi:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
 }
 
 .filtri__sezione {
@@ -486,7 +617,7 @@
   justify-content: space-between;
   gap: var(--space-fixed-xxs);
   width: 100%;
-  padding: 0 var(--space-fixed-xxs) 0 0;
+  padding: var(--space-xxs) var(--space-fixed-xxs) var(--space-xxs) 0;
   border: 0;
   background: transparent;
   color: var(--color-text);
@@ -506,11 +637,34 @@
   background-image: url("../assets/archivio/gruppo-meno.svg");
 }
 
-/* Gruppo aperto: spazio tra il titolo e la prima voce (Figma: 8 + 8) */
-.filtri__gruppo-voci {
-  padding-top: var(--space-fixed-xxs);
-}
+/* Gruppo aperto: tra il titolo e la prima voce c'è solo lo spazio del
+   gruppo (Figma: 4px sotto il titolo + 8px) */
 
 .filtri__gruppo-voci[hidden] {
   display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Tag cliccabili come filtri (js/archivio.js): al passaggio del mouse e
+   quando il filtro è attivo (aria-pressed) la pillola si riempie di
+   --color-9. Il testo è in uno span, rifilato come gli altri tag
+   -------------------------------------------------------------------------- */
+.chip--filtro {
+  display: block;
+  /* il rifilo va sul pulsante (è lui a creare la riga), come sui li */
+  text-box: trim-both cap alphabetic;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.chip--filtro:hover,
+.chip--filtro[aria-pressed="true"] {
+  background: var(--color-9);
+}
+
+.chip--filtro:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
 }

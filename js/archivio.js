@@ -1,7 +1,8 @@
 /* ==========================================================================
    Archivio — Heritage Flow
    Genera l'elenco dei casi studio dai dati di js/dati-casi.js e gestisce il
-   pannello dei filtri (Figma: Frame 62), che compare con il pulsante "Filtri":
+   pannello dei filtri (Figma: Frame 180), che compare al posto del pulsante
+   "Filtri" e si richiude con "Comprimi" (o Esc, o un click fuori):
    - Ordina per: A-Z / Z-A sul titolo.
    - Periodo temporale: mostra i casi attivi in almeno un anno tra Inizio e
      Fine (un caso "in corso" arriva fino all'anno attuale; senza anno di
@@ -83,9 +84,9 @@
   var GRUPPI = [
     { titolo: "Anagrafica", aperto: true,
       campi: ["periodo", "periodi_apertura", "scala", "luogo"] },
-    { titolo: "Patrimonio", aperto: true,
+    { titolo: "Patrimonio", aperto: false,
       campi: ["tipo_patrimonio", "natura_patrimonio", "dimensione_patrimonio", "macrosettore", "settore_attivita"] },
-    { titolo: "Esperienza", aperto: true,
+    { titolo: "Esperienza", aperto: false,
       campi: ["forme_valorizzazione_attuali", "tipo_fruizione", "impatto_obiettivi", "fruitore_attuale",
               "fasce_eta_fruitore", "tecnologie_digitali", "accessibilita"] },
     { titolo: "Info ecosistema", aperto: false,
@@ -97,6 +98,16 @@
   CAMPI.forEach(function (campo) { perId[campo.id] = campo; });
 
   var casi = [];
+
+  // Filtri scelti cliccando i tag nella tabella: [{ campo, valore }].
+  // Si sommano (un caso deve averli tutti); un secondo click li toglie
+  var filtriTag = [];
+
+  function chiaveTag(campo, valore) { return campo + "\u0000" + valore; }
+
+  function tagAttivo(campo, valore) {
+    return filtriTag.some(function (f) { return f.campo === campo && f.valore === valore; });
+  }
 
   /* ------------------------------------------------------------------------
      Testi dei campi
@@ -154,7 +165,21 @@
     var voci = valori(caso, campo);
     var ul = crea("ul", campo.tipo === "testo" ? "archivio__testi" : "chips");
     voci.forEach(function (voce) {
-      ul.appendChild(crea("li", campo.tipo === "testo" ? "text-label" : "chip chip--contorno text-label", voce));
+      if (campo.tipo === "testo") {
+        ul.appendChild(crea("li", "text-label", voce));
+        return;
+      }
+      // Tag cliccabile: filtra i casi con lo stesso valore (aria-pressed =
+      // filtro attivo, colorato)
+      var li = crea("li");
+      var tag = crea("button", "chip chip--contorno chip--filtro text-label");
+      tag.type = "button";
+      tag.dataset.campo = campo.id;
+      tag.dataset.valore = voce;
+      tag.setAttribute("aria-pressed", String(tagAttivo(campo.id, voce)));
+      tag.appendChild(crea("span", null, voce));
+      li.appendChild(tag);
+      ul.appendChild(li);
     });
     if (!voci.length) ul.appendChild(crea("li", "archivio__vuoto text-label", "—"));
     div.appendChild(ul);
@@ -221,8 +246,18 @@
       ["Caso studio"].concat(attivi.map(function (c) { return c.etichetta; }))
         .map(function (t) { return crea("span", null, t); }));
 
+    // Un filtro da tag vale solo finché la sua colonna è visibile
+    filtriTag = filtriTag.filter(function (f) {
+      return attivi.some(function (campo) { return campo.id === f.campo; });
+    });
+
     var visibili = casi
       .filter(function (caso) { return nelPeriodo(caso, inizio, fine); })
+      .filter(function (caso) {
+        return filtriTag.every(function (f) {
+          return valori(caso, perId[f.campo]).indexOf(f.valore) !== -1;
+        });
+      })
       .sort(function (a, b) {
         return verso * String(a.titolo || "").localeCompare(String(b.titolo || ""), "it", { sensitivity: "base" });
       });
@@ -231,27 +266,71 @@
     visibili.forEach(function (caso) { frammento.appendChild(voce(caso, attivi)); });
     if (!visibili.length) {
       frammento.appendChild(crea("li", "archivio__messaggio text-label",
-        "Nessun caso studio nel periodo scelto."));
+        "Nessun caso studio corrisponde ai filtri scelti."));
     }
     lista.replaceChildren(frammento);
     aggiornaScorrimento();
   }
 
   /* ------------------------------------------------------------------------
-     Scorrimento orizzontale della tabella: classi per le sfumature
-     (CSS): --scorsa  = c'è contenuto nascosto a sinistra (sotto i nomi)
-            --altro   = c'è contenuto nascosto a destra
+     Tag nella tabella come filtri: click = mostra solo i casi con quel
+     valore (il tag resta colorato); secondo click = filtro tolto
      ------------------------------------------------------------------------ */
+  lista.addEventListener("click", function (e) {
+    var tag = e.target.closest(".chip--filtro");
+    if (!tag) return;
+    var campo = tag.dataset.campo;
+    var valore = tag.dataset.valore;
+    if (tagAttivo(campo, valore)) {
+      filtriTag = filtriTag.filter(function (f) { return !(f.campo === campo && f.valore === valore); });
+    } else {
+      filtriTag.push({ campo: campo, valore: valore });
+    }
+    var daTastiera = tag.matches(":focus-visible");
+    render();
+    // L'elenco è ridisegnato: il focus torna su un tag con lo stesso valore
+    if (daTastiera) {
+      var chiave = chiaveTag(campo, valore);
+      var nuovo = Array.prototype.find.call(lista.querySelectorAll(".chip--filtro"), function (t) {
+        return chiaveTag(t.dataset.campo, t.dataset.valore) === chiave;
+      });
+      if (nuovo) nuovo.focus();
+    }
+  });
+
+  /* ------------------------------------------------------------------------
+     Scorrimento orizzontale della tabella: classi per le sfumature
+     (CSS), su tabella e intestazioni:
+            .is-scorsa = c'è contenuto nascosto a sinistra (sotto i nomi)
+            .is-altro  = c'è contenuto nascosto a destra
+     ------------------------------------------------------------------------ */
+  var scorrevoli = main.querySelectorAll(".archivio__scorre"); // tabella + intestazioni
+  var finestraIntestazioni = main.querySelector(".archivio__intestazioni-finestra");
+
   function aggiornaScorrimento() {
     var x = tabella.scrollLeft;
-    tabella.classList.toggle("archivio__tabella--scorsa", x > 0);
-    tabella.classList.toggle("archivio__tabella--altro",
-      x + tabella.clientWidth < tabella.scrollWidth - 1);
+    var scorsa = x > 0;
+    var altro = x + tabella.clientWidth < tabella.scrollWidth - 1;
+    // Le intestazioni (fuori dalla tabella) seguono lo scorrimento orizzontale
+    finestraIntestazioni.scrollLeft = x;
+    scorrevoli.forEach(function (el) {
+      el.classList.toggle("is-scorsa", scorsa);
+      el.classList.toggle("is-altro", altro);
+    });
     aggiornaFrecce();
   }
 
   tabella.addEventListener("scroll", aggiornaScorrimento, { passive: true });
   window.addEventListener("resize", aggiornaScorrimento);
+
+  // Testata ferma sotto la navbar: la sfumatura sotto le intestazioni c'è
+  // solo quando la pagina è scorsa e le voci passano sotto la testata
+  var testa = main.querySelector(".archivio__testa");
+  function aggiornaTesta() {
+    testa.classList.toggle("is-ferma", window.scrollY > 0);
+  }
+  window.addEventListener("scroll", aggiornaTesta, { passive: true });
+  aggiornaTesta();
 
   /* ------------------------------------------------------------------------
      Frecce "colonna precedente / successiva" (L/XL con mouse, stili in
@@ -282,12 +361,18 @@
 
   function aggiornaFrecce() {
     var elenco = !main.classList.contains("archivio--griglia");
-    var destra = elenco && tabella.classList.contains("archivio__tabella--altro");
-    var sinistra = elenco && tabella.classList.contains("archivio__tabella--scorsa");
+    var destra = elenco && tabella.classList.contains("is-altro");
+    var sinistra = elenco && tabella.classList.contains("is-scorsa");
     var inizio = inizioScorrevole();
     var libero = mouseX !== null && pannello.hidden;
 
     main.style.setProperty("--archivio-freccia-sinistra", inizio + "px");
+    // Larghezza della colonna dei nomi: da lì parte la sfumatura sinistra
+    var nomi = intestazioni.firstElementChild;
+    if (nomi) {
+      main.style.setProperty("--archivio-nomi",
+        (nomi.getBoundingClientRect().right - tabella.getBoundingClientRect().left) + "px");
+    }
     frecce.avanti.hidden = !destra;
     frecce.avanti.classList.toggle("is-visibile",
       destra && libero && mouseX > window.innerWidth - ZONA_FRECCIA);
@@ -342,6 +427,19 @@
     var elenco = crea("div", "filtri__gruppo-voci");
     elenco.id = idElenco;
     elenco.hidden = !gruppo.aperto;
+
+    // Voce "All": attiva o toglie tutte le voci del gruppo. È spuntata solo
+    // se lo sono tutte (a metà: indeterminate, per gli screen reader).
+    // Non ha il prefisso "campo-", quindi render() la ignora
+    var labelTutte = crea("label", "filtri__opzione filtri__opzione--voce filtri__opzione--tutte text-label");
+    var tutte = crea("input");
+    tutte.type = "checkbox";
+    tutte.name = "tutte-" + i;
+    labelTutte.appendChild(tutte);
+    labelTutte.appendChild(crea("span", null, "All"));
+    elenco.appendChild(labelTutte);
+
+    var caselle = [];
     gruppo.campi.forEach(function (id) {
       var campo = perId[id];
       var label = crea("label", "filtri__opzione filtri__opzione--voce text-label");
@@ -352,8 +450,24 @@
       label.appendChild(casella);
       label.appendChild(crea("span", null, campo.voce || campo.etichetta));
       elenco.appendChild(label);
+      caselle.push(casella);
     });
     box.appendChild(elenco);
+
+    function aggiornaTutte() {
+      var spuntate = caselle.filter(function (c) { return c.checked; }).length;
+      tutte.checked = spuntate === caselle.length;
+      tutte.indeterminate = spuntate > 0 && spuntate < caselle.length;
+    }
+    aggiornaTutte();
+
+    // Gli ascoltatori sul gruppo scattano prima di quello del pannello
+    // (che ridisegna l'elenco), quindi le caselle sono già aggiornate
+    tutte.addEventListener("input", function () {
+      caselle.forEach(function (c) { c.checked = tutte.checked; });
+      tutte.indeterminate = false;
+    });
+    caselle.forEach(function (c) { c.addEventListener("input", aggiornaTutte); });
 
     apri.addEventListener("click", function () {
       var aperto = apri.getAttribute("aria-expanded") !== "true";
@@ -380,7 +494,13 @@
   pulsante.addEventListener("click", function () {
     var aperto = pannello.hidden;
     apriPannello(aperto);
-    if (aperto) pannello.querySelector("input").focus();
+    if (aperto) pannello.querySelector(".filtri__comprimi").focus();
+  });
+
+  // "Comprimi" richiude il pannello e riporta il focus sul pulsante Filtri
+  pannello.querySelector(".filtri__comprimi").addEventListener("click", function () {
+    apriPannello(false);
+    pulsante.focus();
   });
 
   document.addEventListener("keydown", function (e) {

@@ -42,20 +42,39 @@
   <main class="page__main archivio">
     <h1 class="archivio__etichetta">Archivio dei casi studio</h1>
 
-    <!-- Pulsante del pannello filtri -->
+    <!-- Testata fissa sotto la navbar: pulsante Filtri e (da L, vista
+         elenco) riga delle intestazioni, con una sfumatura sotto. Le
+         intestazioni seguono lo scorrimento orizzontale della tabella
+         (js/archivio.js) -->
+    <div class="archivio__testa">
+    <!-- Pulsante del pannello filtri (Figma: Frame 180), in alto a sinistra -->
     <div class="archivio__barra">
-      <button class="archivio__filtri-pulsante text-menu" type="button"
+      <button class="archivio__filtri-pulsante text-body-small" type="button"
               aria-expanded="false" aria-controls="archivio-filtri"><span>Filtri</span></button>
     </div>
+      <div class="archivio__intestazioni-finestra archivio__scorre">
+        <div class="archivio__intestazioni text-label" aria-hidden="true"></div>
+      </div>
+    </div>
 
-    <!-- Pannello a comparsa (Figma: Frame 62): ordine, periodo, colonne
-         visibili, vista. Le voci delle colonne le genera js/archivio.js -->
+    <!-- Pannello a comparsa (Figma: filtri): si apre al posto del pulsante,
+         "Comprimi" lo richiude. Le voci delle colonne le genera js/archivio.js -->
     <form class="archivio__filtri" id="archivio-filtri" aria-label="Filtri dell'archivio" hidden>
+      <button class="filtri__comprimi text-label" type="button"><span>Comprimi</span></button>
+
       <fieldset class="filtri__sezione">
         <legend class="filtri__titolo text-label">Ordina per</legend>
         <div class="filtri__opzioni">
           <label class="filtri__opzione text-menu"><input type="radio" name="ordine" value="az" checked><span>A-Z</span></label>
           <label class="filtri__opzione text-menu"><input type="radio" name="ordine" value="za"><span>Z-A</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="filtri__sezione">
+        <legend class="filtri__titolo text-label">Vista</legend>
+        <div class="filtri__opzioni">
+          <label class="filtri__opzione text-menu"><input type="radio" name="vista" value="elenco" checked><span>Elenco</span></label>
+          <label class="filtri__opzione text-menu"><input type="radio" name="vista" value="griglia"><span>Griglia</span></label>
         </div>
       </fieldset>
 
@@ -73,14 +92,6 @@
         <legend class="filtri__titolo text-label">Voci da visualizzare</legend>
         <div class="filtri__gruppi" data-filtri="voci"></div>
       </fieldset>
-
-      <fieldset class="filtri__sezione">
-        <legend class="filtri__titolo text-label">Vista</legend>
-        <div class="filtri__opzioni">
-          <label class="filtri__opzione text-menu"><input type="radio" name="vista" value="elenco" checked><span>Elenco</span></label>
-          <label class="filtri__opzione text-menu"><input type="radio" name="vista" value="griglia"><span>Griglia</span></label>
-        </div>
-      </fieldset>
     </form>
 
     <!-- Intestazioni e voci le genera js/archivio.js dal foglio Export_Casi
@@ -89,8 +100,7 @@
            h2.archivio__nome                      titolo
            p.archivio__campo--breve               periodo / luogo
            div.archivio__gruppo + h3 + contenuto  gli altri campi (tag o testo) -->
-    <div class="archivio__tabella">
-      <div class="archivio__intestazioni text-label" aria-hidden="true"></div>
+    <div class="archivio__tabella archivio__scorre">
       <ul class="archivio__lista" aria-busy="true"></ul>
     </div>
 
