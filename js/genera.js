@@ -9,8 +9,9 @@
      campo). Il patrimonio è obbligatorio: ne resta sempre almeno uno.
    - Passando su ⊕ (o con il focus) la frase mostra al 30% il campo che
      verrebbe aggiunto, vuoto e del suo colore.
-   - Mentre si sceglie un valore la colonna sinistra è spenta e a destra ci
-     sono le voci; a scelta fatta compaiono l'invito e il pulsante "Genera".
+   - Mentre si sceglie un valore la colonna sinistra è nascosta (classe
+     is-spenta) e a destra ci sono le voci; a scelta fatta tornano i campi,
+     l'invito e il pulsante "Genera".
    - Il periodo si sceglie in due passaggi: data di inizio, poi di fine
      ("ad oggi" se la fine è "oggi"). Per ciascuna si sceglie il secolo e poi
      il decennio (Figma: opzioniDate); la freccia (o Esc) torna ai secoli.
@@ -409,17 +410,29 @@
         stato.fasePeriodo === "dal" ? "Seleziona una data di inizio" : "Seleziona una data di fine"));
       scelta.appendChild(opzioniPeriodo(campo));
     } else {
-      scelta.appendChild(el("p", "text-h4", "Seleziona una tra le seguenti voci"));
       // Campo multiplo: niente voci già scelte negli altri valori
       var attuale = campo.multiplo ? stato.valori[campo.id][stato.indice] : stato.valori[campo.id];
       var altri = campo.multiplo ? stato.valori[campo.id].filter(function (v, i) { return i !== stato.indice; }) : [];
-      campo.gruppi.forEach(function (g) {
-        var voci = g.voci.filter(function (v) { return altri.indexOf(v) < 0; });
-        if (!voci.length) return;
-        scelta.appendChild(gruppo(g.titolo, voci.map(function (v) {
+      // Gruppi di voci (es. tipo, dimensione, natura del patrimonio). Il
+      // gruppo con più voci va per primo: da L sta in alto a tutta
+      // larghezza, gli altri sotto affiancati (css/genera.css)
+      var elenco = campo.gruppi.map(function (g) {
+        return { titolo: g.titolo, voci: g.voci.filter(function (v) { return altri.indexOf(v) < 0; }) };
+      }).filter(function (g) { return g.voci.length; });
+      var grande = elenco.reduce(function (max, g) { return g.voci.length > max.voci.length ? g : max; }, elenco[0]);
+      var gruppi = el("div", "genera__gruppi");
+      var piccoli = el("div", "genera__gruppi-piccoli");
+      function colonna(g) {
+        return gruppo(g.titolo, g.voci.map(function (v) {
           return opzione(campo, v, v === attuale);
-        })));
+        }));
+      }
+      if (grande) gruppi.appendChild(colonna(grande));
+      elenco.forEach(function (g) {
+        if (g !== grande) piccoli.appendChild(colonna(g));
       });
+      if (piccoli.children.length) gruppi.appendChild(piccoli);
+      scelta.appendChild(gruppi);
     }
     pannello.appendChild(scelta);
   }

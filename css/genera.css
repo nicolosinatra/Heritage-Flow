@@ -3,13 +3,14 @@
    pagina Mappa, creata da js/genera.js.
    Copre la pagina sotto la navbar (che resta sopra e usabile) finché non si
    preme "Genera". Senza JavaScript non compare e si vede subito la mappa.
-   Misure del frame L: bordo 3px, raggio 50px, padding --space-xxl, frase
+   Senza contorno, si fonde con la pagina (il frame L era un popup con
+   bordo e angoli arrotondati). Margini come le sezioni delle altre pagine
+   (.section di style.css), frase
    H2 + pillole "Voci opzioni flow", campi a sinistra larghi max 256px.
    ========================================================================== */
 
 .genera {
-  --genera-bordo: 3px;
-  --genera-raggio: 24px;
+  --genera-bordo: 3px;   /* bordo delle pillole */
   --genera-duration: 400ms;
 
   position: fixed;
@@ -22,11 +23,11 @@
   display: none;
   flex-direction: column;
   gap: var(--space-xl);
-  padding: var(--space-m);
+  /* margini come le sezioni delle altre pagine: sopra --space-m (come la
+     prima sezione), ai lati --space-s, da S --space-l; sotto --space-xl */
+  padding: var(--space-m) var(--space-s) var(--space-xl);
   overflow-y: auto;
   overscroll-behavior: contain;
-  border: var(--genera-bordo) solid var(--color-border);
-  border-radius: var(--genera-raggio);
   background: var(--color-light);
   backdrop-filter: blur(2px);
   color: var(--color-text);
@@ -181,6 +182,10 @@
     display: block;
     font-size: var(--text-h2-size);
     line-height: var(--genera-riga);
+    /* prima riga rifilata alla linea delle maiuscole, come i testi delle
+       altre pagine: il titolo parte alla stessa altezza (solo l'inizio:
+       in fondo il rifilo taglierebbe le pillole) */
+    text-box: trim-start cap alphabetic;
   }
 
   /* "turismo" e "sul" sono parole: tra loro il normale spazio */
@@ -242,9 +247,20 @@
   transition: opacity var(--genera-duration) ease;
 }
 
-/* Mentre si sceglie un valore la colonna è spenta (Figma: opacity 30%) */
+/* Mentre si sceglie un valore la colonna è nascosta (non è cliccabile).
+   XS, S: è sopra le voci, si toglie del tutto (niente spazio vuoto) */
 .genera__campi.is-spenta {
-  opacity: 0.3;
+  display: none;
+}
+
+/* Da M è accanto alle voci: invisibile ma tiene il suo spazio, così le
+   voci non si spostano a sinistra */
+@media (min-width: 768px) {
+  .genera__campi.is-spenta {
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+  }
 }
 
 .genera__campo {
@@ -284,11 +300,6 @@
   cursor: default;
 }
 
-/* Colonna spenta: l'opacità è già sull'intera colonna */
-.genera__campi.is-spenta .genera__icona:disabled {
-  opacity: 1;
-}
-
 .genera__icona:focus-visible,
 .genera__pillola:focus-visible,
 .genera__opzione:focus-visible,
@@ -308,6 +319,15 @@
 }
 
 .genera__scelta {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-fixed-xs) + var(--space-fixed-xxs));   /* 24px */
+}
+
+/* Gruppi di voci: uno sotto l'altro; da L i più piccoli affiancati sotto
+   il più grande (vedi sotto) */
+.genera__gruppi,
+.genera__gruppi-piccoli {
   display: flex;
   flex-direction: column;
   gap: calc(var(--space-fixed-xs) + var(--space-fixed-xxs));   /* 24px */
@@ -361,21 +381,24 @@
   background: var(--color-dark);
   color: var(--color-light);
   cursor: pointer;
-  transition: background-color 200ms ease;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 .genera__bottone:hover {
-  background: var(--color-main);
+  background: var(--color-main-light);
+  color: var(--color-dark);
 }
 
 /* --------------------------------------------------------------------------
    Modo M — 768px: campi e scelta affiancati
    -------------------------------------------------------------------------- */
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .genera {
-    padding: var(--space-xl);
+    padding-inline: var(--space-l);
   }
+}
 
+@media (min-width: 768px) {
   .genera__opzioni {
     flex-direction: row;
     align-items: flex-start;
@@ -392,17 +415,27 @@
    Modo L — 992px: misure del frame Figma
    -------------------------------------------------------------------------- */
 @media (min-width: 992px) {
-  .genera {
-    --genera-raggio: 50px;
-    padding: var(--space-xxl);
-  }
-
   .genera__opzioni {
     gap: var(--space-xxl);
   }
 
   .genera__invito {
     gap: var(--space-xxl);
+  }
+
+  /* Gruppi di voci: quello con più voci in alto a tutta larghezza (primo,
+     da js/genera.js), gli altri sotto affiancati su una riga: ciascuno
+     parte dalla larghezza delle sue voci e si restringe in proporzione,
+     mai sotto la sua voce più lunga */
+  .genera__gruppi-piccoli {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-l);
+  }
+
+  .genera__gruppi-piccoli > .genera__gruppo {
+    flex: 1 1 auto;
+    min-width: min-content;
   }
 }
 
