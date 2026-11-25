@@ -1,0 +1,1893 @@
+{
+  "aggiornato": "2026-11-25T15:21:11.430Z",
+  "casi": [
+    {
+      "id": "stamperia-marchi",
+      "titolo": "Stamperia Marchi",
+      "sottotitolo": "Antica Stamperia a Ruggine e Mangano",
+      "anno_inizio": 1633,
+      "anno_fine": null,
+      "in_corso": true,
+      "lon": 12.4451548298854,
+      "lat": 44.0635323943585,
+      "comune": "Santarcangelo di Romagna",
+      "provincia": "Rimini",
+      "regione": "Emilia-Romagna",
+      "descrizione": "Bottega-laboratorio dove si tramanda ininterrottamente dal XVII secolo la stampa a ruggine su tela. Il percorso unisce la vendita di manufatti tessili d'arte alla visita del Mangano secentesco, azionato a forza umana",
+      "tipologia_apertura": "Permanente",
+      "periodi_apertura": "Tutto l'anno",
+      "orari_apertura": "Dal lunedì al sabato (solitamente 9:30-12:30 / 15:30-19:00). Visite guidate con dimostrazione del Mangano su prenotazione o durante gli orari di apertura della bottega.",
+      "scala": [
+        "Artefatto",
+        "Edificio",
+        "Installazione espositiva",
+        "Spazio fisico",
+        "Spazio privato"
+      ],
+      "immagine_1": "https://www.stamperiamarchi.it/src/uploads/elementor/thumbs/come-nasce-la-stampa-a-mano-4-p5d2ly4u63sioqo4d2fsvx4w11dolm5hhqbzs1gbi8.jpg",
+      "immagine_2": "https://www.stamperiamarchi.it/src/uploads/2021/04/mangano-Slide1920-600.jpg",
+      "immagine_3": "https://www.stamperiamarchi.it/src/uploads/2021/05/asciugatura.jpg",
+      "link_riferimento": [
+        "https://www.stamperiamarchi.it/blog/2021/09/29/la-stamperia-marchi-alla-milano-fashion-week/",
+        "https://www.santarcangelofestival.com"
+      ],
+      "bibliografia": [
+        "https://www.stamperiamarchi.it",
+        "https://www.stamperiamarchi.it/visite-guidate/",
+        "https://fondoambiente.it/luoghi/antica-stamperia-artigiana-marchi"
+      ],
+      "tipo_patrimonio": [
+        "Patrimonio artigianale"
+      ],
+      "natura_patrimonio": [
+        "Patrimonio materiale (tangibile)",
+        "Patrimonio immateriale (intangibile)"
+      ],
+      "dimensione_patrimonio": "Non accessibile in digitale",
+      "macrosettore": [
+        "Industrie culturali e creative"
+      ],
+      "settore_attivita": [
+        "Tessile",
+        "Ceramica",
+        "Arte"
+      ],
+      "forme_valorizzazione_attuali": [
+        "musealizzazione",
+        "workshop",
+        "tutela e conservazione",
+        "contenuti social"
+      ],
+      "tipo_fruizione": [
+        "workshop",
+        "visita guidata",
+        "esp. fisica"
+      ],
+      "impatto_obiettivi": [
+        "preservazione",
+        "divulgazione",
+        "educazione",
+        "turismo"
+      ],
+      "fruitore_attuale": [
+        "cittadini",
+        "turisti",
+        "visitatori occasionali",
+        "visitatori abitudinari",
+        "amatori",
+        "studenti"
+      ],
+      "fasce_eta_fruitore": [
+        "Adolescenti: 11-17",
+        "Adulti: 35-64",
+        "Senior: 65+"
+      ],
+      "tecnologie_digitali": [
+        "siti web"
+      ],
+      "discipline_design": [
+        "Graphic Design",
+        "Product Design",
+        "Fashion Design"
+      ],
+      "accessibilita": [
+        "motoria",
+        "economica"
+      ],
+      "sistema_comunicazione": [
+        "sito web",
+        "portali di promozione turistica",
+        "segnaletica e cartellonistica",
+        "social media"
+      ],
+      "connessioni_siti": [
+        "Associazione Botteghe Storiche (?) http://www.teleromagnole.com/index.php",
+        "associazione stampatori tele romagnole"
+      ],
+      "connessioni_stakeholder": [
+        "Pro Loco di Santarcangelo",
+        "Comune di Santarcangelo",
+        "guide turistiche della Romagna",
+        "Rientra nel FAI - Fondo per l’ambiente italiano"
+      ],
+      "connessioni_altri_patrimoni": [
+        "Patrimonio industriale",
+        "Patrimonio letterario",
+        "Patrimonio artistico"
+      ],
+      "link_patrimoni_riferimento": [],
+      "eventi_collaterali": [
+        "Santarcangelo Festival (Festival Internazionale del Teatro in Piazza): La Stamperia partecipa spesso come luogo d'ispirazione, set per installazioni artistiche o tappa di percorsi performativi legati alla memoria e al lavoro.",
+        "Fiera di San Martino (o \"Fiera dei Becchi\"): La Stamperia costituisce una tappa fondamentale per l'acquisto delle celebri tele a ruggine raffiguranti i simboli tradizionali della festa e per assistere alle dimostrazioni pubbliche d'uso del Mangano.",
+        "Calici di Santarcangelo: La bottega e le tele stampate diventano parte integrante della scenografia della manifestazione, unendo la cultura del vino locale alla tradizione tessile."
+      ],
+      "area_influenza": "Continentale",
+      "mezzi_trasporto": [
+        "auto/moto",
+        "bus",
+        "bicicletta",
+        "treni",
+        "bike sharing"
+      ],
+      "servizi_generali": [
+        "punto vendita - bookshop"
+      ],
+      "sostenibilita": [
+        "ambientale",
+        "gestione materiali e rifiuti",
+        "energetica"
+      ],
+      "forme_valorizzazione_potenziali": [
+        "archivi digitali",
+        "digitalizzazione",
+        "itinerari"
+      ],
+      "valore_aggiunto_potenziale": [
+        "ciclicità",
+        "motivi educativi",
+        "rifugio climatico"
+      ],
+      "fruitore_potenziale": [
+        "specialisti"
+      ],
+      "servizi_implementabili": [
+        "servizi igienici",
+        "aree di sosta - sedute",
+        "wifi"
+      ],
+      "ampiezza_orari": "Sei giorni su sette",
+      "monitoraggio_visitatori": "Parziale o stimato",
+      "indice_digitale": 3.8,
+      "indice_esperienza": 56,
+      "indice_accessibilita": 57.7,
+      "indice_ecosistema": 63,
+      "indice_utenti": 63.2,
+      "indice_media": 48.7,
+      "potenziale_valorizzazione": 28.7,
+      "classifica_potenziale": 5,
+      "potenziale_digitale": 66,
+      "potenziale_esperienza": 24.4,
+      "potenziale_accessibilita": 15.6,
+      "potenziale_ecosistema": 25.3,
+      "potenziale_utenti": 12
+    },
+    {
+      "id": "museo-stanguellini",
+      "titolo": "Museo Stanguellini",
+      "sottotitolo": null,
+      "anno_inizio": 1996,
+      "anno_fine": null,
+      "in_corso": true,
+      "lon": 10.9500844197011,
+      "lat": 44.6360814423456,
+      "comune": "Modena",
+      "provincia": "Modena",
+      "regione": "Emilia-Romagna",
+      "descrizione": "Museo di auto d'epoca, nell’ex officina presso la sede della concessionaria Fiat gestita dalla famiglia Stanguellini per oltre 80 anni, che sorge il nostro museo di auto storiche.",
+      "tipologia_apertura": "Permanente",
+      "periodi_apertura": "Tutto l'anno",
+      "orari_apertura": "Dal lunedì al venerdì sempre aperto su prenotazione per visite libere o guidate. Sabato, domenica e festivi su prenotazione per gruppi di min.10 persone o possibilità di visita in esclusiva.",
+      "scala": [
+        "Edificio",
+        "Installazione espositiva",
+        "Spazio privato"
+      ],
+      "immagine_1": null,
+      "immagine_2": null,
+      "immagine_3": null,
+      "link_riferimento": [
+        "https://www.stanguellini.it/la-storia-di-stanguellini/"
+      ],
+      "bibliografia": [
+        "https://www.stanguellini.it/la-storia-di-stanguellini/"
+      ],
+      "tipo_patrimonio": [
+        "Patrimonio industriale",
+        "Patrimonio artigianale"
+      ],
+      "natura_patrimonio": [
+        "Patrimonio materiale (tangibile)"
+      ],
+      "dimensione_patrimonio": null,
+      "macrosettore": [
+        "Industrie manifatturiere e produttive"
+      ],
+      "settore_attivita": [
+        "Automotive"
+      ],
+      "forme_valorizzazione_attuali": [
+        "musealizzazione"
+      ],
+      "tipo_fruizione": [
+        "visita guidata",
+        "esp. fisica"
+      ],
+      "impatto_obiettivi": [
+        "divulgazione",
+        "turismo"
+      ],
+      "fruitore_attuale": [
+        "turisti",
+        "cittadini",
+        "visitatori occasionali",
+        "amatori",
+        "studenti"
+      ],
+      "fasce_eta_fruitore": [],
+      "tecnologie_digitali": [
+        "siti web"
+      ],
+      "discipline_design": [],
+      "accessibilita": [
+        "motoria"
+      ],
+      "sistema_comunicazione": [
+        "sito web",
+        "portali di promozione turistica",
+        "segnaletica e cartellonistica",
+        "gadget",
+        "social media"
+      ],
+      "connessioni_siti": [
+        "Tecnostoria/Lodovico (in prospettiva)",
+        "Associazione Motorvalley",
+        "Musei ASI"
+      ],
+      "connessioni_stakeholder": [
+        "Associazione Motorvalley",
+        "Motor web Museum"
+      ],
+      "connessioni_altri_patrimoni": [
+        "Patrimonio industriale",
+        "Patrimonio artigianale"
+      ],
+      "link_patrimoni_riferimento": [],
+      "eventi_collaterali": [
+        "Motor Valley Fest"
+      ],
+      "area_influenza": "Nazionale",
+      "mezzi_trasporto": [
+        "auto/moto",
+        "bus",
+        "treni",
+        "bicicletta"
+      ],
+      "servizi_generali": [
+        "servizi igienici",
+        "aree di sosta - sedute",
+        "punto vendita - bookshop"
+      ],
+      "sostenibilita": [
+        "dato non disponibile"
+      ],
+      "forme_valorizzazione_potenziali": [
+        "mostre e curatela",
+        "contenuti social",
+        "archivi digitali",
+        "digitalizzazione"
+      ],
+      "valore_aggiunto_potenziale": [
+        "interesse individuale",
+        "al chiuso"
+      ],
+      "fruitore_potenziale": [
+        "specialisti"
+      ],
+      "servizi_implementabili": [
+        "wifi"
+      ],
+      "ampiezza_orari": "Su prenotazione o appuntamento",
+      "monitoraggio_visitatori": "Assente",
+      "indice_digitale": 0,
+      "indice_esperienza": 19.6,
+      "indice_accessibilita": 48.5,
+      "indice_ecosistema": 42.7,
+      "indice_utenti": 37.1,
+      "indice_media": 29.6,
+      "potenziale_valorizzazione": 47.8,
+      "classifica_potenziale": 1,
+      "potenziale_digitale": 69.8,
+      "potenziale_esperienza": 60.8,
+      "potenziale_accessibilita": 24.8,
+      "potenziale_ecosistema": 45.6,
+      "potenziale_utenti": 38.1
+    },
+    {
+      "id": "tecnostoria",
+      "titolo": "Tecnostoria",
+      "sottotitolo": "Fondo e rete interuniversitaria sulla storia tecnica del veicolo",
+      "anno_inizio": null,
+      "anno_fine": null,
+      "in_corso": true,
+      "lon": 10.9476,
+      "lat": 44.629,
+      "comune": "Modena",
+      "provincia": "Modena",
+      "regione": "Emilia-Romagna",
+      "descrizione": "Raccolta di documenti tecnici, disegni, libri e materiali audiovisivi sull'evoluzione di auto e moto emiliane (Maserati, Ferrari, Lamborghini, Ducati), nata come rete interuniversitaria per salvare dalla dispersione la memoria progettuale. Ha sede nella Biblioteca \"Enzo Ferrari\" del Dipartimento di Ingegneria dell'Università di Modena e Reggio Emilia ed è integrata dal fondo Nunzia Manicardi.",
+      "tipologia_apertura": "Permanente",
+      "periodi_apertura": "Tutto l'anno",
+      "orari_apertura": "Biblioteca aperta dal lunedì al venerdì (9:00-19:30). Disegni tecnici e audiovisivi consultabili su richiesta.",
+      "scala": [
+        "Artefatto",
+        "Edificio",
+        "Spazio fisico"
+      ],
+      "immagine_1": "https://www.biblioingegneria.unimore.it/contents/instance71/files/photo/61008914_61000087_tecnostoria.jpg",
+      "immagine_2": null,
+      "immagine_3": null,
+      "link_riferimento": [
+        "https://www.biblioingegneria.unimore.it/site/home/informazioni/tecnostoria-fondo-sulla-storia-del-veicolo.html",
+        "https://www.focus.unimore.it/unimore-valorizza-gli-archivi-di-modena-tra-arte-fotografia-e-industria/"
+      ],
+      "bibliografia": [
+        "https://www.biblioingegneria.unimore.it/site/home/informazioni/mission-e-cenni-storici-della-biblioteca.html"
+      ],
+      "tipo_patrimonio": [
+        "Patrimonio industriale",
+        "Patrimonio artigianale"
+      ],
+      "natura_patrimonio": [
+        "Patrimonio materiale (tangibile)"
+      ],
+      "dimensione_patrimonio": "Patrimonio digitalizzato",
+      "macrosettore": [
+        "Istruzione-formazione-ricerca"
+      ],
+      "settore_attivita": [
+        "Automotive",
+        "Design del prodotto"
+      ],
+      "forme_valorizzazione_attuali": [
+        "archivi digitali",
+        "digitalizzazione",
+        "tutela e conservazione",
+        "mostre e curatela"
+      ],
+      "tipo_fruizione": [
+        "esp. fisica",
+        "visita guidata"
+      ],
+      "impatto_obiettivi": [
+        "preservazione",
+        "divulgazione",
+        "educazione",
+        "digitalizzazione"
+      ],
+      "fruitore_attuale": [
+        "studenti",
+        "specialisti",
+        "amatori",
+        "cittadini"
+      ],
+      "fasce_eta_fruitore": [
+        "Giovani adulti: 18-34",
+        "Adulti: 35-64"
+      ],
+      "tecnologie_digitali": [
+        "siti web"
+      ],
+      "discipline_design": [
+        "Information design",
+        "Strategic and Systems design"
+      ],
+      "accessibilita": [
+        "motoria"
+      ],
+      "sistema_comunicazione": [
+        "sito web",
+        "Newsletter",
+        "social media"
+      ],
+      "connessioni_siti": [
+        "Digital Library Lodovico (Unimore)",
+        "Associazione Motorvalley",
+        "Motor web Museum",
+        "Musei ASI",
+        "Museo Stanguellini (in prospettiva)"
+      ],
+      "connessioni_stakeholder": [
+        "Dipartimento di Ingegneria \"Enzo Ferrari\" (Unimore)",
+        "Sistema Bibliotecario di Ateneo",
+        "Comune di Modena",
+        "aziende motoristiche del territorio",
+        "progetto regionale Terra di Motori"
+      ],
+      "connessioni_altri_patrimoni": [
+        "Patrimonio industriale",
+        "Patrimonio artigianale",
+        "Patrimonio museale"
+      ],
+      "link_patrimoni_riferimento": [
+        "https://www.stanguellini.it/la-storia-di-stanguellini/",
+        "https://www.motorvalley.it/en/members/museums/"
+      ],
+      "eventi_collaterali": [
+        "Ciclo di incontri Tecnostoria (motori ad alte prestazioni, evoluzione dello stile)",
+        "visite agli archivi",
+        "Motor Valley Fest"
+      ],
+      "area_influenza": "Nazionale",
+      "mezzi_trasporto": [
+        "auto/moto",
+        "bus",
+        "treni",
+        "bicicletta"
+      ],
+      "servizi_generali": [
+        "aree di sosta - sedute",
+        "wifi",
+        "sale polivalenti",
+        "servizi igienici"
+      ],
+      "sostenibilita": [
+        "dato non disponibile"
+      ],
+      "forme_valorizzazione_potenziali": [
+        "workshop",
+        "contenuti social",
+        "itinerari"
+      ],
+      "valore_aggiunto_potenziale": [
+        "motivi educativi"
+      ],
+      "fruitore_potenziale": [
+        "visitatori occasionali",
+        "turisti"
+      ],
+      "servizi_implementabili": [
+        "punto vendita - bookshop"
+      ],
+      "ampiezza_orari": "Cinque giorni o orari variabili",
+      "monitoraggio_visitatori": "Assente",
+      "indice_digitale": 20,
+      "indice_esperienza": 47.6,
+      "indice_accessibilita": 55.3,
+      "indice_ecosistema": 72.3,
+      "indice_utenti": 36.5,
+      "indice_media": 46.3,
+      "potenziale_valorizzazione": 31.1,
+      "classifica_potenziale": 4,
+      "potenziale_digitale": 49.8,
+      "potenziale_esperienza": 32.8,
+      "potenziale_accessibilita": 18,
+      "potenziale_ecosistema": 16,
+      "potenziale_utenti": 38.7
+    },
+    {
+      "id": "museo-ferrari",
+      "titolo": "Museo Ferrari",
+      "sottotitolo": "La storia della Scuderia e delle vetture di Maranello",
+      "anno_inizio": 1990,
+      "anno_fine": null,
+      "in_corso": true,
+      "lon": 10.8645,
+      "lat": 44.5293,
+      "comune": "Maranello",
+      "provincia": "Modena",
+      "regione": "Emilia-Romagna",
+      "descrizione": "Museo aziendale di Ferrari a Maranello, nato come Galleria Ferrari: espone vetture stradali e da competizione, motori e cimeli della Scuderia, con sale tematiche sulla storia del marchio, le vittorie in Formula 1 e i simulatori. Si abbina alla visita della fabbrica e della pista di Fiorano.",
+      "tipologia_apertura": "Permanente",
+      "periodi_apertura": "Tutto l'anno",
+      "orari_apertura": "Indicativamente tutti i giorni, orario diurno (circa 9:30-18:00/19:00); verificare il calendario sul sito ufficiale.",
+      "scala": [
+        "Edificio",
+        "Complesso architettonico",
+        "Installazione espositiva",
+        "Artefatto",
+        "Spazio privato"
+      ],
+      "immagine_1": null,
+      "immagine_2": null,
+      "immagine_3": null,
+      "link_riferimento": [
+        "https://www.ferrari.com/it-IT/museums/maranello",
+        "https://www.motorvalley.it/"
+      ],
+      "bibliografia": [
+        "https://www.autovia.it/itinerario-motor-valley-food-valley/"
+      ],
+      "tipo_patrimonio": [
+        "Patrimonio industriale",
+        "Patrimonio museale",
+        "Patrimonio architettonico"
+      ],
+      "natura_patrimonio": [
+        "Patrimonio materiale (tangibile)"
+      ],
+      "dimensione_patrimonio": "Patrimonio digitalizzato",
+      "macrosettore": [
+        "Industrie manifatturiere e produttive"
+      ],
+      "settore_attivita": [
+        "Automotive",
+        "Design del prodotto"
+      ],
+      "forme_valorizzazione_attuali": [
+        "musealizzazione",
+        "mostre e curatela",
+        "esperienze immersive",
+        "tutela e conservazione",
+        "contenuti social"
+      ],
+      "tipo_fruizione": [
+        "esp. phygital",
+        "inst. interattiva",
+        "visita guidata",
+        "audio guida",
+        "esp. fisica"
+      ],
+      "impatto_obiettivi": [
+        "divulgazione",
+        "turismo",
+        "innovazione",
+        "preservazione",
+        "educazione"
+      ],
+      "fruitore_attuale": [
+        "turisti",
+        "amatori",
+        "visitatori occasionali",
+        "cittadini",
+        "studenti"
+      ],
+      "fasce_eta_fruitore": [
+        "Bambini: 0-10",
+        "Adolescenti: 11-17",
+        "Giovani adulti: 18-34",
+        "Adulti: 35-64",
+        "Senior: 65+"
+      ],
+      "tecnologie_digitali": [
+        "siti web",
+        "App e audioguide",
+        "Interfacce touch",
+        "Proiezioni immersive e mapping"
+      ],
+      "discipline_design": [
+        "Exhibition Design",
+        "Experience Design",
+        "Interaction Design",
+        "Product Design"
+      ],
+      "accessibilita": [
+        "motoria",
+        "linguistica",
+        "economica"
+      ],
+      "sistema_comunicazione": [
+        "sito web",
+        "social media",
+        "portali di promozione turistica",
+        "segnaletica e cartellonistica",
+        "gadget",
+        "Newsletter"
+      ],
+      "connessioni_siti": [
+        "Museo Casa Enzo Ferrari (Modena)",
+        "Fiorano Circuit",
+        "Associazione Motorvalley",
+        "Motor web Museum",
+        "Musei ASI"
+      ],
+      "connessioni_stakeholder": [
+        "Ferrari S.p.A. (proprietà privata)",
+        "Comune di Maranello",
+        "Associazione Motorvalley",
+        "Modenatur",
+        "operatori turistici della Terra dei Motori"
+      ],
+      "connessioni_altri_patrimoni": [
+        "Patrimonio industriale",
+        "Patrimonio urbano",
+        "Patrimonio artistico"
+      ],
+      "link_patrimoni_riferimento": [
+        "https://www.motorvalley.it/en/members/museums/",
+        "https://www.motorvalley.it/?p=1863"
+      ],
+      "eventi_collaterali": [
+        "Motor Valley Fest (Modena)",
+        "Ferrari Racing Days",
+        "Finali Mondiali",
+        "tour della fabbrica e del circuito di Fiorano"
+      ],
+      "area_influenza": "Globale",
+      "mezzi_trasporto": [
+        "auto/moto",
+        "bus",
+        "treni",
+        "bicicletta"
+      ],
+      "servizi_generali": [
+        "servizi igienici",
+        "servizi di ristorazione",
+        "punto vendita - bookshop",
+        "aree di sosta - sedute",
+        "wifi"
+      ],
+      "sostenibilita": [
+        "energetica",
+        "ambientale",
+        "dato non disponibile"
+      ],
+      "forme_valorizzazione_potenziali": [
+        "archivi digitali",
+        "digitalizzazione",
+        "workshop",
+        "itinerari"
+      ],
+      "valore_aggiunto_potenziale": [
+        "coinvolgimento esperienziale",
+        "interesse individuale"
+      ],
+      "fruitore_potenziale": [
+        "specialisti",
+        "visitatori abitudinari"
+      ],
+      "servizi_implementabili": [
+        "sale polivalenti"
+      ],
+      "ampiezza_orari": "Tutti i giorni",
+      "monitoraggio_visitatori": "Assente",
+      "indice_digitale": 59.8,
+      "indice_esperienza": 76.2,
+      "indice_accessibilita": 73.3,
+      "indice_ecosistema": 84.3,
+      "indice_utenti": 65.2,
+      "indice_media": 71.8,
+      "potenziale_valorizzazione": 5.6,
+      "classifica_potenziale": 10,
+      "potenziale_digitale": 10,
+      "potenziale_esperienza": 4.2,
+      "potenziale_accessibilita": 0,
+      "potenziale_ecosistema": 4,
+      "potenziale_utenti": 10
+    },
+    {
+      "id": "museo-ducati",
+      "titolo": "Museo Ducati",
+      "sottotitolo": "Novant'anni di moto da Borgo Panigale",
+      "anno_inizio": 1998,
+      "anno_fine": null,
+      "in_corso": true,
+      "lon": 11.269,
+      "lat": 44.5215,
+      "comune": "Bologna",
+      "provincia": "Bologna",
+      "regione": "Emilia-Romagna",
+      "descrizione": "Museo aziendale di Ducati nello stabilimento di Borgo Panigale: ripercorre la storia dal Cucciolo (1946) alle moto da corsa e di serie fino ai modelli più recenti, tra prototipi, motori e pezzi unici. Il percorso si combina con la visita alla fabbrica e al Ducati Dream Tour.",
+      "tipologia_apertura": "Permanente",
+      "periodi_apertura": "Tutto l'anno",
+      "orari_apertura": "Indicativamente aperto tutti i giorni, 10:00-18:00; visita guidata alla fabbrica su prenotazione.",
+      "scala": [
+        "Edificio",
+        "Installazione espositiva",
+        "Artefatto",
+        "Spazio privato"
+      ],
+      "immagine_1": null,
+      "immagine_2": null,
+      "immagine_3": null,
+      "link_riferimento": [
+        "https://www.ducati.com/it/it/ducati-museum",
+        "https://www.motorvalley.it/"
+      ],
+      "bibliografia": [
+        "https://www.motorvalley.it/en/stories/guida-su-bologna-in-stile-motor-valley-musei-collezioni-esperienze-shopping-e-altre-avventure/"
+      ],
+      "tipo_patrimonio": [
+        "Patrimonio industriale",
+        "Patrimonio museale",
+        "Patrimonio artigianale"
+      ],
+      "natura_patrimonio": [
+        "Patrimonio materiale (tangibile)"
+      ],
+      "dimensione_patrimonio": "Patrimonio digitalizzato",
+      "macrosettore": [
+        "Industrie manifatturiere e produttive"
+      ],
+      "settore_attivita": [
+        "Automotive",
+        "Design del prodotto"
+      ],
+      "forme_valorizzazione_attuali": [
+        "musealizzazione",
+        "mostre e curatela",
+        "esperienze immersive",
+        "itinerari",
+        "contenuti social"
+      ],
+      "tipo_fruizione": [
+        "esp. fisica",
+        "visita guidata",
+        "esp. phygital",
+        "inst. interattiva"
+      ],
+      "impatto_obiettivi": [
+        "divulgazione",
+        "turismo",
+        "innovazione",
+        "preservazione",
+        "educazione"
+      ],
+      "fruitore_attuale": [
+        "amatori",
+        "turisti",
+        "visitatori occasionali",
+        "cittadini"
+      ],
+      "fasce_eta_fruitore": [
+        "Giovani adulti: 18-34",
+        "Adulti: 35-64",
+        "Senior: 65+"
+      ],
+      "tecnologie_digitali": [
+        "siti web",
+        "Interfacce touch",
+        "Proiezioni immersive e mapping"
+      ],
+      "discipline_design": [
+        "Exhibition Design",
+        "Product Design",
+        "Experience Design",
+        "Graphic Design"
+      ],
+      "accessibilita": [
+        "motoria",
+        "linguistica",
+        "economica"
+      ],
+      "sistema_comunicazione": [
+        "sito web",
+        "social media",
+        "portali di promozione turistica",
+        "gadget",
+        "Newsletter",
+        "Community"
+      ],
+      "connessioni_siti": [
+        "Ducati Dream Tour",
+        "Museo del Patrimonio Industriale (Bologna)",
+        "Associazione Motorvalley",
+        "Motor web Museum",
+        "Musei ASI"
+      ],
+      "connessioni_stakeholder": [
+        "Ducati Motor Holding (Gruppo Audi/Volkswagen)",
+        "Associazione Motorvalley",
+        "Comune di Bologna",
+        "Ducati Official Clubs (Desmo Owners Club)"
+      ],
+      "connessioni_altri_patrimoni": [
+        "Patrimonio industriale",
+        "Patrimonio urbano"
+      ],
+      "link_patrimoni_riferimento": [
+        "https://www.motorvalley.it/en/members/museums/",
+        "https://www.motorvalley.it/en/members/collections/"
+      ],
+      "eventi_collaterali": [
+        "World Ducati Week",
+        "Auto e Moto d'Epoca (BolognaFiere)",
+        "Motor Valley Fest"
+      ],
+      "area_influenza": "Globale",
+      "mezzi_trasporto": [
+        "auto/moto",
+        "bus",
+        "treni",
+        "bicicletta"
+      ],
+      "servizi_generali": [
+        "servizi igienici",
+        "punto vendita - bookshop",
+        "servizi di ristorazione",
+        "aree di sosta - sedute"
+      ],
+      "sostenibilita": [
+        "dato non disponibile"
+      ],
+      "forme_valorizzazione_potenziali": [
+        "workshop",
+        "archivi digitali",
+        "digitalizzazione"
+      ],
+      "valore_aggiunto_potenziale": [
+        "ciclicità"
+      ],
+      "fruitore_potenziale": [
+        "studenti",
+        "specialisti"
+      ],
+      "servizi_implementabili": [
+        "wifi",
+        "sale polivalenti"
+      ],
+      "ampiezza_orari": "Tutti i giorni",
+      "monitoraggio_visitatori": "Assente",
+      "indice_digitale": 46.5,
+      "indice_esperienza": 72,
+      "indice_accessibilita": 70.5,
+      "indice_ecosistema": 72,
+      "indice_utenti": 50.9,
+      "indice_media": 62.4,
+      "potenziale_valorizzazione": 15,
+      "classifica_potenziale": 9,
+      "potenziale_digitale": 23.3,
+      "potenziale_esperienza": 8.4,
+      "potenziale_accessibilita": 2.8,
+      "potenziale_ecosistema": 16.3,
+      "potenziale_utenti": 24.3
+    },
+    {
+      "id": "dallara-academy",
+      "titolo": "Dallara Academy",
+      "sottotitolo": "Museo e centro di formazione dell'ingegneria da corsa",
+      "anno_inizio": 2017,
+      "anno_fine": null,
+      "in_corso": true,
+      "lon": 10.0735,
+      "lat": 44.696,
+      "comune": "Varano de' Melegari",
+      "provincia": "Parma",
+      "regione": "Emilia-Romagna",
+      "descrizione": "Spazio museale e formativo di Dallara Automobili, azienda fondata nel 1972 da Gian Paolo Dallara: ospita le vetture che hanno fatto la storia dell'azienda (dalle monoposto alla Stradale), simulatori di guida, laboratori didattici e attività per scuole e università.",
+      "tipologia_apertura": "Permanente",
+      "periodi_apertura": "Tutto l'anno",
+      "orari_apertura": "Indicativamente dal lunedì al sabato, visite guidate in orari definiti (verificare sul sito).",
+      "scala": [
+        "Edificio",
+        "Complesso architettonico",
+        "Installazione espositiva",
+        "Spazio privato"
+      ],
+      "immagine_1": null,
+      "immagine_2": null,
+      "immagine_3": null,
+      "link_riferimento": [
+        "https://www.dallara.it/dallara-academy/",
+        "https://www.motorvalley.it/"
+      ],
+      "bibliografia": [
+        "https://www.motorvalley.it/en/stories/guida-su-bologna-in-stile-motor-valley-musei-collezioni-esperienze-shopping-e-altre-avventure/"
+      ],
+      "tipo_patrimonio": [
+        "Patrimonio industriale",
+        "Patrimonio museale",
+        "Patrimonio architettonico"
+      ],
+      "natura_patrimonio": [
+        "Patrimonio materiale (tangibile)"
+      ],
+      "dimensione_patrimonio": "Patrimonio digitalizzato",
+      "macrosettore": [
+        "Industrie manifatturiere e produttive",
+        "Istruzione-formazione-ricerca"
+      ],
+      "settore_attivita": [
+        "Automotive",
+        "Design del prodotto"
+      ],
+      "forme_valorizzazione_attuali": [
+        "musealizzazione",
+        "workshop",
+        "esperienze immersive",
+        "mostre e curatela",
+        "contenuti social"
+      ],
+      "tipo_fruizione": [
+        "esp. phygital",
+        "inst. interattiva",
+        "workshop",
+        "visita guidata"
+      ],
+      "impatto_obiettivi": [
+        "educazione",
+        "divulgazione",
+        "innovazione",
+        "turismo",
+        "preservazione"
+      ],
+      "fruitore_attuale": [
+        "studenti",
+        "specialisti",
+        "amatori",
+        "turisti",
+        "visitatori occasionali"
+      ],
+      "fasce_eta_fruitore": [
+        "Bambini: 0-10",
+        "Adolescenti: 11-17",
+        "Giovani adulti: 18-34",
+        "Adulti: 35-64"
+      ],
+      "tecnologie_digitali": [
+        "siti web",
+        "Interfacce touch",
+        "Real-time rendering"
+      ],
+      "discipline_design": [
+        "Exhibition Design",
+        "Product Design",
+        "Experience Design",
+        "Interaction Design"
+      ],
+      "accessibilita": [
+        "motoria",
+        "economica",
+        "geografica"
+      ],
+      "sistema_comunicazione": [
+        "sito web",
+        "social media",
+        "Newsletter",
+        "portali di promozione turistica",
+        "gadget"
+      ],
+      "connessioni_siti": [
+        "Autodromo di Varano",
+        "Collezioni della Motor Valley",
+        "Associazione Motorvalley",
+        "Motor web Museum",
+        "Musei ASI"
+      ],
+      "connessioni_stakeholder": [
+        "Dallara Automobili",
+        "Comune di Varano de' Melegari",
+        "Associazione Motorvalley",
+        "scuole e università (MUNER)",
+        "scuderie e team di competizione"
+      ],
+      "connessioni_altri_patrimoni": [
+        "Patrimonio industriale",
+        "Patrimonio paesaggistico"
+      ],
+      "link_patrimoni_riferimento": [
+        "https://www.motorvalley.it/en/members/museums/",
+        "https://www.motorvalley.it/en/members/collections/"
+      ],
+      "eventi_collaterali": [
+        "Motor Valley Fest",
+        "Dallara Academy Open Day",
+        "attività per scuole e campus per studenti"
+      ],
+      "area_influenza": "Nazionale",
+      "mezzi_trasporto": [
+        "auto/moto",
+        "bus"
+      ],
+      "servizi_generali": [
+        "servizi igienici",
+        "punto vendita - bookshop",
+        "sale polivalenti",
+        "aree di sosta - sedute"
+      ],
+      "sostenibilita": [
+        "dato non disponibile"
+      ],
+      "forme_valorizzazione_potenziali": [
+        "archivi digitali",
+        "digitalizzazione",
+        "itinerari"
+      ],
+      "valore_aggiunto_potenziale": [
+        "motivi educativi",
+        "interesse individuale"
+      ],
+      "fruitore_potenziale": [
+        "cittadini",
+        "visitatori abitudinari"
+      ],
+      "servizi_implementabili": [
+        "servizi di ristorazione",
+        "wifi"
+      ],
+      "ampiezza_orari": "Sei giorni su sette",
+      "monitoraggio_visitatori": "Assente",
+      "indice_digitale": 46.5,
+      "indice_esperienza": 72,
+      "indice_accessibilita": 59.8,
+      "indice_ecosistema": 67.3,
+      "indice_utenti": 57.1,
+      "indice_media": 60.5,
+      "potenziale_valorizzazione": 16.9,
+      "classifica_potenziale": 8,
+      "potenziale_digitale": 23.3,
+      "potenziale_esperienza": 8.4,
+      "potenziale_accessibilita": 13.5,
+      "potenziale_ecosistema": 21,
+      "potenziale_utenti": 18.1
+    },
+    {
+      "id": "collezione-maserati-umberto-panini",
+      "titolo": "Collezione Maserati Umberto Panini",
+      "sottotitolo": "Il tempio delle Maserati, salvato dalla dispersione",
+      "anno_inizio": 1996,
+      "anno_fine": null,
+      "in_corso": true,
+      "lon": 10.856,
+      "lat": 44.642,
+      "comune": "Modena",
+      "provincia": "Modena",
+      "regione": "Emilia-Romagna",
+      "descrizione": "Collezione privata di auto e moto Maserati, nata nel 1996 quando Umberto Panini acquistò i 19 modelli storici della casa del Tridente prima che fossero venduti all'asta e li ospitò nella fattoria Hombre, produttrice di Parmigiano Reggiano. Oggi conta circa 22 Maserati e dal 2025 ha una nuova sede a Marzaglia, in un hangar restaurato vicino all'aeroporto e all'autodromo di Modena.",
+      "tipologia_apertura": "Permanente",
+      "periodi_apertura": "Tutto l'anno",
+      "orari_apertura": "Indicativamente tutti i giorni 9:30-13:00 / 14:30-18:00 (verificare chiusure settimanali).",
+      "scala": [
+        "Edificio",
+        "Installazione espositiva",
+        "Artefatto",
+        "Spazio privato"
+      ],
+      "immagine_1": "https://www.motorwebmuseum.it/assets/Uploads/modena-collezioneumbertopanini-2.jpg",
+      "immagine_2": null,
+      "immagine_3": null,
+      "link_riferimento": [
+        "https://paninimotormuseum.it/",
+        "https://www.motorwebmuseum.it/en/places/modena/the-umberto-panini-collection-temple-of-maserati-cars/"
+      ],
+      "bibliografia": [
+        "https://www.lautomobile.aci.it/classiche/maserati-ha-una-nuova-casa/",
+        "https://hagerty.com/media/automotive-history/umberto-panini-the-cheesemaker-who-saved-maseratis-car-collection"
+      ],
+      "tipo_patrimonio": [
+        "Patrimonio industriale",
+        "Patrimonio museale",
+        "Patrimonio artistico"
+      ],
+      "natura_patrimonio": [
+        "Patrimonio materiale (tangibile)"
+      ],
+      "dimensione_patrimonio": "Non accessibile in digitale",
+      "macrosettore": [
+        "Terzo settore e associazionismo"
+      ],
+      "settore_attivita": [
+        "Automotive"
+      ],
+      "forme_valorizzazione_attuali": [
+        "musealizzazione",
+        "tutela e conservazione",
+        "mostre e curatela",
+        "contenuti social"
+      ],
+      "tipo_fruizione": [
+        "esp. fisica",
+        "visita guidata"
+      ],
+      "impatto_obiettivi": [
+        "preservazione",
+        "divulgazione",
+        "turismo"
+      ],
+      "fruitore_attuale": [
+        "amatori",
+        "turisti",
+        "visitatori occasionali",
+        "cittadini"
+      ],
+      "fasce_eta_fruitore": [
+        "Giovani adulti: 18-34",
+        "Adulti: 35-64",
+        "Senior: 65+"
+      ],
+      "tecnologie_digitali": [
+        "siti web"
+      ],
+      "discipline_design": [
+        "Exhibition Design",
+        "Product Design"
+      ],
+      "accessibilita": [
+        "motoria",
+        "economica"
+      ],
+      "sistema_comunicazione": [
+        "sito web",
+        "social media",
+        "portali di promozione turistica",
+        "Newspaper article"
+      ],
+      "connessioni_siti": [
+        "Museo Casa Enzo Ferrari",
+        "Museo Horacio Pagani",
+        "Autodromo di Modena",
+        "Associazione Motorvalley",
+        "Motor web Museum",
+        "Musei ASI"
+      ],
+      "connessioni_stakeholder": [
+        "Famiglia Panini (proprietà privata)",
+        "Maserati",
+        "Comune di Modena",
+        "Associazione Motorvalley",
+        "Visit Modena",
+        "club di marca"
+      ],
+      "connessioni_altri_patrimoni": [
+        "Patrimonio industriale",
+        "Patrimonio urbano"
+      ],
+      "link_patrimoni_riferimento": [
+        "https://www.motorvalley.it/en/members/collections/",
+        "https://www.motorwebmuseum.it/"
+      ],
+      "eventi_collaterali": [
+        "Motor Valley Fest (aperture straordinarie)",
+        "raduni e incontri di club"
+      ],
+      "area_influenza": "Continentale",
+      "mezzi_trasporto": [
+        "auto/moto",
+        "bus"
+      ],
+      "servizi_generali": [
+        "servizi igienici",
+        "aree di sosta - sedute"
+      ],
+      "sostenibilita": [
+        "dato non disponibile"
+      ],
+      "forme_valorizzazione_potenziali": [
+        "workshop",
+        "itinerari",
+        "archivi digitali"
+      ],
+      "valore_aggiunto_potenziale": [
+        "interesse individuale",
+        "ciclicità"
+      ],
+      "fruitore_potenziale": [
+        "studenti",
+        "specialisti"
+      ],
+      "servizi_implementabili": [
+        "punto vendita - bookshop",
+        "servizi di ristorazione",
+        "wifi",
+        "sale polivalenti"
+      ],
+      "ampiezza_orari": "Tutti i giorni",
+      "monitoraggio_visitatori": "Assente",
+      "indice_digitale": 3.8,
+      "indice_esperienza": 44,
+      "indice_accessibilita": 54.5,
+      "indice_ecosistema": 74,
+      "indice_utenti": 44.6,
+      "indice_media": 44.2,
+      "potenziale_valorizzazione": 33.2,
+      "classifica_potenziale": 3,
+      "potenziale_digitale": 66,
+      "potenziale_esperienza": 36.4,
+      "potenziale_accessibilita": 18.8,
+      "potenziale_ecosistema": 14.3,
+      "potenziale_utenti": 30.6
+    },
+    {
+      "id": "museo-multimediale-autodromo-di-imola-checco-costa-maicc",
+      "titolo": "Museo Multimediale Autodromo di Imola Checco Costa (MAICC)",
+      "sottotitolo": "La storia dell'Autodromo Enzo e Dino Ferrari",
+      "anno_inizio": 2019,
+      "anno_fine": null,
+      "in_corso": true,
+      "lon": 11.7167,
+      "lat": 44.344,
+      "comune": "Imola",
+      "provincia": "Bologna",
+      "regione": "Emilia-Romagna",
+      "descrizione": "Museo all'ingresso dell'Autodromo Enzo e Dino Ferrari, intitolato a Checco Costa, ideatore del circuito. Rinnovato e riaperto nell'aprile 2019 con un allestimento multimediale permanente (progetto TBS Group, circa 600 mq): racconta la storia del circuito, dalle prime corse motociclistiche alla Formula 1, con vetture, filmati e mostre temporanee, come quella dedicata ad Ayrton Senna.",
+      "tipologia_apertura": "Permanente",
+      "periodi_apertura": "Tutto l'anno",
+      "orari_apertura": "Orari variabili in base a mostre ed eventi (ad es. martedì-venerdì 12:00-18:00, sabato-domenica 10:00-18:00 in alcune mostre): verificare sul sito.",
+      "scala": [
+        "Edificio",
+        "Installazione espositiva",
+        "Spazio fisico",
+        "Spazio pubblico"
+      ],
+      "immagine_1": "https://www.motorvalley.it/wp-content/uploads/2024/10/Motor-Valley-partners-musei-Museo-Multimediale-Autodromo-di-Imola-Checco-Costa-cover-landscape-1200x630.jpg",
+      "immagine_2": "https://www.motorvalley.it/wp-content/uploads/2024/10/Motor-Valley-partners-musei-Museo-Multimediale-Autodromo-di-Imola-Checco-Costa-highlight-landscape.jpg",
+      "immagine_3": "https://www.motorvalley.it/wp-content/uploads/2024/10/Motor-Valley-partners-musei-Museo-Multimediale-Autodromo-di-Imola-Checco-Costa-media-slider-landscape-01.jpg",
+      "link_riferimento": [
+        "https://www.autodromoimola.it/",
+        "https://www.motorvalley.it/en/?p=2485"
+      ],
+      "bibliografia": [
+        "https://www.ilrestodelcarlino.it/imola/cronaca/autodromo-museo-b43b6a53",
+        "https://motorinolimits.com/2019/03/22/imola-il-museo-checco-costa-si-rinnova-e-una-mostra-su-ayrton"
+      ],
+      "tipo_patrimonio": [
+        "Patrimonio museale",
+        "Patrimonio industriale",
+        "Patrimonio urbano"
+      ],
+      "natura_patrimonio": [
+        "Patrimonio materiale (tangibile)",
+        "Patrimonio immateriale (intangibile)"
+      ],
+      "dimensione_patrimonio": "Patrimonio digitale",
+      "macrosettore": [
+        "Industrie culturali e creative"
+      ],
+      "settore_attivita": [
+        "Automotive",
+        "Audiovisivo",
+        "Fotografia"
+      ],
+      "forme_valorizzazione_attuali": [
+        "musealizzazione",
+        "mostre e curatela",
+        "esperienze immersive",
+        "archivi digitali",
+        "contenuti social"
+      ],
+      "tipo_fruizione": [
+        "inst. interattiva",
+        "esp. phygital",
+        "installazione",
+        "esp. fisica",
+        "visita guidata"
+      ],
+      "impatto_obiettivi": [
+        "divulgazione",
+        "turismo",
+        "innovazione",
+        "preservazione",
+        "partecipazione"
+      ],
+      "fruitore_attuale": [
+        "amatori",
+        "turisti",
+        "visitatori occasionali",
+        "cittadini",
+        "studenti"
+      ],
+      "fasce_eta_fruitore": [
+        "Bambini: 0-10",
+        "Adolescenti: 11-17",
+        "Giovani adulti: 18-34",
+        "Adulti: 35-64",
+        "Senior: 65+"
+      ],
+      "tecnologie_digitali": [
+        "siti web",
+        "Proiezioni immersive e mapping",
+        "Interfacce touch",
+        "Audio immersivi / spazializzati"
+      ],
+      "discipline_design": [
+        "Exhibition Design",
+        "Experience Design",
+        "Interaction Design",
+        "Graphic Design",
+        "Spatial Design"
+      ],
+      "accessibilita": [
+        "motoria",
+        "economica"
+      ],
+      "sistema_comunicazione": [
+        "sito web",
+        "social media",
+        "portali di promozione turistica",
+        "segnaletica e cartellonistica",
+        "Newsletter",
+        "Spot / Advertising"
+      ],
+      "connessioni_siti": [
+        "Autodromo Enzo e Dino Ferrari",
+        "Associazione Motorvalley",
+        "Motor web Museum",
+        "Musei ASI",
+        "Museo Ferrari e Museo Lamborghini (itinerari F1)"
+      ],
+      "connessioni_stakeholder": [
+        "Formula Imola (gestione dell'Autodromo)",
+        "Comune di Imola",
+        "Regione Emilia-Romagna",
+        "Motor Moto Club Santerno Checco Costa",
+        "TBS Group"
+      ],
+      "connessioni_altri_patrimoni": [
+        "Patrimonio urbano",
+        "Patrimonio paesaggistico",
+        "Patrimonio industriale"
+      ],
+      "link_patrimoni_riferimento": [
+        "https://www.autodromoimola.it/",
+        "https://www.motorvalley.it/en/members/museums/"
+      ],
+      "eventi_collaterali": [
+        "Ayrton Day (1 maggio)",
+        "Historic Minardi Day",
+        "mostre temporanee",
+        "proiezioni di Gran Premi in museo",
+        "Motor Valley Fest"
+      ],
+      "area_influenza": "Globale",
+      "mezzi_trasporto": [
+        "auto/moto",
+        "bus",
+        "treni",
+        "bicicletta"
+      ],
+      "servizi_generali": [
+        "servizi igienici",
+        "punto vendita - bookshop",
+        "servizi di ristorazione",
+        "sale polivalenti",
+        "aree di sosta - sedute"
+      ],
+      "sostenibilita": [
+        "dato non disponibile"
+      ],
+      "forme_valorizzazione_potenziali": [
+        "workshop",
+        "itinerari",
+        "gamification"
+      ],
+      "valore_aggiunto_potenziale": [
+        "ciclicità",
+        "interesse individuale"
+      ],
+      "fruitore_potenziale": [
+        "specialisti",
+        "visitatori abitudinari"
+      ],
+      "servizi_implementabili": [
+        "wifi"
+      ],
+      "ampiezza_orari": "Cinque giorni o orari variabili",
+      "monitoraggio_visitatori": "Parziale o stimato",
+      "indice_digitale": 69.8,
+      "indice_esperienza": 80.4,
+      "indice_accessibilita": 61.8,
+      "indice_ecosistema": 88.3,
+      "indice_utenti": 75.2,
+      "indice_media": 75.1,
+      "potenziale_valorizzazione": 2.3,
+      "classifica_potenziale": 11,
+      "potenziale_digitale": 0,
+      "potenziale_esperienza": 0,
+      "potenziale_accessibilita": 11.5,
+      "potenziale_ecosistema": 0,
+      "potenziale_utenti": 0
+    },
+    {
+      "id": "collezione-auto-bandini",
+      "titolo": "Collezione Auto Bandini",
+      "sottotitolo": "Le auto da competizione di Ilario Bandini",
+      "anno_inizio": 1946,
+      "anno_fine": null,
+      "in_corso": true,
+      "lon": 12.0407,
+      "lat": 44.2227,
+      "comune": "Forlì",
+      "provincia": "Forlì-Cesena",
+      "regione": "Emilia-Romagna",
+      "descrizione": "Museo-collezione nell'ex officina di Ilario Bandini a Rovere (Forlì), costruttore romagnolo di auto sportive attivo dal 1946 al 1992. Raccoglie vetture da competizione (circa 75 costruite, 46-47 ancora esistenti), fotografie, coppe, trofei, articoli e modelli in legno. È curata dagli eredi tramite il Registro Storico Bandini.",
+      "tipologia_apertura": "Permanente",
+      "periodi_apertura": "Tutto l'anno",
+      "orari_apertura": "Aperto su appuntamento, tutte le mattine (anche sabato e domenica); prenotare telefonicamente.",
+      "scala": [
+        "Edificio",
+        "Installazione espositiva",
+        "Artefatto",
+        "Spazio privato"
+      ],
+      "immagine_1": null,
+      "immagine_2": null,
+      "immagine_3": null,
+      "link_riferimento": [
+        "https://www.ilariobandini.it/",
+        "https://www.motorvalley.it/en/stories/ilario-bandini/"
+      ],
+      "bibliografia": [
+        "https://asimusei.it/download/11285",
+        "https://www.motorvalley.it/?p=1876"
+      ],
+      "tipo_patrimonio": [
+        "Patrimonio industriale",
+        "Patrimonio artigianale",
+        "Patrimonio museale"
+      ],
+      "natura_patrimonio": [
+        "Patrimonio materiale (tangibile)"
+      ],
+      "dimensione_patrimonio": "Non accessibile in digitale",
+      "macrosettore": [
+        "Industrie manifatturiere e produttive"
+      ],
+      "settore_attivita": [
+        "Automotive"
+      ],
+      "forme_valorizzazione_attuali": [
+        "musealizzazione",
+        "tutela e conservazione",
+        "mostre e curatela"
+      ],
+      "tipo_fruizione": [
+        "esp. fisica",
+        "visita guidata"
+      ],
+      "impatto_obiettivi": [
+        "preservazione",
+        "divulgazione",
+        "turismo"
+      ],
+      "fruitore_attuale": [
+        "amatori",
+        "specialisti",
+        "visitatori occasionali"
+      ],
+      "fasce_eta_fruitore": [
+        "Adulti: 35-64",
+        "Senior: 65+"
+      ],
+      "tecnologie_digitali": [
+        "siti web"
+      ],
+      "discipline_design": [
+        "Exhibition Design",
+        "Product Design"
+      ],
+      "accessibilita": [
+        "motoria"
+      ],
+      "sistema_comunicazione": [
+        "sito web",
+        "Newspaper article",
+        "portali di promozione turistica"
+      ],
+      "connessioni_siti": [
+        "Registro Storico Bandini",
+        "Circuito di collezioni private della Motor Valley",
+        "Associazione Motorvalley",
+        "Motor web Museum",
+        "Musei ASI"
+      ],
+      "connessioni_stakeholder": [
+        "Famiglia Bandini (Dino e Michele Orsi Bandini)",
+        "Registro Storico Bandini",
+        "Comune di Forlì",
+        "Associazione Motorvalley",
+        "ASI"
+      ],
+      "connessioni_altri_patrimoni": [
+        "Patrimonio industriale",
+        "Patrimonio artigianale"
+      ],
+      "link_patrimoni_riferimento": [
+        "https://www.motorvalley.it/en/members/collections/",
+        "https://www.motorvalley.it/en/stories/ilario-bandini/"
+      ],
+      "eventi_collaterali": [
+        "Motor Valley Fest",
+        "Mille Miglia",
+        "Targa Florio storica"
+      ],
+      "area_influenza": "Nazionale",
+      "mezzi_trasporto": [
+        "auto/moto"
+      ],
+      "servizi_generali": [
+        "servizi igienici"
+      ],
+      "sostenibilita": [
+        "dato non disponibile"
+      ],
+      "forme_valorizzazione_potenziali": [
+        "archivi digitali",
+        "digitalizzazione",
+        "contenuti social",
+        "itinerari"
+      ],
+      "valore_aggiunto_potenziale": [
+        "nuove tecnologie",
+        "coinvolgimento esperienziale"
+      ],
+      "fruitore_potenziale": [
+        "studenti",
+        "cittadini",
+        "turisti"
+      ],
+      "servizi_implementabili": [
+        "aree di sosta - sedute",
+        "punto vendita - bookshop",
+        "wifi"
+      ],
+      "ampiezza_orari": "Su prenotazione o appuntamento",
+      "monitoraggio_visitatori": "Assente",
+      "indice_digitale": 0,
+      "indice_esperienza": 39.9,
+      "indice_accessibilita": 32.8,
+      "indice_ecosistema": 67.3,
+      "indice_utenti": 32.2,
+      "indice_media": 34.4,
+      "potenziale_valorizzazione": 43,
+      "classifica_potenziale": 2,
+      "potenziale_digitale": 69.8,
+      "potenziale_esperienza": 40.5,
+      "potenziale_accessibilita": 40.5,
+      "potenziale_ecosistema": 21,
+      "potenziale_utenti": 43
+    },
+    {
+      "id": "museo-francesco-baracca",
+      "titolo": "Museo Francesco Baracca",
+      "sottotitolo": "La casa dell'asso e le origini del Cavallino Rampante",
+      "anno_inizio": 1924,
+      "anno_fine": null,
+      "in_corso": true,
+      "lon": 11.909375,
+      "lat": 44.417247,
+      "comune": "Lugo",
+      "provincia": "Ravenna",
+      "regione": "Emilia-Romagna",
+      "descrizione": "Casa-museo nella casa natale dell'aviatore Francesco Baracca a Lugo, istituito dal Comune nel 1924 e dal 1993 nell'attuale sede, rinnovato nel 2015. Custodisce oltre 500 cimeli e velivoli originali e racconta la storia del Cavallino Rampante, l'emblema sull'aereo di Baracca che nel 1923 la madre Paolina Biancoli donò a Enzo Ferrari per le sue vetture.",
+      "tipologia_apertura": "Permanente",
+      "periodi_apertura": "Tutto l'anno",
+      "orari_apertura": "Dal martedì alla domenica 10:00-12:00 e 16:00-18:00; lunedì chiuso; chiuso 2ª e 3ª settimana di agosto e dal 25 al 31 dicembre. Visite guidate su prenotazione.",
+      "scala": [
+        "Edificio",
+        "Installazione espositiva",
+        "Artefatto",
+        "Spazio fisico"
+      ],
+      "immagine_1": null,
+      "immagine_2": null,
+      "immagine_3": null,
+      "link_riferimento": [
+        "http://www.museobaracca.it/",
+        "https://www.motorvalley.it/?p=1863"
+      ],
+      "bibliografia": [
+        "https://bbcc.regione.emilia-romagna.it/samira/api/print/card/26456",
+        "https://www.montagnadiviaggi.it/2022/08/francesco-baracca-cavallino-ferrari-morte.html"
+      ],
+      "tipo_patrimonio": [
+        "Patrimonio museale",
+        "Patrimonio architettonico",
+        "Patrimonio dissonante"
+      ],
+      "natura_patrimonio": [
+        "Patrimonio materiale (tangibile)",
+        "Patrimonio immateriale (intangibile)"
+      ],
+      "dimensione_patrimonio": "Patrimonio digitalizzato",
+      "macrosettore": [
+        "Industrie culturali e creative"
+      ],
+      "settore_attivita": [
+        "Automotive",
+        "Arte"
+      ],
+      "forme_valorizzazione_attuali": [
+        "musealizzazione",
+        "mostre e curatela",
+        "tutela e conservazione",
+        "workshop"
+      ],
+      "tipo_fruizione": [
+        "visita guidata",
+        "esp. fisica",
+        "workshop"
+      ],
+      "impatto_obiettivi": [
+        "preservazione",
+        "divulgazione",
+        "educazione",
+        "turismo"
+      ],
+      "fruitore_attuale": [
+        "cittadini",
+        "turisti",
+        "studenti",
+        "amatori",
+        "visitatori occasionali"
+      ],
+      "fasce_eta_fruitore": [
+        "Bambini: 0-10",
+        "Adolescenti: 11-17",
+        "Adulti: 35-64",
+        "Senior: 65+"
+      ],
+      "tecnologie_digitali": [
+        "siti web"
+      ],
+      "discipline_design": [
+        "Exhibition Design",
+        "Graphic Design",
+        "Information design"
+      ],
+      "accessibilita": [
+        "motoria"
+      ],
+      "sistema_comunicazione": [
+        "sito web",
+        "portali di promozione turistica",
+        "social media",
+        "brochure e flyer"
+      ],
+      "connessioni_siti": [
+        "Museo Casa Enzo Ferrari (Modena)",
+        "Museo Ferrari (Maranello)",
+        "Associazione Motorvalley",
+        "Motor web Museum",
+        "Musei ASI"
+      ],
+      "connessioni_stakeholder": [
+        "Comune di Lugo",
+        "Biblioteca Trisi",
+        "Regione Emilia-Romagna",
+        "Associazione Motorvalley",
+        "Fondazione Cassa di Risparmio e Banca del Monte di Lugo",
+        "Aeronautica Militare"
+      ],
+      "connessioni_altri_patrimoni": [
+        "Patrimonio urbano",
+        "Patrimonio architettonico"
+      ],
+      "link_patrimoni_riferimento": [
+        "https://www.motorvalley.it/?p=1863",
+        "https://www.motorvalley.it/en/members/museums/"
+      ],
+      "eventi_collaterali": [
+        "Mostra \"Come un'onda, come in volo\" (2023, centenario del Cavallino)",
+        "partecipazione al Motor Valley Fest",
+        "mostre temporanee sugli emblemi della Grande Guerra"
+      ],
+      "area_influenza": "Nazionale",
+      "mezzi_trasporto": [
+        "auto/moto",
+        "bus",
+        "treni",
+        "bicicletta"
+      ],
+      "servizi_generali": [
+        "servizi igienici",
+        "sale polivalenti"
+      ],
+      "sostenibilita": [
+        "dato non disponibile"
+      ],
+      "forme_valorizzazione_potenziali": [
+        "archivi digitali",
+        "digitalizzazione",
+        "esperienze immersive",
+        "itinerari",
+        "contenuti social"
+      ],
+      "valore_aggiunto_potenziale": [
+        "all'aperto",
+        "al chiuso",
+        "interesse individuale"
+      ],
+      "fruitore_potenziale": [
+        "specialisti",
+        "visitatori abitudinari"
+      ],
+      "servizi_implementabili": [
+        "aree di sosta - sedute",
+        "wifi"
+      ],
+      "ampiezza_orari": "Sei giorni su sette",
+      "monitoraggio_visitatori": "Assente",
+      "indice_digitale": 12.5,
+      "indice_esperienza": 56,
+      "indice_accessibilita": 53.6,
+      "indice_ecosistema": 70.7,
+      "indice_utenti": 53.9,
+      "indice_media": 49.3,
+      "potenziale_valorizzazione": 28.1,
+      "classifica_potenziale": 6,
+      "potenziale_digitale": 57.3,
+      "potenziale_esperienza": 24.4,
+      "potenziale_accessibilita": 19.7,
+      "potenziale_ecosistema": 17.6,
+      "potenziale_utenti": 21.3
+    },
+    {
+      "id": "museo-automobili-lamborghini",
+      "titolo": "Museo Automobili Lamborghini",
+      "sottotitolo": "Il museo del toro di Sant'Agata Bolognese",
+      "anno_inizio": 2001,
+      "anno_fine": null,
+      "in_corso": true,
+      "lon": 11.141,
+      "lat": 44.6524,
+      "comune": "Sant'Agata Bolognese",
+      "provincia": "Bologna",
+      "regione": "Emilia-Romagna",
+      "descrizione": "Museo aziendale di Automobili Lamborghini accanto allo stabilimento di Sant'Agata Bolognese: percorre la storia del marchio fondato da Ferruccio Lamborghini nel 1963, tra modelli iconici (Miura, Countach), prototipi, motori ed esposizioni temporanee. Si abbina alla visita della linea di produzione.",
+      "tipologia_apertura": "Permanente",
+      "periodi_apertura": "Tutto l'anno",
+      "orari_apertura": "Indicativamente tutti i giorni 9:30-18:00 (verificare sul sito); tour di fabbrica su prenotazione.",
+      "scala": [
+        "Edificio",
+        "Complesso architettonico",
+        "Installazione espositiva",
+        "Artefatto",
+        "Spazio privato"
+      ],
+      "immagine_1": null,
+      "immagine_2": null,
+      "immagine_3": null,
+      "link_riferimento": [
+        "https://www.lamborghini.com/it-en/museo-lamborghini",
+        "https://www.motorvalley.it/"
+      ],
+      "bibliografia": [
+        "https://www.autovia.it/itinerario-motor-valley-food-valley/",
+        "https://www.theglobeandmail.com/drive/culture/article-irresistible-italian-cuisine-and-sports-car-museums-in-one-place-what/"
+      ],
+      "tipo_patrimonio": [
+        "Patrimonio industriale",
+        "Patrimonio museale",
+        "Patrimonio architettonico"
+      ],
+      "natura_patrimonio": [
+        "Patrimonio materiale (tangibile)"
+      ],
+      "dimensione_patrimonio": "Patrimonio digitalizzato",
+      "macrosettore": [
+        "Industrie manifatturiere e produttive"
+      ],
+      "settore_attivita": [
+        "Automotive",
+        "Design del prodotto"
+      ],
+      "forme_valorizzazione_attuali": [
+        "musealizzazione",
+        "mostre e curatela",
+        "esperienze immersive",
+        "contenuti social"
+      ],
+      "tipo_fruizione": [
+        "esp. phygital",
+        "inst. interattiva",
+        "visita guidata",
+        "esp. fisica"
+      ],
+      "impatto_obiettivi": [
+        "divulgazione",
+        "turismo",
+        "innovazione",
+        "preservazione"
+      ],
+      "fruitore_attuale": [
+        "amatori",
+        "turisti",
+        "visitatori occasionali",
+        "cittadini"
+      ],
+      "fasce_eta_fruitore": [
+        "Giovani adulti: 18-34",
+        "Adulti: 35-64",
+        "Senior: 65+"
+      ],
+      "tecnologie_digitali": [
+        "siti web",
+        "App e audioguide",
+        "Interfacce touch"
+      ],
+      "discipline_design": [
+        "Exhibition Design",
+        "Product Design",
+        "Experience Design",
+        "Graphic Design"
+      ],
+      "accessibilita": [
+        "motoria",
+        "linguistica",
+        "economica"
+      ],
+      "sistema_comunicazione": [
+        "sito web",
+        "social media",
+        "portali di promozione turistica",
+        "gadget",
+        "Newsletter",
+        "Community"
+      ],
+      "connessioni_siti": [
+        "Museo Ferruccio Lamborghini (Funo di Argelato)",
+        "Associazione Motorvalley",
+        "Motor web Museum",
+        "Musei ASI"
+      ],
+      "connessioni_stakeholder": [
+        "Automobili Lamborghini (Gruppo Audi/Volkswagen)",
+        "Comune di Sant'Agata Bolognese",
+        "Associazione Motorvalley",
+        "Lamborghini Club"
+      ],
+      "connessioni_altri_patrimoni": [
+        "Patrimonio industriale",
+        "Patrimonio urbano"
+      ],
+      "link_patrimoni_riferimento": [
+        "https://www.motorvalley.it/en/members/museums/",
+        "https://www.motorvalley.it/en/members/collections/"
+      ],
+      "eventi_collaterali": [
+        "Motor Valley Fest",
+        "Lamborghini Day",
+        "raduni",
+        "Auto e Moto d'Epoca (BolognaFiere)"
+      ],
+      "area_influenza": "Globale",
+      "mezzi_trasporto": [
+        "auto/moto",
+        "bus"
+      ],
+      "servizi_generali": [
+        "servizi igienici",
+        "punto vendita - bookshop",
+        "servizi di ristorazione",
+        "aree di sosta - sedute"
+      ],
+      "sostenibilita": [
+        "dato non disponibile"
+      ],
+      "forme_valorizzazione_potenziali": [
+        "workshop",
+        "itinerari",
+        "archivi digitali",
+        "gamification"
+      ],
+      "valore_aggiunto_potenziale": [
+        "ciclicità",
+        "all'aperto",
+        "nuove tecnologie"
+      ],
+      "fruitore_potenziale": [
+        "studenti",
+        "specialisti",
+        "visitatori abitudinari"
+      ],
+      "servizi_implementabili": [
+        "wifi",
+        "sale polivalenti"
+      ],
+      "ampiezza_orari": "Tutti i giorni",
+      "monitoraggio_visitatori": "Assente",
+      "indice_digitale": 46.5,
+      "indice_esperienza": 64.3,
+      "indice_accessibilita": 63.8,
+      "indice_ecosistema": 72.7,
+      "indice_utenti": 50.9,
+      "indice_media": 59.6,
+      "potenziale_valorizzazione": 17.8,
+      "classifica_potenziale": 7,
+      "potenziale_digitale": 23.3,
+      "potenziale_esperienza": 16.1,
+      "potenziale_accessibilita": 9.5,
+      "potenziale_ecosistema": 15.6,
+      "potenziale_utenti": 24.3
+    }
+  ]
+}

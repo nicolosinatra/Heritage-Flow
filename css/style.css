@@ -637,6 +637,14 @@
   white-space: nowrap;
 }
 
+/* Solo contorno, sfondo chiaro (Figma: tag dell'archivio). In Figma il
+   bordo sta dentro la misura (26px): qui si toglie dal padding */
+.chip--contorno {
+  padding: calc(var(--space-fixed-xxs) - var(--border-width))
+    calc(var(--space-fixed-xs) - var(--border-width));
+  background: var(--color-light);
+}
+
 /* --------------------------------------------------------------------------
    Sezioni "Il progetto" e "Nuovi flow turistici"
    -------------------------------------------------------------------------- */

@@ -1,0 +1,516 @@
+/* ==========================================================================
+   Pagina Archivio (archivio.html) — Figma: Archivio XL / Mobile, Frame 62
+   Elenco dei casi studio generato da js/archivio.js. Margini come la pagina
+   Mappa (solo il bordo pagina): è una tabella a tutta larghezza.
+   - Sotto L (e in vista griglia): una scheda per caso studio. Nome in alto,
+     poi i campi brevi (periodo, luogo) su due colonne allineate fra le
+     schede, poi i gruppi di tag con il loro titolo.
+   - Da L, vista elenco: tabella con le colonne scelte nel pannello. Le
+     larghezze arrivano da JS in --archivio-colonne; se le colonne sono
+     tante, la tabella scorre in orizzontale. I titoli dei gruppi restano
+     per gli screen reader.
+   - Pannello filtri a comparsa sotto la navbar (.archivio__filtri).
+   Le pillole sono .chip.chip--contorno di style.css.
+   ========================================================================== */
+
+/* Testo solo per gli screen reader */
+.archivio__etichetta {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Barra con il pulsante Filtri (stile delle voci della navbar)
+   -------------------------------------------------------------------------- */
+.archivio__barra {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: var(--space-fixed-xs);
+}
+
+.archivio__filtri-pulsante {
+  display: flex;
+  align-items: center;
+  height: var(--navbar-height);
+  padding: 0 var(--space-fixed-xs);
+  border: 0;
+  background: var(--color-dark);
+  color: var(--color-light);
+  cursor: pointer;
+}
+
+.archivio__filtri-pulsante span {
+  text-box: trim-both cap alphabetic;
+}
+
+.archivio__filtri-pulsante[aria-expanded="true"] {
+  background: var(--color-main);
+  color: var(--color-dark);
+}
+
+.archivio__filtri-pulsante:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
+}
+
+/* --------------------------------------------------------------------------
+   Elenco
+   -------------------------------------------------------------------------- */
+.archivio__lista {
+  border-top: var(--border-width) dotted var(--color-divider);
+}
+
+/* Le intestazioni ci sono solo nella tabella (da L, vista elenco) */
+.archivio__intestazioni {
+  display: none;
+}
+
+/* Scheda
+     nome
+     periodo   luogo        ← due colonne uguali in tutte le schede
+     gruppi di tag (uno per riga, con il titolo) */
+.archivio__voce {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  column-gap: var(--space-m);
+  row-gap: var(--space-fixed-xs);
+  align-content: start;
+  padding-block: var(--space-fixed-xs);
+  border-bottom: var(--border-width) dotted var(--color-divider);
+}
+
+.archivio__nome {
+  grid-column: 1 / -1;
+  /* nella scheda: i nomi brevi su una riga, i lunghi su due */
+  max-width: 66%;
+  /* nome più grande nella scheda (Figma: 20px) */
+  font-size: var(--text-body-size);
+  letter-spacing: var(--text-body-letter-spacing);
+  /* nome e riga sotto più vicini: --space-fixed-xxs invece di xs */
+  margin-bottom: calc(var(--space-fixed-xxs) - var(--space-fixed-xs));
+}
+
+/* Nella scheda i campi brevi vengono prima dei gruppi */
+.archivio__campo--breve {
+  order: 1;
+}
+
+.archivio__gruppo {
+  order: 2;
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xxs);
+}
+
+.archivio__titolo-gruppo {
+  opacity: var(--opacity-muted);
+}
+
+/* Campi di testo libero: una riga per voce */
+.archivio__testi {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xxs);
+}
+
+.archivio__vuoto {
+  opacity: var(--opacity-muted);
+}
+
+/* Messaggio se non ci sono voci o i dati non si caricano */
+.archivio__messaggio {
+  padding-block: var(--space-fixed-xs);
+  opacity: var(--opacity-muted);
+}
+
+/* Vista griglia: schede in colonne a tutte le larghezze */
+.archivio--griglia .archivio__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  column-gap: var(--space-m);
+  border-top: 0;
+}
+
+.archivio--griglia .archivio__voce {
+  border-top: var(--border-width) dotted var(--color-divider);
+  border-bottom: 0;
+}
+
+/* Sfumatura in fondo alla finestra, entro il bordo pagina (Figma: 120px) */
+.archivio__sfumatura {
+  position: fixed;
+  z-index: 5;
+  right: var(--space-fixed-xs);
+  bottom: 0;
+  left: var(--space-fixed-xs);
+  height: 120px;
+  background: linear-gradient(to bottom, rgb(245 245 245 / 0), var(--color-light));
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Modo L — 992px, vista elenco: tabella
+   -------------------------------------------------------------------------- */
+@media (min-width: 992px) {
+  .archivio:not(.archivio--griglia) .archivio__tabella {
+    overflow-x: auto;
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__intestazioni,
+  .archivio:not(.archivio--griglia) .archivio__voce {
+    grid-template-columns: var(--archivio-colonne,
+      minmax(0, 0.5fr) minmax(0, 0.5fr) minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 0.5fr));
+    column-gap: var(--space-s);
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__intestazioni {
+    display: grid;
+    padding-bottom: var(--space-fixed-xs);
+    opacity: var(--opacity-muted);
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__voce {
+    align-items: center;
+  }
+
+  /* Con tante colonne una pillola può essere più larga della colonna:
+     il testo va a capo dentro la pillola invece di uscire */
+  .archivio:not(.archivio--griglia) .archivio__voce .chip {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  /* In tabella ogni campo è una colonna, nell'ordine del DOM */
+  .archivio:not(.archivio--griglia) :is(.archivio__nome, .archivio__campo) {
+    grid-column: auto;
+    order: 0;
+  }
+
+  /* Righe e intestazioni larghe quanto tutte le colonne (calcolato in JS):
+     se la tabella esce dallo schermo, le linee puntinate arrivano in fondo */
+  .archivio:not(.archivio--griglia) :is(.archivio__lista, .archivio__intestazioni) {
+    min-width: var(--archivio-larghezza, 0);
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__nome {
+    max-width: none;
+    margin-bottom: 0;
+    font-size: var(--text-label-size);
+    letter-spacing: var(--text-label-letter-spacing);
+  }
+
+  /* Colonna dei nomi bloccata durante lo scorrimento orizzontale (come la
+     prima colonna di Excel). Il nome occupa tutta l'altezza della riga,
+     con il testo centrato, e copre ciò che gli scorre sotto */
+  .archivio:not(.archivio--griglia) .archivio__nome,
+  .archivio:not(.archivio--griglia) .archivio__intestazioni > :first-child {
+    position: sticky;
+    z-index: 1;
+    left: 0;
+    align-self: stretch;
+    align-content: center;
+    background: var(--color-light);
+  }
+
+  /* Sfumatura a destra della colonna dei nomi (come la navbar: Light
+     pieno, poi in dissolvenza): i casi che scorrono sotto i nomi spariscono
+     gradualmente. Copre lo spazio tra le colonne più --space-s; c'è solo
+     quando la tabella è scorsa verso destra */
+  .archivio:not(.archivio--griglia) .archivio__nome::after,
+  .archivio:not(.archivio--griglia) .archivio__intestazioni > :first-child::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    width: calc(2 * var(--space-s));
+    background: linear-gradient(
+      to right,
+      var(--color-light) 0%,
+      var(--color-light) 50%,
+      rgb(245 245 245 / 0) 100%
+    );
+    opacity: 0;
+    transition: opacity 200ms ease;
+    pointer-events: none;
+  }
+
+  .archivio__tabella--scorsa .archivio__nome::after,
+  .archivio__tabella--scorsa .archivio__intestazioni > :first-child::after {
+    opacity: 1;
+  }
+
+  /* Sfumatura sul bordo destro quando altre colonne sono nascoste a
+     destra: le colonne compaiono gradualmente scorrendo */
+  .archivio:not(.archivio--griglia) .archivio__tabella--altro {
+    mask-image: linear-gradient(
+      to left,
+      transparent 0,
+      #000 calc(2 * var(--space-s))
+    );
+  }
+
+  /* I titoli dei gruppi sono già nelle intestazioni: restano per gli
+     screen reader */
+  .archivio:not(.archivio--griglia) .archivio__titolo-gruppo {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Frecce "colonna precedente / successiva" — solo L/XL con mouse, vista
+   elenco. JS toglie (hidden) la freccia se da quel lato non ci sono colonne
+   nascoste e aggiunge .is-visibile quando il mouse è vicino:
+   - avanti: al bordo destro della finestra;
+   - indietro: subito a destra della colonna dei nomi bloccata
+     (--archivio-freccia-sinistra, calcolata in JS).
+   Freccia: la stessa dell'invito a scorrere della mappa, girata.
+   -------------------------------------------------------------------------- */
+.archivio__freccia {
+  display: none;
+}
+
+@media (min-width: 992px) and (hover: hover) {
+  .archivio:not(.archivio--griglia) .archivio__freccia:not([hidden]) {
+    --freccia-scarto: var(--space-fixed-xxs); /* spostamento mentre compare */
+    position: fixed;
+    z-index: 6;
+    top: 50%;
+    display: block;
+    width: 40px;   /* nessun token fisso da 40px */
+    height: 40px;
+    padding: 0;
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-light) center / auto no-repeat;
+    cursor: pointer;
+    opacity: 0;
+    translate: var(--freccia-scarto) -50%;
+    pointer-events: none;
+    transition: opacity 200ms ease, translate 200ms ease, background-color 200ms ease;
+  }
+
+  .archivio__freccia--avanti {
+    right: calc(var(--space-fixed-xs) + var(--space-fixed-xxs));
+    background-image: url("../assets/archivio/freccia-destra.svg");
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__freccia--indietro:not([hidden]) {
+    --freccia-scarto: calc(-1 * var(--space-fixed-xxs));
+    /* centrata nello spazio tra la colonna dei nomi e la prima colonna
+       visibile (sopra la sfumatura) */
+    left: calc(var(--archivio-freccia-sinistra, 0px) - var(--space-s) / 2 - 20px);
+    background-image: url("../assets/archivio/freccia-sinistra.svg");
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__freccia.is-visibile,
+  .archivio:not(.archivio--griglia) .archivio__freccia:focus-visible {
+    opacity: 1;
+    translate: 0 -50%;
+    pointer-events: auto;
+  }
+
+  .archivio__freccia:hover {
+    background-color: var(--color-main);
+  }
+
+  .archivio__freccia:focus-visible {
+    outline: var(--border-width-strong) solid var(--color-main-light);
+    outline-offset: var(--border-width-strong);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Pannello filtri a comparsa (Figma: Frame 62, 280px)
+   Sotto la navbar, allineato a destra; scorre se è più alto della finestra.
+   Sotto S occupa tutta la larghezza entro il bordo pagina.
+   -------------------------------------------------------------------------- */
+.archivio__filtri {
+  position: fixed;
+  z-index: 20;
+  top: calc(2 * var(--space-fixed-xs) + var(--navbar-height));
+  right: var(--space-fixed-xs);
+  left: var(--space-fixed-xs);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-fixed-xs) + var(--space-fixed-xxs)); /* Figma: 24px */
+  max-height: calc(100dvh - 3 * var(--space-fixed-xs) - var(--navbar-height));
+  margin: 0;
+  padding: var(--space-fixed-xs) var(--space-fixed-xxs);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: var(--border-width) solid var(--color-border);
+  background: var(--color-light);
+}
+
+.archivio__filtri[hidden] {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  .archivio__filtri {
+    left: auto;
+    width: 280px;
+  }
+}
+
+.filtri__sezione {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xs);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* legend non si lascia impaginare dal flex: la si porta nel flusso */
+.filtri__titolo {
+  float: left;
+  width: 100%;
+  padding: 0;
+  text-box: trim-both cap alphabetic;
+}
+
+.filtri__titolo + * {
+  clear: both;
+}
+
+.filtri__opzioni,
+.filtri__gruppo-voci {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xxs);
+}
+
+/* Opzione: cerchio 20px (icone Figma) + testo */
+.filtri__opzione {
+  display: flex;
+  align-items: center;
+  gap: var(--space-fixed-xs);
+  cursor: pointer;
+}
+
+.filtri__opzione span,
+.filtri__anno span,
+.filtri__gruppo-titolo span {
+  text-box: trim-both cap alphabetic;
+}
+
+.filtri__opzione input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  appearance: none;
+  background: url("../assets/archivio/opzione.svg") center / contain no-repeat;
+  cursor: pointer;
+}
+
+.filtri__opzione input:checked {
+  background-image: url("../assets/archivio/opzione-attiva.svg");
+}
+
+.filtri__opzione input:focus-visible,
+.filtri__pillola:focus-visible,
+.filtri__gruppo-titolo:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
+}
+
+/* Periodo: "Inizio:" + anno in una pillola con bordo 2px */
+.filtri__anno {
+  display: flex;
+  align-items: center;
+  gap: var(--space-fixed-xs);
+}
+
+/* Larga quanto il testo; altezza come in Figma (testo rifilato + 4px sopra
+   e sotto + bordo): un input non si rifila, quindi l'altezza è esplicita */
+.filtri__pillola {
+  field-sizing: content;
+  min-width: 2ch;
+  height: calc(var(--text-label-size) * 0.7 + 2 * var(--space-xxs) + 2 * var(--border-width-strong));
+  padding: 0 var(--space-fixed-xxs);
+  line-height: 1;
+  border: var(--border-width-strong) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-light);
+  color: var(--color-text);
+  text-align: center;
+  appearance: textfield;
+}
+
+@supports not (field-sizing: content) {
+  .filtri__pillola {
+    width: calc(4ch + 2 * var(--space-fixed-xxs));
+  }
+}
+
+.filtri__pillola::placeholder {
+  color: var(--color-text);
+}
+
+.filtri__pillola::-webkit-inner-spin-button,
+.filtri__pillola::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+/* Gruppi di voci: righe sopra e sotto, titolo con − / + a destra */
+.filtri__gruppo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xxs);
+  padding-block: var(--space-fixed-xxs);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.filtri__gruppo:last-child {
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.filtri__gruppo-titolo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-fixed-xxs);
+  width: 100%;
+  padding: 0 var(--space-fixed-xxs) 0 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.filtri__gruppo-titolo::after {
+  content: "";
+  flex: none;
+  width: 9.52px;
+  height: 9.52px;
+  background: url("../assets/archivio/gruppo-piu.svg") center / contain no-repeat;
+}
+
+.filtri__gruppo-titolo[aria-expanded="true"]::after {
+  background-image: url("../assets/archivio/gruppo-meno.svg");
+}
+
+/* Gruppo aperto: spazio tra il titolo e la prima voce (Figma: 8 + 8) */
+.filtri__gruppo-voci {
+  padding-top: var(--space-fixed-xxs);
+}
+
+.filtri__gruppo-voci[hidden] {
+  display: none;
+}

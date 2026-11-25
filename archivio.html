@@ -6,8 +6,9 @@
   <title>Heritage Flow — Archivio</title>
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/archivio.css">
 </head>
-<body class="page">
+<body class="page page--archivio">
 
   <!-- Navbar (Figma: navbar / navbar-mobile) — voce corrente: Archivio -->
   <header class="navbar">
@@ -33,15 +34,78 @@
     </div>
   </header>
 
-  <main class="page__main">
-    <section class="hero" aria-labelledby="page-title">
-      <div class="heading-group">
-        <p class="text-label">HERITAGE FLOW</p>
-        <h1 class="text-h1" id="page-title">Archivio</h1>
-      </div>
-    </section>
+  <!-- Archivio dei casi studio (Figma: Archivio XL / Mobile).
+       Vista elenco: da L tabella con le intestazioni in alto, sotto L una
+       scheda per caso studio con i titoli dei gruppi di tag.
+       Vista griglia: schede in colonne a tutte le larghezze.
+       Le etichette .archivio__etichetta sono per gli screen reader -->
+  <main class="page__main archivio">
+    <h1 class="archivio__etichetta">Archivio dei casi studio</h1>
+
+    <!-- Pulsante del pannello filtri -->
+    <div class="archivio__barra">
+      <button class="archivio__filtri-pulsante text-menu" type="button"
+              aria-expanded="false" aria-controls="archivio-filtri"><span>Filtri</span></button>
+    </div>
+
+    <!-- Pannello a comparsa (Figma: Frame 62): ordine, periodo, colonne
+         visibili, vista. Le voci delle colonne le genera js/archivio.js -->
+    <form class="archivio__filtri" id="archivio-filtri" aria-label="Filtri dell'archivio" hidden>
+      <fieldset class="filtri__sezione">
+        <legend class="filtri__titolo text-label">Ordina per</legend>
+        <div class="filtri__opzioni">
+          <label class="filtri__opzione text-menu"><input type="radio" name="ordine" value="az" checked><span>A-Z</span></label>
+          <label class="filtri__opzione text-menu"><input type="radio" name="ordine" value="za"><span>Z-A</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="filtri__sezione">
+        <legend class="filtri__titolo text-label">Periodo temporale</legend>
+        <div class="filtri__opzioni">
+          <label class="filtri__anno text-menu"><span>Inizio:</span>
+            <input class="filtri__pillola text-label" type="number" name="inizio" inputmode="numeric" placeholder="-" min="0" max="9999"></label>
+          <label class="filtri__anno text-menu"><span>Fine:</span>
+            <input class="filtri__pillola text-label" type="number" name="fine" inputmode="numeric" placeholder="-" min="0" max="9999"></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="filtri__sezione">
+        <legend class="filtri__titolo text-label">Voci da visualizzare</legend>
+        <div class="filtri__gruppi" data-filtri="voci"></div>
+      </fieldset>
+
+      <fieldset class="filtri__sezione">
+        <legend class="filtri__titolo text-label">Vista</legend>
+        <div class="filtri__opzioni">
+          <label class="filtri__opzione text-menu"><input type="radio" name="vista" value="elenco" checked><span>Elenco</span></label>
+          <label class="filtri__opzione text-menu"><input type="radio" name="vista" value="griglia"><span>Griglia</span></label>
+        </div>
+      </fieldset>
+    </form>
+
+    <!-- Intestazioni e voci le genera js/archivio.js dal foglio Export_Casi
+         (via js/dati-casi.js), con le colonne scelte nel pannello. Ogni voce:
+         li.archivio__voce
+           h2.archivio__nome                      titolo
+           p.archivio__campo--breve               periodo / luogo
+           div.archivio__gruppo + h3 + contenuto  gli altri campi (tag o testo) -->
+    <div class="archivio__tabella">
+      <div class="archivio__intestazioni text-label" aria-hidden="true"></div>
+      <ul class="archivio__lista" aria-busy="true"></ul>
+    </div>
+
+    <!-- L/XL, tabella più larga dello schermo: frecce che compaiono con il
+         mouse vicino al bordo destro (colonna successiva) o vicino alla
+         colonna dei nomi (colonna precedente) -->
+    <button class="archivio__freccia archivio__freccia--indietro" type="button" aria-label="Colonna precedente" hidden></button>
+    <button class="archivio__freccia archivio__freccia--avanti" type="button" aria-label="Colonna successiva" hidden></button>
+
+    <!-- Sfumatura in fondo alla finestra (Figma: Rectangle 33) -->
+    <div class="archivio__sfumatura" aria-hidden="true"></div>
   </main>
 
   <script src="js/navbar.js"></script>
+  <script src="js/dati-casi.js"></script>
+  <script src="js/archivio.js"></script>
 </body>
 </html>
