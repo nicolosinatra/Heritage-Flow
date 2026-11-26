@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-11-26T11:59:26.426Z",
+  "aggiornato": "2026-11-26T14:06:45.241Z",
   "casi": [
     {
       "id": "stamperia-marchi",
@@ -43,8 +43,8 @@
         "Patrimonio artigianale"
       ],
       "natura_patrimonio": [
-        "Patrimonio materiale (tangibile)",
-        "Patrimonio immateriale (intangibile)"
+        "Patrimonio materiale - tangibile",
+        "Patrimonio immateriale - intangibile"
       ],
       "dimensione_patrimonio": "Non accessibile in digitale",
       "macrosettore": [
@@ -140,6 +140,7 @@
         "gestione materiali e rifiuti",
         "energetica"
       ],
+      "patrimonio_nascosto": "Oltre 2.000 stampi in legno intagliati a mano, molti risalenti al Seicento, studiabili come archivio di motivi decorativi (compresi i decori legati a Tonino Guerra). Saperi non codificati della stampa a ruggine e dell'uso del Mangano, tramandati nella famiglia Marchi.",
       "forme_valorizzazione_potenziali": [
         "archivi digitali",
         "digitalizzazione",
@@ -149,6 +150,13 @@
         "ciclicità",
         "motivi educativi",
         "rifugio climatico"
+      ],
+      "connessioni_potenziali_stakeholder": [
+        "MET - Museo degli Usi e Costumi della Gente di Romagna (sezione stampa su tela)",
+        "Stamperia Pascucci (Gambettola)",
+        "Regione Emilia-Romagna - Settore Patrimonio culturale",
+        "Università di Bologna - Campus di Rimini (area moda)",
+        "Istituti di moda e design del territorio"
       ],
       "fruitore_potenziale": [
         "specialisti"
@@ -244,7 +252,7 @@
         "Patrimonio artigianale"
       ],
       "natura_patrimonio": [
-        "Patrimonio materiale (tangibile)"
+        "Patrimonio materiale - tangibile"
       ],
       "dimensione_patrimonio": null,
       "macrosettore": [
@@ -318,6 +326,7 @@
       "sostenibilita": [
         "dato non disponibile"
       ],
+      "patrimonio_nascosto": "La storia musicale della famiglia: Celso Stanguellini costruì timpani con un sistema di accordatura a pedale brevettato, usati nell'orchestra di Toscanini. Memoria dell'officina storica (capannoni abbattuti nel 2018), con attrezzi, fotografie, riviste e materiale pubblicitario. Strumenti superstiti e archivio di famiglia da verificare.",
       "forme_valorizzazione_potenziali": [
         "mostre e curatela",
         "contenuti social",
@@ -327,6 +336,13 @@
       "valore_aggiunto_potenziale": [
         "interesse individuale",
         "al chiuso"
+      ],
+      "connessioni_potenziali_stakeholder": [
+        "Museo Civico di Modena (raccolta di strumenti musicali)",
+        "Conservatorio Vecchi-Tonelli",
+        "Archivio Storico del Comune di Modena",
+        "Dipartimento di Ingegneria \"Enzo Ferrari\" (Unimore)",
+        "IIS Fermo Corni"
       ],
       "fruitore_potenziale": [
         "specialisti"
@@ -421,7 +437,7 @@
         "Patrimonio artigianale"
       ],
       "natura_patrimonio": [
-        "Patrimonio materiale (tangibile)"
+        "Patrimonio materiale - tangibile"
       ],
       "dimensione_patrimonio": "Patrimonio digitalizzato",
       "macrosettore": [
@@ -516,6 +532,7 @@
       "sostenibilita": [
         "dato non disponibile"
       ],
+      "patrimonio_nascosto": "Disegni tecnici, progetti e materiali audio-video solo in parte catalogati; manifesti, calendari e cartoline consultabili su richiesta; letteratura grigia su Tecnostoria, Formula Student e Terra di Motori; Fondo Nunzia Manicardi; materiali del vecchio sito web del progetto.",
       "forme_valorizzazione_potenziali": [
         "workshop",
         "contenuti social",
@@ -523,6 +540,14 @@
       ],
       "valore_aggiunto_potenziale": [
         "motivi educativi"
+      ],
+      "connessioni_potenziali_stakeholder": [
+        "AISA - Associazione Italiana per la Storia dell'Automobile",
+        "MUNER",
+        "ITS Maker",
+        "Soprintendenza archivistica e bibliografica dell'Emilia-Romagna",
+        "Fondazione AGO Modena Fabbriche Culturali",
+        "Archivi storici aziendali (Ferrari, Lamborghini, Ducati)"
       ],
       "fruitore_potenziale": [
         "visitatori occasionali",
@@ -621,7 +646,7 @@
         "Patrimonio architettonico"
       ],
       "natura_patrimonio": [
-        "Patrimonio materiale (tangibile)"
+        "Patrimonio materiale - tangibile"
       ],
       "dimensione_patrimonio": "Patrimonio digitalizzato",
       "macrosettore": [
@@ -739,6 +764,7 @@
         "ambientale",
         "dato non disponibile"
       ],
+      "patrimonio_nascosto": "Archivio aziendale: disegni tecnici, fogli di montaggio, fotografie, video, documenti, pubblicazioni e lettere dei clienti a Enzo Ferrari, di norma non accessibili al pubblico. Saperi artigianali di Ferrari Classiche nel restauro e nella certificazione delle vetture storiche.",
       "forme_valorizzazione_potenziali": [
         "archivi digitali",
         "digitalizzazione",
@@ -748,6 +774,14 @@
       "valore_aggiunto_potenziale": [
         "coinvolgimento esperienziale",
         "interesse individuale"
+      ],
+      "connessioni_potenziali_stakeholder": [
+        "IIS Alfredo Ferrari di Maranello (progetto M-Tech)",
+        "ITS Maker",
+        "MUNER",
+        "Biblioteca \"Enzo Ferrari\" - fondo Tecnostoria (Unimore)",
+        "Ex dipendenti e maestranze",
+        "Collezionisti privati"
       ],
       "fruitore_potenziale": [
         "specialisti",
@@ -845,7 +879,7 @@
         "Patrimonio artigianale"
       ],
       "natura_patrimonio": [
-        "Patrimonio materiale (tangibile)"
+        "Patrimonio materiale - tangibile"
       ],
       "dimensione_patrimonio": "Patrimonio digitalizzato",
       "macrosettore": [
@@ -952,6 +986,7 @@
       "sostenibilita": [
         "dato non disponibile"
       ],
+      "patrimonio_nascosto": "Archivio Storico Ducati (bene di interesse storico dal 2011, censito per il 1946-1992): disegni tecnici, collaudi, omologazioni, cataloghi e libretti d'uso; fondo Moto Morini; fascicoli del personale e registri matricola, fonte per la storia del lavoro a Borgo Panigale (nel rispetto della privacy).",
       "forme_valorizzazione_potenziali": [
         "workshop",
         "archivi digitali",
@@ -959,6 +994,13 @@
       ],
       "valore_aggiunto_potenziale": [
         "ciclicità"
+      ],
+      "connessioni_potenziali_stakeholder": [
+        "Regione Emilia-Romagna - Settore Patrimonio culturale",
+        "Soprintendenza archivistica e bibliografica dell'Emilia-Romagna",
+        "Università di Bologna (design, storia del lavoro)",
+        "IIS Aldini Valeriani",
+        "Ex dipendenti e comunità di Borgo Panigale"
       ],
       "fruitore_potenziale": [
         "studenti",
@@ -1057,7 +1099,7 @@
         "Patrimonio architettonico"
       ],
       "natura_patrimonio": [
-        "Patrimonio materiale (tangibile)"
+        "Patrimonio materiale - tangibile"
       ],
       "dimensione_patrimonio": "Patrimonio digitalizzato",
       "macrosettore": [
@@ -1165,6 +1207,7 @@
       "sostenibilita": [
         "dato non disponibile"
       ],
+      "patrimonio_nascosto": "Saperi progettuali di oltre cinquant'anni: aerodinamica (galleria del vento a tappeto mobile dal 1983), materiali compositi, progetto della handbike di Alex Zanardi; testimonianze di Giampaolo Dallara e delle maestranze. Archivio di disegni e modelli: consistenza e accessibilità da verificare.",
       "forme_valorizzazione_potenziali": [
         "archivi digitali",
         "digitalizzazione",
@@ -1173,6 +1216,13 @@
       "valore_aggiunto_potenziale": [
         "motivi educativi",
         "interesse individuale"
+      ],
+      "connessioni_potenziali_stakeholder": [
+        "ITS Maker (sede di Fornovo di Taro)",
+        "Università di Parma",
+        "Politecnico di Milano",
+        "Associazioni di sport paralimpico (es. Obiettivo3)",
+        "Operatori turistici delle Valli del Taro e del Ceno"
       ],
       "fruitore_potenziale": [
         "cittadini",
@@ -1272,7 +1322,7 @@
         "Patrimonio artistico"
       ],
       "natura_patrimonio": [
-        "Patrimonio materiale (tangibile)"
+        "Patrimonio materiale - tangibile"
       ],
       "dimensione_patrimonio": "Non accessibile in digitale",
       "macrosettore": [
@@ -1364,6 +1414,7 @@
       "sostenibilita": [
         "dato non disponibile"
       ],
+      "patrimonio_nascosto": "Oltre alle Maserati: motociclette, biciclette, mezzi militari e trattori della famiglia; motori, componenti e documenti legati alla storia Maserati; il racconto del salvataggio della collezione nel 1996 e del legame tra meccanica e campagna. Allestimento attuale nella sede di Marzaglia da verificare.",
       "forme_valorizzazione_potenziali": [
         "workshop",
         "itinerari",
@@ -1372,6 +1423,13 @@
       "valore_aggiunto_potenziale": [
         "interesse individuale",
         "ciclicità"
+      ],
+      "connessioni_potenziali_stakeholder": [
+        "Fondazione AGO Modena - Museo della Figurina (collezione Giuseppe Panini)",
+        "Consorzio del Parmigiano Reggiano",
+        "Gestori dell'aeroporto di Marzaglia",
+        "Biblioteca \"Enzo Ferrari\" - fondo Tecnostoria (Unimore)",
+        "IIS Fermo Corni"
       ],
       "fruitore_potenziale": [
         "studenti",
@@ -1473,8 +1531,8 @@
         "Patrimonio urbano"
       ],
       "natura_patrimonio": [
-        "Patrimonio materiale (tangibile)",
-        "Patrimonio immateriale (intangibile)"
+        "Patrimonio materiale - tangibile",
+        "Patrimonio immateriale - intangibile"
       ],
       "dimensione_patrimonio": "Patrimonio digitale",
       "macrosettore": [
@@ -1592,6 +1650,7 @@
       "sostenibilita": [
         "dato non disponibile"
       ],
+      "patrimonio_nascosto": "Archivi fotografici e audiovisivi utilizzati nelle mostre (tra cui Foto Angelo Orsi, Actualfoto, S. Amaduzzi, Minardi, Brusa, Foto Minarini); cimeli e memorabilia del Moto Club Santerno, nato nel 1926; memorie di piloti, addetti e abitanti legate al circuito.",
       "forme_valorizzazione_potenziali": [
         "workshop",
         "itinerari",
@@ -1600,6 +1659,14 @@
       "valore_aggiunto_potenziale": [
         "ciclicità",
         "interesse individuale"
+      ],
+      "connessioni_potenziali_stakeholder": [
+        "IF Imola Faenza Tourism Company",
+        "Biblioteca comunale di Imola",
+        "Archivi fotografici (Actualfoto, Foto Angelo Orsi)",
+        "Rai Teche",
+        "Gresini Racing e altri team del territorio",
+        "Università di Bologna"
       ],
       "fruitore_potenziale": [
         "specialisti",
@@ -1698,7 +1765,7 @@
         "Patrimonio museale"
       ],
       "natura_patrimonio": [
-        "Patrimonio materiale (tangibile)"
+        "Patrimonio materiale - tangibile"
       ],
       "dimensione_patrimonio": "Non accessibile in digitale",
       "macrosettore": [
@@ -1782,6 +1849,7 @@
       "sostenibilita": [
         "dato non disponibile"
       ],
+      "patrimonio_nascosto": "Stampi originali ancora usati per riprodurre i ricambi nei restauri; saperi d'officina e di carrozzeria (come quelli del battilastra Oscar Pretolani, attivo per Bandini dal 1952 al 1963); i locali in cui furono costruite e restaurate le ultime vetture, con fotografie, trofei e modelli in legno.",
       "forme_valorizzazione_potenziali": [
         "archivi digitali",
         "digitalizzazione",
@@ -1791,6 +1859,13 @@
       "valore_aggiunto_potenziale": [
         "nuove tecnologie",
         "coinvolgimento esperienziale"
+      ],
+      "connessioni_potenziali_stakeholder": [
+        "Università di Bologna - Campus di Forlì (ingegneria meccanica e aerospaziale)",
+        "ITT Guglielmo Marconi di Forlì",
+        "Fondazione Cassa dei Risparmi di Forlì",
+        "Archivio di Stato di Forlì-Cesena",
+        "Artigiani battilastra e restauratori"
       ],
       "fruitore_potenziale": [
         "studenti",
@@ -1892,8 +1967,8 @@
         "Patrimonio dissonante"
       ],
       "natura_patrimonio": [
-        "Patrimonio materiale (tangibile)",
-        "Patrimonio immateriale (intangibile)"
+        "Patrimonio materiale - tangibile",
+        "Patrimonio immateriale - intangibile"
       ],
       "dimensione_patrimonio": "Patrimonio digitalizzato",
       "macrosettore": [
@@ -1992,6 +2067,7 @@
       "sostenibilita": [
         "dato non disponibile"
       ],
+      "patrimonio_nascosto": "Fondo Baracca: libri e quaderni scolastici, lettere e altri documenti sulla formazione e la vita dell'aviatore; fondo fotografico Garinei sulla Prima guerra mondiale; oggetti conservati nei depositi, solo in parte usciti con il riallestimento; il violino e i ricordi di vita lughese.",
       "forme_valorizzazione_potenziali": [
         "archivi digitali",
         "digitalizzazione",
@@ -2003,6 +2079,14 @@
         "all'aperto",
         "al chiuso",
         "interesse individuale"
+      ],
+      "connessioni_potenziali_stakeholder": [
+        "Scuola comunale di musica Malerbi",
+        "Associazione Arma Aeronautica di Lugo",
+        "Museo Storico Italiano della Guerra di Rovereto",
+        "Università di Bologna - Campus di Ravenna (beni culturali)",
+        "Scuole di Lugo",
+        "Ferrari S.p.A."
       ],
       "fruitore_potenziale": [
         "specialisti",
@@ -2103,7 +2187,7 @@
         "Patrimonio architettonico"
       ],
       "natura_patrimonio": [
-        "Patrimonio materiale (tangibile)"
+        "Patrimonio materiale - tangibile"
       ],
       "dimensione_patrimonio": "Patrimonio digitalizzato",
       "macrosettore": [
@@ -2206,6 +2290,7 @@
       "sostenibilita": [
         "dato non disponibile"
       ],
+      "patrimonio_nascosto": "Archivio Storico gestito dal Polo Storico: oltre 30.000 documenti e oggetti, tra disegni tecnici (anche in scala 1:1, come lo studio degli interni della 350 GT del 1963), bozzetti, schede di produzione, fotografie e corrispondenza; memoria orale degli ex dipendenti.",
       "forme_valorizzazione_potenziali": [
         "workshop",
         "itinerari",
@@ -2216,6 +2301,13 @@
         "ciclicità",
         "all'aperto",
         "nuove tecnologie"
+      ],
+      "connessioni_potenziali_stakeholder": [
+        "Fondazione Pirelli - Archivio Storico Pirelli",
+        "MUNER",
+        "ITS Maker",
+        "Biblioteca \"Enzo Ferrari\" - fondo Tecnostoria (Unimore)",
+        "Ex dipendenti dello stabilimento"
       ],
       "fruitore_potenziale": [
         "studenti",

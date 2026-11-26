@@ -31,7 +31,8 @@
   ];
 
   var GRUPPI = [
-    { titolo: "Patrimonio", campi: [
+    // espandibile: sezione che si apre e si chiude (chiusa all'inizio)
+    { titolo: "Patrimonio", espandibile: true, campi: [
       { id: "tipo_patrimonio", etichetta: "Tipo di patrimonio", tipo: "tag" },
       { id: "natura_patrimonio", etichetta: "Natura del patrimonio", tipo: "tag" },
       { id: "dimensione_patrimonio", etichetta: "Forma di accesso", tipo: "tag" },
@@ -39,35 +40,38 @@
       { id: "macrosettore", etichetta: "Macrosettore", tipo: "tag" },
       { id: "settore_attivita", etichetta: "Settore di attività", tipo: "tag" }
     ] },
-    { titolo: "Esperienza", campi: [
+    { titolo: "Esperienza", espandibile: true, campi: [
       { id: "forme_valorizzazione_attuali", etichetta: "Forme attuali di valorizzazione", tipo: "tag" },
       { id: "tipo_fruizione", etichetta: "Tipo di fruizione", tipo: "tag" },
       { id: "impatto_obiettivi", etichetta: "Impatto e obiettivi", tipo: "tag" },
       { id: "tecnologie_digitali", etichetta: "Tecnologie digitali", tipo: "tag" },
       { id: "discipline_design", etichetta: "Discipline del design", tipo: "tag" }
     ] },
-    { titolo: "Pubblico", campi: [
+    { titolo: "Pubblico", espandibile: true, campi: [
       { id: "fruitore_attuale", etichetta: "Fruitori attuali", tipo: "tag" },
       { id: "fasce_eta_fruitore", etichetta: "Fasce di età", tipo: "tag" },
       { id: "sistema_comunicazione", etichetta: "Sistema di comunicazione e promozione", tipo: "tag" },
       { id: "monitoraggio_visitatori", etichetta: "Monitoraggio dei visitatori", tipo: "tag" }
     ] },
-    { titolo: "Accessibilità e servizi", campi: [
+    { titolo: "Apertura al pubblico", espandibile: true, campi: APERTURA },
+    { titolo: "Accessibilità e servizi", espandibile: true, campi: [
       { id: "accessibilita", etichetta: "Forme di accessibilità", tipo: "tag" },
       { id: "mezzi_trasporto", etichetta: "Mezzi di trasporto", tipo: "tag" },
       { id: "servizi_generali", etichetta: "Servizi generali garantiti", tipo: "tag" },
       { id: "sostenibilita", etichetta: "Sostenibilità", tipo: "tag" }
     ] },
-    { titolo: "Ecosistema", campi: [
+    { titolo: "Ecosistema", espandibile: true, campi: [
       { id: "connessioni_siti", etichetta: "Connessioni attive con altri siti", tipo: "testo" },
       { id: "connessioni_stakeholder", etichetta: "Connessioni attive con stakeholder di riferimento", tipo: "testo" },
       { id: "connessioni_altri_patrimoni", etichetta: "Connessioni attive con altre tipologie di patrimoni", tipo: "tag" },
       { id: "eventi_collaterali", etichetta: "Eventi collaterali", tipo: "testo" }
     ] },
     // In alto a sinistra, tra descrizione e apertura (vedi presentazione)
-    { titolo: "Possibili sviluppi", inPresentazione: true, campi: [
+    { titolo: "Potenziale di valorizzazione del patrimonio", inPresentazione: true, campi: [
+      { id: "patrimonio_nascosto", etichetta: "Patrimonio nascosto potenzialmente valorizzabile", tipo: "testo" },
       { id: "forme_valorizzazione_potenziali", etichetta: "Forme potenziali di valorizzazione", tipo: "tag" },
       { id: "valore_aggiunto_potenziale", etichetta: "Valore aggiunto potenziale", tipo: "tag" },
+      { id: "connessioni_potenziali_stakeholder", etichetta: "Connessioni potenziali con altri stakeholder di riferimento", tipo: "testo" },
       { id: "fruitore_potenziale", etichetta: "Fruitori potenziali", tipo: "tag" },
       { id: "servizi_implementabili", etichetta: "Servizi implementabili", tipo: "tag" }
     ] },
@@ -215,7 +219,11 @@
       // Immagine non raggiungibile: si toglie (e la figura, se resta vuota)
       img.addEventListener("error", function () {
         img.remove();
-        if (!foto.querySelector("img")) figure.remove();
+        if (foto.querySelector("img")) return;
+        // nessuna immagine rimasta: la scheda torna all'impaginazione senza
+        var scheda = figure.closest(".caso__scheda");
+        if (scheda) scheda.classList.remove("caso__scheda--immagini");
+        figure.remove();
       });
       foto.appendChild(img);
     });
@@ -310,30 +318,61 @@
     return numeri.reduce(function (s, n) { return s + n; }, 0) / numeri.length;
   }
 
-  function rigaVoce(nome, valore, valoreMedia) {
+  // Una voce: scala 0–100 con il caso (pieno), la media dei casi simili
+  // (vuoto, unito al caso da un segmento) e il caso più vicino (cerchio
+  // --color-3). Se il caso più vicino coincide con il caso o con la media,
+  // il suo cerchio è più grande e sta dietro: due cerchi concentrici
+  var COINCIDONO = 1;   // punti di distanza sotto cui due segni coincidono
+
+  function rigaVoce(nome, valore, valoreMedia, valoreVicino) {
     var li = crea("li", "caso__voce-indice");
     li.appendChild(crea("span", "caso__voce-nome text-label", nome));
 
     var scala = crea("span", "caso__scala");
     scala.setAttribute("aria-hidden", "true");
+    function punto(classe, v) {
+      var el = crea("span", "caso__scala-punto caso__scala-punto--" + classe);
+      el.style.setProperty("--v", v);
+      scala.appendChild(el);
+    }
     if (valoreMedia != null) {
       var seg = crea("span", "caso__scala-segmento");
       seg.style.setProperty("--da", Math.min(valore, valoreMedia));
       seg.style.setProperty("--a", Math.max(valore, valoreMedia));
       scala.appendChild(seg);
-      var pm = crea("span", "caso__scala-punto caso__scala-punto--media");
-      pm.style.setProperty("--v", valoreMedia);
-      scala.appendChild(pm);
     }
-    var pc = crea("span", "caso__scala-punto caso__scala-punto--caso");
-    pc.style.setProperty("--v", valore);
-    scala.appendChild(pc);
+    // il caso più vicino prima degli altri: resta dietro
+    if (valoreVicino != null) {
+      var coincide = Math.abs(valoreVicino - valore) < COINCIDONO ||
+        (valoreMedia != null && Math.abs(valoreVicino - valoreMedia) < COINCIDONO);
+      punto("vicino" + (coincide ? " caso__scala-punto--grande" : ""), valoreVicino);
+    }
+    if (valoreMedia != null) punto("media", valoreMedia);
+    punto("caso", valore);
     li.appendChild(scala);
 
     var testo = crea("span", "caso__voce-valori text-label", String(Math.round(valore)));
     if (valoreMedia != null) testo.appendChild(crea("span", "caso__voce-media", " · media " + Math.round(valoreMedia)));
+    if (valoreVicino != null) testo.appendChild(crea("span", "caso__voce-media", " · vicino " + Math.round(valoreVicino)));
     li.appendChild(testo);
     return li;
+  }
+
+  // Caso con il punteggio dell'indice più vicino (a pari distanza il primo
+  // in ordine alfabetico)
+  function piuVicino(caso, casi, indice) {
+    var valore = caso[indice.id];
+    if (typeof valore !== "number") return null;
+    var vicino = null;
+    casi.forEach(function (c) {
+      if (c.id === caso.id || typeof c[indice.id] !== "number") return;
+      var d = Math.abs(c[indice.id] - valore);
+      if (!vicino || d < vicino.d ||
+          (d === vicino.d && (c.titolo || "").localeCompare(vicino.caso.titolo || "", "it") < 0)) {
+        vicino = { caso: c, d: d };
+      }
+    });
+    return vicino && vicino.caso;
   }
 
   function vociIndici(caso, casi) {
@@ -346,68 +385,89 @@
     h2.id = "caso-voci-indici";
     sezione.setAttribute("aria-labelledby", h2.id);
     sezione.appendChild(h2);
-    sezione.appendChild(crea("p", "caso__nota text-label", confronto.length
-      ? "Confronto con la media di " + confronto.length + " casi studio con almeno un tipo di patrimonio in comune."
-      : "Nessun caso studio con lo stesso tipo di patrimonio: solo i punteggi di questo caso."));
+    sezione.appendChild(crea("p", "caso__nota text-label", (confronto.length
+      ? "Confronto con la media di " + confronto.length + " casi studio con almeno un tipo di patrimonio in comune"
+      : "Nessun caso studio con lo stesso tipo di patrimonio") +
+      " e, per ogni indice, con il caso studio dal punteggio più vicino."));
 
-    if (confronto.length) {
-      var legenda = crea("p", "caso__legenda-voci text-label");
-      [["caso", "Questo caso"], ["media", "Media dei casi simili"]].forEach(function (k) {
-        var v = crea("span", "caso__legenda-voce");
-        var punto = crea("span", "caso__scala-punto caso__scala-punto--" + k[0] + " caso__scala-punto--legenda");
-        punto.setAttribute("aria-hidden", "true");
-        v.appendChild(punto);
-        v.appendChild(document.createTextNode(k[1]));
-        legenda.appendChild(v);
-      });
-      sezione.appendChild(legenda);
-    }
+    var legenda = crea("p", "caso__legenda-voci text-label");
+    [["caso", "Questo caso"], ["media", "Media dei casi simili"], ["vicino", "Caso più vicino"]].forEach(function (k) {
+      if (k[0] === "media" && !confronto.length) return;
+      var v = crea("span", "caso__legenda-voce");
+      var punto = crea("span", "caso__scala-punto caso__scala-punto--" + k[0] + " caso__scala-punto--legenda");
+      punto.setAttribute("aria-hidden", "true");
+      v.appendChild(punto);
+      v.appendChild(document.createTextNode(k[1]));
+      legenda.appendChild(v);
+    });
+    sezione.appendChild(legenda);
+
+    // Gli indici: una colonna, da L due (css/caso.css)
+    var griglia = crea("div", "caso__indici-griglia");
+    sezione.appendChild(griglia);
 
     INDICI.forEach(function (indice) {
       var voci = punteggi[indice.chiave];
       if (!voci || typeof voci !== "object") return;
       var nomi = Object.keys(voci).filter(function (n) { return typeof voci[n] === "number"; });
       if (!nomi.length) return;
+      var vicino = piuVicino(caso, casi, indice);
+      var vociVicino = vicino ? ((vicino.punteggi_voci || {})[indice.chiave] || {}) : {};
+
       var blocco = crea("div", "caso__indice " + indice.classe);
+      var testa = crea("div", "caso__indice-testa");
       var titolo = crea("h3", "caso__indice-titolo text-body-small", indice.nome);
       if (typeof caso[indice.id] === "number") {
         titolo.appendChild(crea("span", "caso__indice-valore", " " + Math.round(caso[indice.id])));
       }
-      blocco.appendChild(titolo);
+      testa.appendChild(titolo);
+      if (confronto.length) {
+        var valoriIndice = confronto.map(function (c) { return c[indice.id]; })
+          .filter(function (v) { return typeof v === "number"; });
+        if (valoriIndice.length) {
+          testa.appendChild(crea("p", "caso__indice-confronto text-label",
+            "Media dei casi simili: " + Math.round(media(valoriIndice))));
+        }
+      }
+      if (vicino) {
+        var riga = crea("p", "caso__indice-confronto text-label", "Caso più vicino: ");
+        var a = crea("a", "caso__link", vicino.titolo || vicino.id);
+        a.href = "caso.html?id=" + encodeURIComponent(vicino.id);
+        a.title = vicino.titolo || "";
+        riga.appendChild(a);
+        riga.appendChild(document.createTextNode(" " + Math.round(vicino[indice.id])));
+        testa.appendChild(riga);
+      }
+      blocco.appendChild(testa);
+
       var ul = crea("ul", "caso__voci-indice");
       nomi.forEach(function (nome) {
-        var altri = confronto.map(function (c) {
+        var valoreMedia = confronto.length ? media(confronto.map(function (c) {
           var v = c.punteggi_voci[indice.chiave];
           return v && typeof v[nome] === "number" ? v[nome] : null;
-        }).filter(function (v) { return v != null; });
-        ul.appendChild(rigaVoce(nome, voci[nome], media(altri)));
+        }).filter(function (v) { return v != null; })) : null;
+        var valoreVicino = typeof vociVicino[nome] === "number" ? vociVicino[nome] : null;
+        ul.appendChild(rigaVoce(nome, voci[nome], valoreMedia, valoreVicino));
       });
       blocco.appendChild(ul);
-      sezione.appendChild(blocco);
+      griglia.appendChild(blocco);
     });
-    return sezione.querySelector(".caso__indice") ? sezione : null;
+    return griglia.children.length ? sezione : null;
   }
 
-  // Possibili sviluppi (titolo H4 come "Apertura") e apertura: la parte
+  // Potenziale del patrimonio (titolo H4) e voci degli indici: la parte
   // sinistra della seconda riga del corpo
   function sviluppiEApertura(caso, casi) {
     var div = crea("div", "caso__presentazione");
     GRUPPI.forEach(function (g, i) {
       if (!g.inPresentazione) return;
-      var s = gruppo(caso, g, i);
+      var s = gruppo(caso, g);
       if (!s) return;
       s.querySelector("h2").className = "caso__titolo-gruppo text-h4";
       div.appendChild(s);
     });
     var voci = vociIndici(caso, casi);
     if (voci) div.appendChild(voci);
-    var apertura = elencoVoci(caso, APERTURA);
-    if (apertura) {
-      var blocco = crea("div", "caso__blocco");
-      blocco.appendChild(crea("h2", "text-h4", "Apertura"));
-      blocco.appendChild(apertura);
-      div.appendChild(blocco);
-    }
     return div.children.length ? div : null;
   }
 
@@ -448,14 +508,26 @@
     return figure;
   }
 
-  function gruppo(caso, g, i) {
+  // Un gruppo di campi. Se espandibile è un <details> chiuso: il titolo
+  // (nel <summary>) lo apre e lo richiude, anche da tastiera
+  function gruppo(caso, g) {
     var elenco = elencoVoci(caso, g.campi);
     if (!elenco) return null;
-    var sezione = crea("section", "caso__gruppo");
     var h2 = crea("h2", "caso__titolo-gruppo text-h3", g.titolo);
-    h2.id = "caso-gruppo-" + i;
-    sezione.setAttribute("aria-labelledby", h2.id);
-    sezione.appendChild(h2);
+    // id dal titolo (es. "caso-gruppo-accessibilita-e-servizi"): unico
+    h2.id = "caso-gruppo-" + g.titolo.toLowerCase().normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    var sezione;
+    if (g.espandibile) {
+      sezione = crea("details", "caso__gruppo caso__gruppo--espandibile");
+      var sommario = crea("summary", "caso__sommario text-h3");
+      sommario.appendChild(h2);
+      sezione.appendChild(sommario);
+    } else {
+      sezione = crea("section", "caso__gruppo");
+      sezione.setAttribute("aria-labelledby", h2.id);
+      sezione.appendChild(h2);
+    }
     sezione.appendChild(elenco);
     return sezione;
   }
@@ -496,20 +568,22 @@
     }
     var sinistra = sviluppiEApertura(caso, casi);
     if (sinistra) scheda.appendChild(sinistra);
-    // Con le immagini "Apertura" ha l'aspetto dei gruppi successivi: titolo
-    // H3 e, da L, tutta la larghezza (css/caso.css)
-    var titoloApertura = foto && scheda.querySelector(".caso__blocco > h2");
-    if (titoloApertura) titoloApertura.className = "caso__titolo-gruppo text-h3";
     var pot = potenziale(caso, totale);
     if (pot) scheda.appendChild(pot);
     main.appendChild(scheda);
 
+    // Gruppi sotto la scheda: prima le sezioni espandibili (Patrimonio …
+    // Ecosistema, con Apertura al pubblico dopo Pubblico), chiuse, in un
+    // elenco compatto; poi Fonti
     var gruppi = crea("div", "section caso__gruppi");
-    GRUPPI.forEach(function (g, i) {
+    var espandibili = crea("div", "caso__espandibili");
+    GRUPPI.forEach(function (g) {
       if (g.inPresentazione) return;
-      var s = gruppo(caso, g, i);
-      if (s) gruppi.appendChild(s);
+      var s = gruppo(caso, g);
+      if (!s) return;
+      (g.espandibile ? espandibili : gruppi).appendChild(s);
     });
+    if (espandibili.children.length) gruppi.insertBefore(espandibili, gruppi.firstChild);
     main.appendChild(gruppi);
     main.removeAttribute("aria-busy");
   }

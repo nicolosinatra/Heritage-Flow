@@ -162,7 +162,6 @@
   .caso__potenziale                  { order: 3; }
   .caso__presentazione .caso__gruppo { order: 4; }
   .caso__presentazione .caso__indici-voci { order: 4; }
-  .caso__presentazione .caso__blocco { order: 5; }
 }
 
 .caso__blocco {
@@ -178,6 +177,12 @@
    arriva da .barra--<indice> di style.css (--indice-color)
    -------------------------------------------------------------------------- */
 .caso__indici-voci {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+
+.caso__indici-griglia {
   display: flex;
   flex-direction: column;
   gap: var(--space-m);
@@ -204,6 +209,35 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-fixed-xs);
+}
+
+/* Testa dell'indice: nome e valore, sotto il confronto (media dei casi
+   simili o caso più vicino, con il link alla sua scheda) */
+.caso__indice-testa {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-fixed-xxs);
+}
+
+/* Una riga sola: i nomi lunghi finiscono con "…" (nome intero nel title).
+   overflow nasconde ciò che sborda: niente rifilo (text-box), così aste e
+   code delle lettere (l, d, g, y) restano intere */
+.page .caso__indice-confronto {
+  text-box: normal;
+}
+
+.caso__indice-confronto {
+  /* spazio per la sottolineatura del link, che altrimenti verrebbe nascosta */
+  padding-bottom: 0.25em;
+  overflow: hidden;
+  color: color-mix(in srgb, var(--color-text) calc(var(--opacity-muted) * 100%), transparent);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.caso__indice-confronto .caso__link {
+  color: var(--color-text);
 }
 
 .caso__indice-valore {
@@ -281,6 +315,18 @@
 .caso__scala-punto--caso  { background: var(--indice-color, var(--color-dark)); }
 .caso__scala-punto--media { background: var(--color-light); }
 
+/* Caso più vicino: cerchio di un altro colore (--color-3, diverso da
+   quelli degli indici). Se coincide con il caso o con la media è più grande
+   e sta dietro: due cerchi concentrici */
+.caso__scala-punto--vicino {
+  background: var(--color-3);
+}
+
+.caso__scala-punto--grande {
+  width: 20px;
+  height: 20px;
+}
+
 /* Nella legenda i punti non stanno su una scala */
 .caso__scala-punto--legenda {
   position: static;
@@ -304,6 +350,61 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-m);
+}
+
+/* Sezioni espandibili (Apertura, Patrimonio … Ecosistema): <details>
+   chiusi all'inizio, uno sotto l'altro separati dalla linea puntinata.
+   Il titolo (summary) apre e chiude; a destra + / − come i gruppi del
+   pannello filtri dell'archivio, in proporzione al titolo */
+.caso__espandibili {
+  display: flex;
+  flex-direction: column;
+  border-top: var(--border-width) dotted var(--color-divider);
+}
+
+.caso__gruppo--espandibile {
+  gap: 0;
+  border-bottom: var(--border-width) dotted var(--color-divider);
+}
+
+.caso__sommario {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+  padding: var(--space-m) 0;
+  list-style: none;
+  cursor: pointer;
+}
+
+.caso__sommario::-webkit-details-marker {
+  display: none;
+}
+
+.caso__sommario::after {
+  content: "";
+  flex: none;
+  width: 0.45em;
+  height: 0.45em;
+  background: url("../assets/archivio/gruppo-piu.svg") center / contain no-repeat;
+}
+
+.caso__gruppo--espandibile[open] > .caso__sommario::after {
+  background-image: url("../assets/archivio/gruppo-meno.svg");
+}
+
+.caso__sommario:hover .caso__titolo-gruppo {
+  color: var(--color-main);
+}
+
+.caso__sommario:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
+}
+
+/* Aperta: la linea in fondo è quella dell'ultima voce (niente doppione) */
+.caso__gruppo--espandibile[open] {
+  border-bottom: 0;
 }
 
 /* Righe più fitte di quelle della pagina Info */
@@ -346,19 +447,24 @@
 /* --------------------------------------------------------------------------
    Modo M — 768px
    -------------------------------------------------------------------------- */
-@media (min-width: 768px) {
+/* Solo M: nome | scala | valori su una riga (la colonna è larga tutta la
+   pagina). Da L il grafico sta in mezza colonna e torna come su mobile:
+   nome e valori sopra, scala sotto a tutta larghezza */
+@media (min-width: 768px) and (max-width: 991.98px) {
   .caso__voce-indice {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto;
     grid-template-areas: "nome scala valori";
   }
 
-  /* larghezza minima uguale per tutte le righe ("100 · media 100"):
+  /* larghezza minima uguale per tutte le righe:
      così le scale cominciano e finiscono tutte allo stesso punto */
   .caso__voce-valori {
-    min-width: 8.5em;
+    min-width: 15em;   /* "100 · media 100 · vicino 100" */
     text-align: right;
   }
+}
 
+@media (min-width: 768px) {
   .caso__dati {
     flex-direction: row;
     flex-wrap: wrap;
@@ -387,16 +493,18 @@
      titolo                            | immagini (in alto al titolo)
      sottotitolo, dati, descrizione    |   "
      (spazio se le immagini sono più alte dei testi accanto)
-     possibili sviluppi e apertura     | potenziale
-   L'occhiello e il titolo escono dal loro gruppo (display: contents) per
-   stare in righe diverse; le distanze tra le righe sono margini (la
-   distanza tra occhiello e titolo è diversa dalle altre)
+     potenziale del patrimonio         | potenziale
+     voci degli indici (a tutta larghezza, indici su due colonne)
+   Con le immagini il potenziale va a sinistra (.caso__scheda--immagini). L'occhiello e il titolo escono dal
+   loro gruppo, potenziale del patrimonio e voci dal loro contenitore (display:
+   contents) per stare in righe diverse; le distanze tra le righe sono
+   margini (quella tra occhiello e titolo è diversa dalle altre)
    -------------------------------------------------------------------------- */
 @media (min-width: 992px) {
   .caso__scheda {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(6, auto) 1fr auto;
+    grid-template-rows: repeat(6, auto) 1fr repeat(2, auto);
     grid-template-areas:
       "torna       ."
       "occhiello   ."
@@ -405,12 +513,14 @@
       "dati        immagini"
       "descrizione immagini"
       ".           immagini"
-      "sinistra    potenziale";
+      "sinistra    potenziale"
+      "indici      indici";
     align-items: start;
     gap: 0 var(--space-xl);
   }
 
-  .caso__scheda > .heading-group {
+  .caso__scheda > .heading-group,
+  .caso__scheda .caso__presentazione {
     display: contents;
   }
 
@@ -421,15 +531,28 @@
   .caso__dati         { grid-area: dati; margin-bottom: var(--space-xl); }
   .caso__descrizione  { grid-area: descrizione; margin-bottom: var(--space-xl); }
   .caso__immagini     { grid-area: immagini; margin-bottom: var(--space-xl); }
-  .caso__presentazione { grid-area: sinistra; }
   .caso__potenziale   { grid-area: potenziale; }
 
-  /* Con le immagini la colonna destra è tutta loro: il potenziale va a
-     sinistra, tra descrizione e possibili sviluppi (come su mobile).
-     L'ultima riga (1fr) prende lo spazio se le immagini sono più alte dei
-     testi, così i testi non si allargano */
+  .caso__scheda .caso__presentazione > .caso__gruppo { grid-area: sinistra; }
+  .caso__scheda .caso__presentazione > .caso__indici-voci {
+    grid-area: indici;
+    margin-top: var(--space-xl);
+  }
+
+  /* Voci degli indici a tutta larghezza: gli indici su due colonne */
+  .caso__indici-griglia {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: var(--space-l) var(--space-xl);
+  }
+
+  /* Con le immagini la colonna destra è loro fino ai possibili sviluppi:
+     il potenziale va a sinistra, tra descrizione e possibili sviluppi
+     (come su mobile). La riga 1fr prende lo spazio se le immagini sono più
+     alte dei testi, così i testi non si allargano */
   .caso__scheda--immagini {
-    grid-template-rows: repeat(9, auto) 1fr auto;
+    grid-template-rows: repeat(8, auto) 1fr auto;
     grid-template-areas:
       "torna       ."
       "occhiello   ."
@@ -439,34 +562,12 @@
       "descrizione immagini"
       "potenziale  immagini"
       "sinistra    immagini"
-      "indici      immagini"
       ".           immagini"
-      "apertura    apertura";
+      "indici      indici";
   }
 
   .caso__scheda--immagini .caso__potenziale {
     margin-bottom: var(--space-xl);
-  }
-
-  /* "Apertura" come i gruppi successivi: a tutta larghezza, staccata
-     quanto i gruppi tra loro (--space-xxl). Il contenitore di sviluppi e
-     apertura si apre per mettere i due blocchi in righe diverse */
-  .caso__scheda--immagini .caso__presentazione {
-    display: contents;
-  }
-
-  .caso__scheda--immagini .caso__presentazione > .caso__gruppo {
-    grid-area: sinistra;
-  }
-
-  .caso__scheda--immagini .caso__presentazione > .caso__indici-voci {
-    grid-area: indici;
-    margin-top: var(--space-xl);
-  }
-
-  .caso__scheda--immagini .caso__presentazione > .caso__blocco {
-    grid-area: apertura;
-    margin-top: var(--space-xxl);
   }
 
   .caso__scheda--immagini .caso__immagini {

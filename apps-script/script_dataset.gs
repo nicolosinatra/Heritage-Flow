@@ -113,10 +113,10 @@ const CAMPI_PUBBLICI = {
   sostenibilita: 'lista',
 
   // Potenziale
-  // patrimonio_nascosto: 'testo',
+  patrimonio_nascosto: 'testo',
   forme_valorizzazione_potenziali: 'lista',
   valore_aggiunto_potenziale: 'lista',
-  // connessioni_potenziali_stakeholder: 'lista',
+  connessioni_potenziali_stakeholder: 'lista',
   fruitore_potenziale: 'lista',
   servizi_implementabili: 'lista',
   // note: 'testo',
