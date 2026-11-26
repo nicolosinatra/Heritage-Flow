@@ -1,0 +1,21 @@
+Immagini dei casi studio (scheda caso.html)
+
+1. Salva qui il file, con un nome senza spazi né accenti:
+     <id del caso>-<numero>.jpg     es. museo-ferrari-1.jpg
+   L'id è quello della colonna "id" di Export_Casi.
+
+2. Nel foglio, nelle colonne immagine_1, immagine_2, immagine_3 scrivi
+   solo il nome del file (es. museo-ferrari-1.jpg), senza cartella.
+   Va bene anche un indirizzo https:// completo: la scheda lo usa così com'è.
+
+3. Nella colonna crediti_immagini scrivi gli autori o le fonti, uniti con |
+   nello stesso ordine delle immagini (es. Mario Rossi | Archivio Ferrari).
+   Una voce sola vale per tutte le immagini.
+
+Formato consigliato: JPG o WebP, larghezza circa 1600 px, sotto i 300 KB.
+Proporzioni: la scheda le taglia in 4:3.
+
+Diritti: il sito è pubblico, quindi usa solo foto tue o con autorizzazione,
+e indica sempre i crediti.
+
+Poi fai il commit e la pubblicazione, come per gli altri file del sito.

@@ -11,7 +11,7 @@
  * Risposta:
  *   { "aggiornato": "2026-11-25T10:00:00.000Z", "casi": [ { ... }, ... ] }
  *
- * Una copia di questo file è tenuta nel repo del sito (apps-script/Codice.gs):
+ * Una copia di questo file è tenuta nel repo del sito (apps-script/script_dataset.gs):
  * se la modifichi nell'editor di Apps Script, aggiorna anche quella.
  */
 
@@ -30,6 +30,10 @@ const CACHE_SECONDI = 60;
  *   'lista'  → array, divisa su "|" (vuoto → [])
  *   'anno'   → numero intero; accetta anche una data
  *   'si_no'  → true / false (casella di controllo o testo TRUE/FALSE)
+ *
+ * Immagini (immagine_1…3): il nome di un file della cartella
+ * assets/caso-studio/ del sito (es. museo-ferrari-1.jpg) oppure un
+ * indirizzo https:// completo.
  *
  * Tutto ciò che NON è qui non esce dal foglio. Ci sono tutte le colonne di
  * Export_Casi nello stesso ordine: quelle commentate con // restano private.
@@ -63,6 +67,10 @@ const CAMPI_PUBBLICI = {
   immagine_1: 'testo',
   immagine_2: 'testo',
   immagine_3: 'testo',
+  // Crediti delle immagini, uniti con "|" nello stesso ordine delle
+  // immagini (una voce sola vale per tutte). Finché la colonna non c'è in
+  // Export_Casi viene saltata (avviso nel registro)
+  crediti_immagini: 'lista',
   link_riferimento: 'lista',
   bibliografia: 'lista',
 

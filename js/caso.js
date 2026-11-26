@@ -183,12 +183,27 @@
     return sezione;
   }
 
+  /* Immagini: nel foglio (immagine_1…3) il nome di un file della cartella
+     assets/caso-studio/ (es. museo-ferrari-1.jpg) oppure un indirizzo
+     https:// completo. I crediti (crediti_immagini, uniti con "|") vanno
+     sotto le immagini */
+  var CARTELLA_IMMAGINI = "assets/caso-studio/";
+
+  function srcImmagine(valore) {
+    var v = typeof valore === "string" ? valore.trim() : "";
+    if (/^https?:\/\//i.test(v)) return v;
+    // Solo un nome di file (niente sottocartelle o percorsi)
+    if (/^[\w.-]+\.(jpe?g|png|webp|avif|gif)$/i.test(v)) return CARTELLA_IMMAGINI + v;
+    return null;
+  }
+
   function immagini(caso) {
-    var urls = ["immagine_1", "immagine_2", "immagine_3"].map(function (k) { return caso[k]; })
-      .filter(function (u) { return typeof u === "string" && /^https?:\/\//.test(u); });
+    var urls = ["immagine_1", "immagine_2", "immagine_3"]
+      .map(function (k) { return srcImmagine(caso[k]); })
+      .filter(Boolean);
     if (!urls.length) return null;
-    var figure = crea("figure", "caso__immagini");
-    figure.classList.add("caso__immagini--" + urls.length);
+    var figure = crea("figure", "caso__immagini caso__immagini--" + urls.length);
+    var foto = crea("div", "caso__foto");
     urls.forEach(function (url, i) {
       var img = crea("img");
       img.src = url;
@@ -199,10 +214,20 @@
       // Immagine non raggiungibile: si toglie (e la figura, se resta vuota)
       img.addEventListener("error", function () {
         img.remove();
-        if (!figure.querySelector("img")) figure.remove();
+        if (!foto.querySelector("img")) figure.remove();
       });
-      figure.appendChild(img);
+      foto.appendChild(img);
     });
+    figure.appendChild(foto);
+
+    // Crediti, senza ripetizioni
+    var crediti = valori(caso, { id: "crediti_immagini" }).filter(function (c, i, tutti) {
+      return tutti.indexOf(c) === i;
+    });
+    if (crediti.length) {
+      figure.appendChild(crea("figcaption", "caso__crediti text-label",
+        "Crediti: " + crediti.join(" · ")));
+    }
     return figure;
   }
 

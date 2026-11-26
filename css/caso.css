@@ -75,7 +75,18 @@
    Immagini (nel corpo, sotto la descrizione; da L in alto a destra): su
    mobile scorrono in orizzontale, da M affiancate
    -------------------------------------------------------------------------- */
+/* figure: foto (.caso__foto) e, sotto, i crediti */
 .caso__immagini {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xs);
+}
+
+.caso__crediti {
+  opacity: var(--opacity-muted);
+}
+
+.caso__foto {
   display: grid;
   grid-auto-columns: 85%;
   grid-auto-flow: column;
@@ -86,7 +97,7 @@
 }
 
 /* Una sola immagine: larga quanto la pagina */
-.caso__immagini--1 {
+.caso__immagini--1 .caso__foto {
   grid-auto-columns: 100%;
 }
 
@@ -194,18 +205,18 @@
     gap: var(--space-m) var(--space-xl);
   }
 
-  .caso__immagini {
+  .caso__foto {
     grid-auto-columns: auto;
     grid-auto-flow: row;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     overflow: visible;
   }
 
-  .caso__immagini--1 {
+  .caso__immagini--1 .caso__foto {
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   }
 
-  .caso__immagini--2 {
+  .caso__immagini--2 .caso__foto {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -233,7 +244,7 @@
   .caso__potenziale   { grid-area: potenziale; }
 
   /* Nella mezza colonna: tre immagini = una grande sopra, due sotto */
-  .caso__immagini--3 {
+  .caso__immagini--3 .caso__foto {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -241,7 +252,7 @@
     grid-column: 1 / -1;
   }
 
-  .caso__immagini--1 {
+  .caso__immagini--1 .caso__foto {
     grid-template-columns: minmax(0, 1fr);
   }
 }
