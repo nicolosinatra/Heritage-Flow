@@ -305,17 +305,6 @@
     });
     if (!ul.children.length) return null;
     figure.appendChild(ul);
-
-    var legenda = crea("p", "esempio__legenda text-label");
-    [["esempio__chiave--margine", "Margine di miglioramento"], ["esempio__chiave--attuale", "Stato attuale"]].forEach(function (k) {
-      var voceLegenda = crea("span", "esempio__voce-legenda");
-      var chiave = crea("span", "esempio__chiave " + k[0]);
-      chiave.setAttribute("aria-hidden", "true");
-      voceLegenda.appendChild(chiave);
-      voceLegenda.appendChild(document.createTextNode(k[1]));
-      legenda.appendChild(voceLegenda);
-    });
-    figure.appendChild(legenda);
     return figure;
   }
 
