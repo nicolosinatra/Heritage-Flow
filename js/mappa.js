@@ -86,7 +86,9 @@
         var chiave = el("span", "legenda__chiave");
         chiave.style.setProperty("--voce-colore", "var(" + voce.colore + ")");
         li.appendChild(chiave);
-        li.appendChild(el("span", null, voce.etichetta));
+        // Etichetta intera e breve: il CSS mostra la breve in XS e S
+        li.appendChild(el("span", "legenda__testo", voce.etichetta));
+        if (voce.breve) li.appendChild(el("span", "legenda__testo-breve", voce.breve));
         list.appendChild(li);
       });
     });
@@ -636,9 +638,12 @@
       style: CONFIG.style || "mapbox://styles/mapbox/light-v11",
       bounds: bounds,
       fitBoundsOptions: { padding: 60 },
-      attributionControl: true,
+      // Logo e attribuzione sono obbligatori (condizioni d'uso di Mapbox):
+      // l'attribuzione si aggiunge sotto, compatta in tutte le versioni
+      attributionControl: false,
       language: "it"
     });
+    map.addControl(new mapboxgl.AttributionControl({ compact: true }), "bottom-right");
     vistaIniziale(container);
 
     // Gesti di Mapbox attivi: con il puntatore sulla mappa rotella e

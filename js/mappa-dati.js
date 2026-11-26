@@ -30,18 +30,20 @@ window.HF_MAPPA = {
      arco tra ogni tappa e la successiva. PROVVISORIA, da verificare */
   flow: ["dallara", "maserati", "tecnostoria", "stanguellini", "ferrari", "lamborghini", "ducati", "maicc", "baracca", "bandini"],
 
-  /* Classi di potenziale (Legenda 2): soglia minima inclusa */
+  /* Classi di potenziale (Legenda 2): soglia minima inclusa.
+     breve: etichetta della legenda in XS e S (senza "potenziale") */
   classiPotenziale: [
-    { id: "molto",    etichetta: "Molto potenziale",    min: 55, colore: "--color-5"  },
-    { id: "discreto", etichetta: "Discreto potenziale", min: 40, colore: "--color-4"  },
-    { id: "poco",     etichetta: "Poco potenziale",     min: 0,  colore: "--color-13" }
+    { id: "molto",    etichetta: "Molto potenziale",    breve: "Molto",    min: 55, colore: "--color-5"  },
+    { id: "discreto", etichetta: "Discreto potenziale", breve: "Discreto", min: 40, colore: "--color-4"  },
+    { id: "poco",     etichetta: "Poco potenziale",     breve: "Poco",     min: 0,  colore: "--color-13" }
   ],
 
-  /* Tipologie di patrimonio (Legenda 3) */
+  /* Tipologie di patrimonio (Legenda 3).
+     breve: etichetta della legenda in XS e S (senza "patrimoni") */
   tipi: [
-    { id: "fisico",        etichetta: "Patrimoni fisici",        colore: "--color-5"    },
-    { id: "digitale",      etichetta: "Patrimoni digitali",      colore: "--color-2"    },
-    { id: "digitalizzato", etichetta: "Patrimoni digitalizzati", colore: "--color-main" }
+    { id: "fisico",        etichetta: "Patrimoni fisici",        breve: "Fisici",        colore: "--color-5"    },
+    { id: "digitale",      etichetta: "Patrimoni digitali",      breve: "Digitali",      colore: "--color-2"    },
+    { id: "digitalizzato", etichetta: "Patrimoni digitalizzati", breve: "Digitalizzati", colore: "--color-main" }
   ],
 
   /* Grafico "Tipologia" (Figma: Data viz 4, frame 425 × 379): una bolla per

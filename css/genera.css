@@ -34,6 +34,55 @@
   transition: opacity var(--genera-duration) ease;
 }
 
+/* XS, S: la frase comincia 16px sotto la navbar (top della schermata =
+   fondo della navbar + --space-fixed-xs), come il titolo della mappa.
+   Ai lati i contenuti stanno a --space-fixed-xs dal bordo (qui vale
+   quanto --space-s). La schermata scorre e taglia ciò che sborda: si
+   allarga di --space-xxs per lato e lo restituisce come padding, così
+   restano interi il ⊕ (l'SVG sborda di 0,6px dal pulsante) e il contorno
+   del focus (2px + 2px di distanza) */
+@media (max-width: 767.98px) {
+  /* Lo stesso sopra: la prima riga è rifilata all'altezza delle maiuscole
+     e le aste più alte ("f", "l" di "flow") verrebbero tagliate. La
+     schermata sale di --space-xs e lo restituisce come padding */
+  /* In basso arriva fino al fondo dello schermo: con "bottom" su Safari
+     iPhone si fermerebbe sopra la barra del browser, con l'altezza in dvh
+     (come la pagina Mappa) continua sotto. Gli ultimi 100px sfumano (come
+     in Mappa) e altrettanto padding fa salire sopra la sfumatura l'ultimo
+     elemento a fine scorrimento */
+  .genera {
+    --genera-sfumatura: 100px;
+    top: calc(var(--space-fixed-xs) * 2 + var(--navbar-height) - var(--space-xs));
+    right: calc(var(--space-fixed-xs) - var(--space-xxs));
+    bottom: auto;
+    left: calc(var(--space-fixed-xs) - var(--space-xxs));
+    height: calc(100dvh - var(--space-fixed-xs) * 2 - var(--navbar-height) + var(--space-xs));
+    padding-top: var(--space-xs);
+    padding-inline: var(--space-xxs);
+    padding-bottom: var(--genera-sfumatura);
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--genera-sfumatura)), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - var(--genera-sfumatura)), transparent);
+  }
+
+  /* PROVA: frase più piccola. Titolo e parole 28px (nessun token vale
+     28px in XS/S: --text-h3-size lo vale solo da M), pillole 20px */
+  .genera .genera__frase,
+  .genera .genera__titolo,
+  .genera .genera__composizione {
+    font-size: 1.75rem;
+  }
+
+  .genera .genera__pillola {
+    font-size: var(--text-h4-size);
+  }
+
+  /* PROVA: pillole più strette ai lati (16 → 12px, nessun token da 12px)
+     così la frase va a capo meno spesso */
+  .genera .genera__pillola-testo {
+    padding-inline: 12px;
+  }
+}
+
 /* Aperta (classe su <html> da js/genera.js): la pagina sotto non scorre */
 .genera-aperta {
   overflow: hidden;
@@ -177,8 +226,8 @@
   /* Titolo e frase sono un unico testo: "…per il turismo sul patrimonio…"
      (font e interlinea qui danno l'altezza a tutte le righe) */
   .genera__frase {
-    --genera-riga: calc(var(--text-h3-size) * var(--text-flow-option-line-height)
-      + 2 * var(--space-fixed-xxs) + 2 * var(--genera-bordo) + var(--space-fixed-xxs));
+    /* interlinea: 40px in XS e S, 48px in M (--space-xl) */
+    --genera-riga: var(--space-xl);
     display: block;
     font-size: var(--text-h2-size);
     line-height: var(--genera-riga);
@@ -219,10 +268,13 @@
 
   /* Da inline il riquadro si misura sull'altezza piena dei caratteri
      (più alta della riga 0.95): padding verticale dimezzato, così la
-     pillola ha le proporzioni di L e resta aria tra le righe */
+     pillola ha le proporzioni di L e resta aria tra le righe.
+     Con l'interlinea a 40/48px niente padding verticale: la pillola
+     resta più bassa della riga e due pillole una sotto l'altra non si
+     toccano */
   .genera__pillola-testo {
     display: inline;
-    padding: calc(var(--space-fixed-xxs) / 2) var(--space-fixed-xs);
+    padding: 0 var(--space-fixed-xs);
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
@@ -392,13 +444,11 @@
 /* --------------------------------------------------------------------------
    Modo M — 768px: campi e scelta affiancati
    -------------------------------------------------------------------------- */
-@media (min-width: 576px) {
+@media (min-width: 768px) {
   .genera {
     padding-inline: var(--space-l);
   }
-}
 
-@media (min-width: 768px) {
   .genera__opzioni {
     flex-direction: row;
     align-items: flex-start;

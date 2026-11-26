@@ -268,11 +268,16 @@
   // lunga (con l'anteprima che va più a capo). Senza, quando l'anteprima
   // aggiunge una riga, tutto sotto scende, ⊕ sfugge al puntatore e
   // l'anteprima sparisce e ricompare di continuo.
+  // Al tocco l'anteprima non compare (vedi renderCampi): niente spazio
+  // riservato, che resterebbe solo vuoto sotto la frase
+  var conPuntatore = window.matchMedia("(hover: hover)");
+
   function riservaSpazioAnteprime() {
     // Si misura il contenitore di titolo + frase: sotto L sono un unico
     // testo continuo (la frase è in linea e non può avere un'altezza minima)
     var contenitore = frase.parentNode;
     contenitore.style.minHeight = "";
+    if (!conPuntatore.matches) return;
     var altezza = function () { return contenitore.getBoundingClientRect().height; };
     var max = altezza();
     CAMPI.forEach(function (c) {
@@ -305,12 +310,15 @@
       // Anteprima del campo da aggiungere nella frase
       // (solo se ⊕ è utilizzabile: alcuni browser mandano gli eventi del
       // mouse anche ai pulsanti disattivati)
+      // Solo con il mouse (pointerType "mouse"), non al tocco: su iOS un
+      // mouseenter che cambia la pagina fa valere il primo tocco come
+      // "passaggio" e servirebbe un secondo tocco per aprire le opzioni
       function mostra() { if (puoAggiungereCampo(c)) renderFrase(c.id); }
       function nascondi() { if (puoAggiungereCampo(c)) renderFrase(); }
-      piu.addEventListener("mouseenter", mostra);
+      piu.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") mostra(); });
+      piu.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") nascondi(); });
       // Con il focus solo da tastiera, non quando arriva dopo un click
       piu.addEventListener("focus", function () { if (piu.matches(":focus-visible")) mostra(); });
-      piu.addEventListener("mouseleave", nascondi);
       piu.addEventListener("blur", nascondi);
 
       li.appendChild(piu);
@@ -395,7 +403,7 @@
 
     if (!campo) {
       var invito = el("div", "genera__invito");
-      invito.appendChild(el("p", "text-h4", "Aggiungi un nuovo campo tra quelli a sinistra oppure genera il Flow"));
+      invito.appendChild(el("p", "text-h4", "Aggiungi un nuovo campo oppure genera il Flow"));
       var btn = el("button", "genera__bottone text-h3", "Genera");
       btn.type = "button";
       btn.addEventListener("click", genera);

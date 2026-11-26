@@ -15,6 +15,11 @@
   --mappa-legenda-swatch: 24px;
   --mappa-duration: 400ms;
 
+  /* XS, S: il titolo comincia 16px sotto la navbar (invece di 32px) */
+  @media (max-width: 767.98px) {
+    --mappa-top: calc(var(--space-fixed-xs) + var(--navbar-height));
+  }
+
   display: grid;
   grid-template-columns: repeat(var(--layout-columns-dense), minmax(0, 1fr));
   column-gap: var(--mappa-gap);
@@ -41,6 +46,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-s);
+}
+
+/* Titolo del flow: text-h3, ma in XS e S più piccolo (18px: nessun
+   token di titolo vale 18px qui). Resta l'interlinea di H3 */
+@media (max-width: 767.98px) {
+  .mappa__title {
+    font-size: 1.125rem;
+  }
 }
 
 .mappa__map {
@@ -103,6 +116,23 @@
   align-items: center;
   gap: var(--space-fixed-xxs);
   white-space: nowrap;
+}
+
+/* Etichette brevi (js/mappa.js): solo in XS e S, al posto di quelle
+   intere ("Molto" invece di "Molto potenziale", "Fisici" invece di
+   "Patrimoni fisici") */
+.legenda__testo-breve {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  .legenda__voce:has(.legenda__testo-breve) .legenda__testo {
+    display: none;
+  }
+
+  .legenda__testo-breve {
+    display: inline;
+  }
 }
 
 /* Legenda 1: linea del flow e testo distanziati di 16px */
@@ -288,6 +318,28 @@
   background-repeat: no-repeat;
 }
 
+/* XS, S: titoli dei passi (text-h3 in mappa.html) come H4 */
+@media (max-width: 767.98px) {
+  .step__title {
+    font-size: var(--text-h4-size);
+    line-height: var(--text-h4-line-height);
+    letter-spacing: var(--text-h4-letter-spacing);
+  }
+}
+
+/* XS, S: logo Mapbox compatto, solo il simbolo senza la scritta. È la
+   versione che Mapbox stessa usa sulle mappe strette (classe
+   mapboxgl-compact, larghezza 23px); il logo non si può togliere.
+   Lo sfondo resta alla misura intera (88×23): altrimenti l'SVG, che non
+   ha dimensioni proprie, si rimpicciolirebbe nei 23px con la scritta */
+@media (max-width: 767.98px) {
+  .mappa .mapboxgl-ctrl-logo {
+    width: 23px;
+    background-size: 88px 23px;
+    background-position: left center;
+  }
+}
+
 .mappa__popup {
   display: flex;
   flex-direction: column;
@@ -400,6 +452,32 @@
     background:
       var(--hint-gradiente) left / var(--hint-fascia) 100% no-repeat,
       var(--hint-gradiente) right / var(--hint-fascia) 100% no-repeat;
+  }
+
+  /* XS, S: niente freccia. La sfumatura in basso non è più l'immagine
+     fissa (su Safari iPhone "bottom: 0" si ferma sopra la barra del
+     browser, mentre i contenuti continuano sotto) ma una maschera sul
+     contenitore dei passi, che arriva fino al fondo dello schermo: la
+     pagina perde il margine in basso. Alta quanto l'SVG (100px) */
+  @media (max-width: 767.98px) {
+    .page--mappa {
+      padding-bottom: 0;
+    }
+
+    .mappa__scroll-hint {
+      display: none;
+    }
+
+    /* padding in fondo: a fine scorrimento l'ultima dataviz sale sopra la
+       sfumatura (e sopra la barra di Safari), con --space-l di aria */
+    .mappa__steps {
+      --mappa-sfumatura-basso: 100px;
+      padding-bottom: calc(var(--mappa-sfumatura-basso) + var(--space-l));
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--mappa-sfumatura),
+        #000 calc(100% - var(--mappa-sfumatura-basso)), transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0, #000 var(--mappa-sfumatura),
+        #000 calc(100% - var(--mappa-sfumatura-basso)), transparent 100%);
+    }
   }
 }
 
