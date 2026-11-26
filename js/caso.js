@@ -6,9 +6,9 @@
 
    Struttura (prima versione, senza riferimento Figma):
    1. intestazione: occhiello, titolo, sottotitolo, periodo, luogo, area
-   2. corpo, da L su due righe: descrizione | immagini (se ci sono),
-      possibili sviluppi e apertura | potenziale (barre degli indici, come
-      Info): il grafico parte all'altezza dei possibili sviluppi
+   2. con l'intestazione, da L su due colonne: descrizione | immagini (se
+      ci sono, allineate in alto al titolo), possibili sviluppi e apertura |
+      potenziale (barre degli indici, come Info), allineato agli sviluppi
    4. gruppi di voci (GRUPPI): tag come nell'archivio, testi in elenco
    5. fonti: link
    ========================================================================== */
@@ -80,11 +80,12 @@
 
   /* I cinque indici (colori e nomi come nella pagina Info) */
   var INDICI = [
-    { id: "indice_digitale", nome: "Maturità digitale", classe: "barra--digitale" },
-    { id: "indice_esperienza", nome: "Esperienza e design", classe: "barra--esperienza" },
-    { id: "indice_accessibilita", nome: "Inclusività e accessibilità", classe: "barra--inclusivita" },
-    { id: "indice_ecosistema", nome: "Connessione all’ecosistema", classe: "barra--ecosistema" },
-    { id: "indice_utenti", nome: "Utenti e comunicazione", classe: "barra--comunicazione" }
+    // chiave: nome dell'indice in punteggi_voci (voci dell'indice esplose)
+    { id: "indice_digitale", chiave: "digitale", nome: "Maturità digitale", classe: "barra--digitale" },
+    { id: "indice_esperienza", chiave: "esperienza", nome: "Esperienza e design", classe: "barra--esperienza" },
+    { id: "indice_accessibilita", chiave: "accessibilita", nome: "Inclusività e accessibilità", classe: "barra--inclusivita" },
+    { id: "indice_ecosistema", chiave: "ecosistema", nome: "Connessione all’ecosistema", classe: "barra--ecosistema" },
+    { id: "indice_utenti", chiave: "utenti", nome: "Utenti e comunicazione", classe: "barra--comunicazione" }
   ];
 
   // "Patrimonio industriale" → "industriale" (come nell'archivio)
@@ -220,6 +221,19 @@
     });
     figure.appendChild(foto);
 
+    // Su mobile le foto scorrono in orizzontale: come nell'archivio, i bordi
+    // sfumano dove c'è altro da vedere (is-scorsa: a sinistra, is-altro: a
+    // destra; css/caso.css)
+    function aggiornaSfumature() {
+      var resto = foto.scrollWidth - foto.clientWidth - foto.scrollLeft;
+      foto.classList.toggle("is-scorsa", foto.scrollLeft > 1);
+      foto.classList.toggle("is-altro", resto > 1);
+    }
+    foto.addEventListener("scroll", aggiornaSfumature, { passive: true });
+    window.addEventListener("resize", aggiornaSfumature);
+    foto.querySelectorAll("img").forEach(function (img) { img.addEventListener("load", aggiornaSfumature); });
+    requestAnimationFrame(aggiornaSfumature);
+
     // Crediti, senza ripetizioni
     var crediti = valori(caso, { id: "crediti_immagini" }).filter(function (c, i, tutti) {
       return tutti.indexOf(c) === i;
@@ -275,9 +289,108 @@
   }
 
   // Descrizione e apertura
+  /* ------------------------------------------------------------------------
+     Voci degli indici "esplose" (sotto i possibili sviluppi). Per ogni voce
+     una scala 0–100 con due punti: il caso (pieno, colore dell'indice) e la
+     media dei casi studio simili (vuoto), uniti da un segmento.
+     Casi simili: almeno un tipo di patrimonio in comune.
+     Dati: punteggi_voci dall'App web, { digitale: { "<voce>": 0–100, … },
+     … }; se mancano la sezione non compare
+     ------------------------------------------------------------------------ */
+  function simili(caso, casi) {
+    var tipi = valori(caso, { id: "tipo_patrimonio" });
+    return casi.filter(function (c) {
+      if (c.id === caso.id || !c.punteggi_voci) return false;
+      return valori(c, { id: "tipo_patrimonio" }).some(function (t) { return tipi.indexOf(t) >= 0; });
+    });
+  }
+
+  function media(numeri) {
+    if (!numeri.length) return null;
+    return numeri.reduce(function (s, n) { return s + n; }, 0) / numeri.length;
+  }
+
+  function rigaVoce(nome, valore, valoreMedia) {
+    var li = crea("li", "caso__voce-indice");
+    li.appendChild(crea("span", "caso__voce-nome text-label", nome));
+
+    var scala = crea("span", "caso__scala");
+    scala.setAttribute("aria-hidden", "true");
+    if (valoreMedia != null) {
+      var seg = crea("span", "caso__scala-segmento");
+      seg.style.setProperty("--da", Math.min(valore, valoreMedia));
+      seg.style.setProperty("--a", Math.max(valore, valoreMedia));
+      scala.appendChild(seg);
+      var pm = crea("span", "caso__scala-punto caso__scala-punto--media");
+      pm.style.setProperty("--v", valoreMedia);
+      scala.appendChild(pm);
+    }
+    var pc = crea("span", "caso__scala-punto caso__scala-punto--caso");
+    pc.style.setProperty("--v", valore);
+    scala.appendChild(pc);
+    li.appendChild(scala);
+
+    var testo = crea("span", "caso__voce-valori text-label", String(Math.round(valore)));
+    if (valoreMedia != null) testo.appendChild(crea("span", "caso__voce-media", " · media " + Math.round(valoreMedia)));
+    li.appendChild(testo);
+    return li;
+  }
+
+  function vociIndici(caso, casi) {
+    var punteggi = caso.punteggi_voci;
+    if (!punteggi || typeof punteggi !== "object") return null;
+    var confronto = simili(caso, casi);
+
+    var sezione = crea("section", "caso__indici-voci");
+    var h2 = crea("h2", "caso__titolo-gruppo text-h4", "Le voci degli indici");
+    h2.id = "caso-voci-indici";
+    sezione.setAttribute("aria-labelledby", h2.id);
+    sezione.appendChild(h2);
+    sezione.appendChild(crea("p", "caso__nota text-label", confronto.length
+      ? "Confronto con la media di " + confronto.length + " casi studio con almeno un tipo di patrimonio in comune."
+      : "Nessun caso studio con lo stesso tipo di patrimonio: solo i punteggi di questo caso."));
+
+    if (confronto.length) {
+      var legenda = crea("p", "caso__legenda-voci text-label");
+      [["caso", "Questo caso"], ["media", "Media dei casi simili"]].forEach(function (k) {
+        var v = crea("span", "caso__legenda-voce");
+        var punto = crea("span", "caso__scala-punto caso__scala-punto--" + k[0] + " caso__scala-punto--legenda");
+        punto.setAttribute("aria-hidden", "true");
+        v.appendChild(punto);
+        v.appendChild(document.createTextNode(k[1]));
+        legenda.appendChild(v);
+      });
+      sezione.appendChild(legenda);
+    }
+
+    INDICI.forEach(function (indice) {
+      var voci = punteggi[indice.chiave];
+      if (!voci || typeof voci !== "object") return;
+      var nomi = Object.keys(voci).filter(function (n) { return typeof voci[n] === "number"; });
+      if (!nomi.length) return;
+      var blocco = crea("div", "caso__indice " + indice.classe);
+      var titolo = crea("h3", "caso__indice-titolo text-body-small", indice.nome);
+      if (typeof caso[indice.id] === "number") {
+        titolo.appendChild(crea("span", "caso__indice-valore", " " + Math.round(caso[indice.id])));
+      }
+      blocco.appendChild(titolo);
+      var ul = crea("ul", "caso__voci-indice");
+      nomi.forEach(function (nome) {
+        var altri = confronto.map(function (c) {
+          var v = c.punteggi_voci[indice.chiave];
+          return v && typeof v[nome] === "number" ? v[nome] : null;
+        }).filter(function (v) { return v != null; });
+        ul.appendChild(rigaVoce(nome, voci[nome], media(altri)));
+      });
+      blocco.appendChild(ul);
+      sezione.appendChild(blocco);
+    });
+    return sezione.querySelector(".caso__indice") ? sezione : null;
+  }
+
   // Possibili sviluppi (titolo H4 come "Apertura") e apertura: la parte
   // sinistra della seconda riga del corpo
-  function sviluppiEApertura(caso) {
+  function sviluppiEApertura(caso, casi) {
     var div = crea("div", "caso__presentazione");
     GRUPPI.forEach(function (g, i) {
       if (!g.inPresentazione) return;
@@ -286,6 +399,8 @@
       s.querySelector("h2").className = "caso__titolo-gruppo text-h4";
       div.appendChild(s);
     });
+    var voci = vociIndici(caso, casi);
+    if (voci) div.appendChild(voci);
     var apertura = elencoVoci(caso, APERTURA);
     if (apertura) {
       var blocco = crea("div", "caso__blocco");
@@ -359,25 +474,35 @@
     main.removeAttribute("aria-busy");
   }
 
-  function render(caso, totale) {
+  function render(caso, casi) {
+    var totale = casi.length;
     document.title = "Heritage Flow — " + (caso.titolo || "Caso studio");
     main.textContent = "";
-    main.appendChild(intestazione(caso));
-
-    // Corpo, da L su due righe (css/caso.css):
-    //   descrizione                      | immagini (o spazio vuoto)
-    //   possibili sviluppi e apertura    | potenziale
-    // su mobile in quest'ordine, uno sotto l'altro
-    var corpo = crea("section", "section caso__corpo");
-    corpo.setAttribute("aria-label", "Descrizione e potenziale");
-    if (caso.descrizione) corpo.appendChild(crea("p", "caso__descrizione text-body", caso.descrizione));
+    // Intestazione e corpo in un'unica sezione: da L una griglia a due
+    // colonne (css/caso.css), con le immagini allineate in alto al titolo
+    // e il grafico allineato ai possibili sviluppi:
+    //   occhiello, titolo, sottotitolo, dati, descrizione | immagini
+    //   possibili sviluppi e apertura                     | potenziale
+    // su mobile una colonna: … descrizione, immagini, potenziale, sviluppi,
+    // apertura
+    var scheda = intestazione(caso);
+    scheda.classList.add("caso__scheda");
+    if (caso.descrizione) scheda.appendChild(crea("p", "caso__descrizione text-body", caso.descrizione));
     var foto = immagini(caso);
-    if (foto) corpo.appendChild(foto);
-    var sinistra = sviluppiEApertura(caso);
-    if (sinistra) corpo.appendChild(sinistra);
+    if (foto) {
+      scheda.appendChild(foto);
+      // Con le immagini, da L il potenziale va a sinistra (css/caso.css)
+      scheda.classList.add("caso__scheda--immagini");
+    }
+    var sinistra = sviluppiEApertura(caso, casi);
+    if (sinistra) scheda.appendChild(sinistra);
+    // Con le immagini "Apertura" ha l'aspetto dei gruppi successivi: titolo
+    // H3 e, da L, tutta la larghezza (css/caso.css)
+    var titoloApertura = foto && scheda.querySelector(".caso__blocco > h2");
+    if (titoloApertura) titoloApertura.className = "caso__titolo-gruppo text-h3";
     var pot = potenziale(caso, totale);
-    if (pot) corpo.appendChild(pot);
-    main.appendChild(corpo);
+    if (pot) scheda.appendChild(pot);
+    main.appendChild(scheda);
 
     var gruppi = crea("div", "section caso__gruppi");
     GRUPPI.forEach(function (g, i) {
@@ -400,7 +525,7 @@
       messaggio("Caso studio non trovato.");
       return;
     }
-    render(caso, dati.casi.length);
+    render(caso, dati.casi);
   }).catch(function (errore) {
     console.error("Caso studio: dati non disponibili.", errore);
     messaggio("Non è stato possibile caricare il caso studio. Riprova più tardi.");

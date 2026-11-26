@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-11-26T10:34:57.621Z",
+  "aggiornato": "2026-11-26T11:59:26.426Z",
   "casi": [
     {
       "id": "stamperia-marchi",
@@ -24,9 +24,12 @@
         "Spazio fisico",
         "Spazio privato"
       ],
-      "immagine_1": "https://www.stamperiamarchi.it/src/uploads/elementor/thumbs/come-nasce-la-stampa-a-mano-4-p5d2ly4u63sioqo4d2fsvx4w11dolm5hhqbzs1gbi8.jpg",
-      "immagine_2": "https://www.stamperiamarchi.it/src/uploads/2021/04/mangano-Slide1920-600.jpg",
-      "immagine_3": "https://www.stamperiamarchi.it/src/uploads/2021/05/asciugatura.jpg",
+      "immagine_1": "stamperia-marchi-1.jpg",
+      "immagine_2": "stamperia-marchi-2.jpg",
+      "immagine_3": "stamperia-marchi-3.jpg",
+      "crediti_immagini": [
+        "Stamperia Artigiana Marchi di Lara e Gabriele Marchi S.n.c."
+      ],
       "link_riferimento": [
         "https://www.stamperiamarchi.it/blog/2021/09/29/la-stamperia-marchi-alla-milano-fashion-week/",
         "https://www.santarcangelofestival.com"
@@ -169,7 +172,41 @@
       "potenziale_esperienza": 24.4,
       "potenziale_accessibilita": 15.6,
       "potenziale_ecosistema": 25.3,
-      "potenziale_utenti": 12
+      "potenziale_utenti": 12,
+      "punteggi_voci": {
+        "digitale": {
+          "Accessibilità digitale": 0,
+          "Tecnologie digitali": 0,
+          "Fruizione digitale": 0,
+          "Valorizzazione digitale": 25
+        },
+        "esperienza": {
+          "Forme di valorizzazione": 66.7,
+          "Tipi di fruizione": 50,
+          "Discipline del design": 50,
+          "Impatto e obiettivi": 57.1
+        },
+        "accessibilita": {
+          "Forme di accessibilità": 28.6,
+          "Mezzi di trasporto": 83.3,
+          "Servizi generali": 14.3,
+          "Ampiezza orari": 80,
+          "Periodi di apertura": 100
+        },
+        "ecosistema": {
+          "Connessioni con altri siti": 33.3,
+          "Connessioni con stakeholder": 66.7,
+          "Patrimoni collegati": 75,
+          "Eventi collaterali": 60,
+          "Area d'influenza": 80
+        },
+        "utenti": {
+          "Tipologie di fruitori": 85.7,
+          "Fasce di età": 60,
+          "Comunicazione e promozione": 50,
+          "Monitoraggio visitatori": 50
+        }
+      }
     },
     {
       "id": "museo-stanguellini",
@@ -195,6 +232,7 @@
       "immagine_1": null,
       "immagine_2": null,
       "immagine_3": null,
+      "crediti_immagini": [],
       "link_riferimento": [
         "https://www.stanguellini.it/la-storia-di-stanguellini/"
       ],
@@ -310,7 +348,41 @@
       "potenziale_esperienza": 60.8,
       "potenziale_accessibilita": 24.8,
       "potenziale_ecosistema": 45.6,
-      "potenziale_utenti": 38.1
+      "potenziale_utenti": 38.1,
+      "punteggi_voci": {
+        "digitale": {
+          "Accessibilità digitale": 0,
+          "Tecnologie digitali": 0,
+          "Fruizione digitale": 0,
+          "Valorizzazione digitale": 0
+        },
+        "esperienza": {
+          "Forme di valorizzazione": 16.7,
+          "Tipi di fruizione": 33.3,
+          "Discipline del design": 0,
+          "Impatto e obiettivi": 28.6
+        },
+        "accessibilita": {
+          "Forme di accessibilità": 14.3,
+          "Mezzi di trasporto": 66.7,
+          "Servizi generali": 42.9,
+          "Ampiezza orari": 40,
+          "Periodi di apertura": 100
+        },
+        "ecosistema": {
+          "Connessioni con altri siti": 50,
+          "Connessioni con stakeholder": 33.3,
+          "Patrimoni collegati": 50,
+          "Eventi collaterali": 20,
+          "Area d'influenza": 60
+        },
+        "utenti": {
+          "Tipologie di fruitori": 71.4,
+          "Fasce di età": 0,
+          "Comunicazione e promozione": 62.5,
+          "Monitoraggio visitatori": 0
+        }
+      }
     },
     {
       "id": "tecnostoria",
@@ -333,9 +405,10 @@
         "Edificio",
         "Spazio fisico"
       ],
-      "immagine_1": "https://www.biblioingegneria.unimore.it/contents/instance71/files/photo/61008914_61000087_tecnostoria.jpg",
+      "immagine_1": null,
       "immagine_2": null,
       "immagine_3": null,
+      "crediti_immagini": [],
       "link_riferimento": [
         "https://www.biblioingegneria.unimore.it/site/home/informazioni/tecnostoria-fondo-sulla-storia-del-veicolo.html",
         "https://www.focus.unimore.it/unimore-valorizza-gli-archivi-di-modena-tra-arte-fotografia-e-industria/"
@@ -472,7 +545,41 @@
       "potenziale_esperienza": 32.8,
       "potenziale_accessibilita": 18,
       "potenziale_ecosistema": 16,
-      "potenziale_utenti": 38.7
+      "potenziale_utenti": 38.7,
+      "punteggi_voci": {
+        "digitale": {
+          "Accessibilità digitale": 50,
+          "Tecnologie digitali": 0,
+          "Fruizione digitale": 0,
+          "Valorizzazione digitale": 50
+        },
+        "esperienza": {
+          "Forme di valorizzazione": 66.7,
+          "Tipi di fruizione": 33.3,
+          "Discipline del design": 33.3,
+          "Impatto e obiettivi": 57.1
+        },
+        "accessibilita": {
+          "Forme di accessibilità": 14.3,
+          "Mezzi di trasporto": 66.7,
+          "Servizi generali": 57.1,
+          "Ampiezza orari": 60,
+          "Periodi di apertura": 100
+        },
+        "ecosistema": {
+          "Connessioni con altri siti": 83.3,
+          "Connessioni con stakeholder": 83.3,
+          "Patrimoni collegati": 75,
+          "Eventi collaterali": 60,
+          "Area d'influenza": 60
+        },
+        "utenti": {
+          "Tipologie di fruitori": 57.1,
+          "Fasce di età": 40,
+          "Comunicazione e promozione": 37.5,
+          "Monitoraggio visitatori": 0
+        }
+      }
     },
     {
       "id": "museo-ferrari",
@@ -500,6 +607,7 @@
       "immagine_1": null,
       "immagine_2": null,
       "immagine_3": null,
+      "crediti_immagini": [],
       "link_riferimento": [
         "https://www.ferrari.com/it-IT/museums/maranello",
         "https://www.motorvalley.it/"
@@ -662,7 +770,41 @@
       "potenziale_esperienza": 4.2,
       "potenziale_accessibilita": 0,
       "potenziale_ecosistema": 4,
-      "potenziale_utenti": 10
+      "potenziale_utenti": 10,
+      "punteggi_voci": {
+        "digitale": {
+          "Accessibilità digitale": 50,
+          "Tecnologie digitali": 60,
+          "Fruizione digitale": 75,
+          "Valorizzazione digitale": 50
+        },
+        "esperienza": {
+          "Forme di valorizzazione": 83.3,
+          "Tipi di fruizione": 83.3,
+          "Discipline del design": 66.7,
+          "Impatto e obiettivi": 71.4
+        },
+        "accessibilita": {
+          "Forme di accessibilità": 42.9,
+          "Mezzi di trasporto": 66.7,
+          "Servizi generali": 71.4,
+          "Ampiezza orari": 100,
+          "Periodi di apertura": 100
+        },
+        "ecosistema": {
+          "Connessioni con altri siti": 83.3,
+          "Connessioni con stakeholder": 83.3,
+          "Patrimoni collegati": 75,
+          "Eventi collaterali": 80,
+          "Area d'influenza": 100
+        },
+        "utenti": {
+          "Tipologie di fruitori": 71.4,
+          "Fasce di età": 100,
+          "Comunicazione e promozione": 75,
+          "Monitoraggio visitatori": 0
+        }
+      }
     },
     {
       "id": "museo-ducati",
@@ -689,6 +831,7 @@
       "immagine_1": null,
       "immagine_2": null,
       "immagine_3": null,
+      "crediti_immagini": [],
       "link_riferimento": [
         "https://www.ducati.com/it/it/ducati-museum",
         "https://www.motorvalley.it/"
@@ -839,7 +982,41 @@
       "potenziale_esperienza": 8.4,
       "potenziale_accessibilita": 6.8,
       "potenziale_ecosistema": 16.3,
-      "potenziale_utenti": 24.3
+      "potenziale_utenti": 24.3,
+      "punteggi_voci": {
+        "digitale": {
+          "Accessibilità digitale": 50,
+          "Tecnologie digitali": 40,
+          "Fruizione digitale": 50,
+          "Valorizzazione digitale": 50
+        },
+        "esperienza": {
+          "Forme di valorizzazione": 83.3,
+          "Tipi di fruizione": 66.7,
+          "Discipline del design": 66.7,
+          "Impatto e obiettivi": 71.4
+        },
+        "accessibilita": {
+          "Forme di accessibilità": 42.9,
+          "Mezzi di trasporto": 66.7,
+          "Servizi generali": 57.1,
+          "Ampiezza orari": 80,
+          "Periodi di apertura": 100
+        },
+        "ecosistema": {
+          "Connessioni con altri siti": 83.3,
+          "Connessioni con stakeholder": 66.7,
+          "Patrimoni collegati": 50,
+          "Eventi collaterali": 60,
+          "Area d'influenza": 100
+        },
+        "utenti": {
+          "Tipologie di fruitori": 57.1,
+          "Fasce di età": 60,
+          "Comunicazione e promozione": 75,
+          "Monitoraggio visitatori": 0
+        }
+      }
     },
     {
       "id": "dallara-academy",
@@ -866,6 +1043,7 @@
       "immagine_1": null,
       "immagine_2": null,
       "immagine_3": null,
+      "crediti_immagini": [],
       "link_riferimento": [
         "https://www.dallara.it/dallara-academy/",
         "https://www.motorvalley.it/"
@@ -1018,7 +1196,41 @@
       "potenziale_esperienza": 8.4,
       "potenziale_accessibilita": 13.5,
       "potenziale_ecosistema": 21,
-      "potenziale_utenti": 18.1
+      "potenziale_utenti": 18.1,
+      "punteggi_voci": {
+        "digitale": {
+          "Accessibilità digitale": 50,
+          "Tecnologie digitali": 40,
+          "Fruizione digitale": 50,
+          "Valorizzazione digitale": 50
+        },
+        "esperienza": {
+          "Forme di valorizzazione": 83.3,
+          "Tipi di fruizione": 66.7,
+          "Discipline del design": 66.7,
+          "Impatto e obiettivi": 71.4
+        },
+        "accessibilita": {
+          "Forme di accessibilità": 42.9,
+          "Mezzi di trasporto": 33.3,
+          "Servizi generali": 57.1,
+          "Ampiezza orari": 80,
+          "Periodi di apertura": 100
+        },
+        "ecosistema": {
+          "Connessioni con altri siti": 83.3,
+          "Connessioni con stakeholder": 83.3,
+          "Patrimoni collegati": 50,
+          "Eventi collaterali": 60,
+          "Area d'influenza": 60
+        },
+        "utenti": {
+          "Tipologie di fruitori": 71.4,
+          "Fasce di età": 80,
+          "Comunicazione e promozione": 62.5,
+          "Monitoraggio visitatori": 0
+        }
+      }
     },
     {
       "id": "collezione-maserati-umberto-panini",
@@ -1042,9 +1254,10 @@
         "Artefatto",
         "Spazio privato"
       ],
-      "immagine_1": "https://www.motorwebmuseum.it/assets/Uploads/modena-collezioneumbertopanini-2.jpg",
+      "immagine_1": null,
       "immagine_2": null,
       "immagine_3": null,
+      "crediti_immagini": [],
       "link_riferimento": [
         "https://paninimotormuseum.it/",
         "https://www.motorwebmuseum.it/en/places/modena/the-umberto-panini-collection-temple-of-maserati-cars/"
@@ -1184,7 +1397,41 @@
       "potenziale_esperienza": 36.4,
       "potenziale_accessibilita": 22.5,
       "potenziale_ecosistema": 14.3,
-      "potenziale_utenti": 30.6
+      "potenziale_utenti": 30.6,
+      "punteggi_voci": {
+        "digitale": {
+          "Accessibilità digitale": 0,
+          "Tecnologie digitali": 0,
+          "Fruizione digitale": 0,
+          "Valorizzazione digitale": 25
+        },
+        "esperienza": {
+          "Forme di valorizzazione": 66.7,
+          "Tipi di fruizione": 33.3,
+          "Discipline del design": 33.3,
+          "Impatto e obiettivi": 42.9
+        },
+        "accessibilita": {
+          "Forme di accessibilità": 28.6,
+          "Mezzi di trasporto": 33.3,
+          "Servizi generali": 28.6,
+          "Ampiezza orari": 100,
+          "Periodi di apertura": 75
+        },
+        "ecosistema": {
+          "Connessioni con altri siti": 100,
+          "Connessioni con stakeholder": 100,
+          "Patrimoni collegati": 50,
+          "Eventi collaterali": 40,
+          "Area d'influenza": 80
+        },
+        "utenti": {
+          "Tipologie di fruitori": 57.1,
+          "Fasce di età": 60,
+          "Comunicazione e promozione": 50,
+          "Monitoraggio visitatori": 0
+        }
+      }
     },
     {
       "id": "museo-multimediale-autodromo-di-imola-checco-costa-maicc",
@@ -1208,9 +1455,10 @@
         "Spazio fisico",
         "Spazio pubblico"
       ],
-      "immagine_1": "https://www.motorvalley.it/wp-content/uploads/2024/10/Motor-Valley-partners-musei-Museo-Multimediale-Autodromo-di-Imola-Checco-Costa-cover-landscape-1200x630.jpg",
-      "immagine_2": "https://www.motorvalley.it/wp-content/uploads/2024/10/Motor-Valley-partners-musei-Museo-Multimediale-Autodromo-di-Imola-Checco-Costa-highlight-landscape.jpg",
-      "immagine_3": "https://www.motorvalley.it/wp-content/uploads/2024/10/Motor-Valley-partners-musei-Museo-Multimediale-Autodromo-di-Imola-Checco-Costa-media-slider-landscape-01.jpg",
+      "immagine_1": null,
+      "immagine_2": null,
+      "immagine_3": null,
+      "crediti_immagini": [],
       "link_riferimento": [
         "https://www.autodromoimola.it/",
         "https://www.motorvalley.it/en/?p=2485"
@@ -1374,7 +1622,41 @@
       "potenziale_esperienza": 0,
       "potenziale_accessibilita": 11.5,
       "potenziale_ecosistema": 0,
-      "potenziale_utenti": 0
+      "potenziale_utenti": 0,
+      "punteggi_voci": {
+        "digitale": {
+          "Accessibilità digitale": 100,
+          "Tecnologie digitali": 60,
+          "Fruizione digitale": 50,
+          "Valorizzazione digitale": 75
+        },
+        "esperienza": {
+          "Forme di valorizzazione": 83.3,
+          "Tipi di fruizione": 83.3,
+          "Discipline del design": 83.3,
+          "Impatto e obiettivi": 71.4
+        },
+        "accessibilita": {
+          "Forme di accessibilità": 28.6,
+          "Mezzi di trasporto": 66.7,
+          "Servizi generali": 71.4,
+          "Ampiezza orari": 60,
+          "Periodi di apertura": 100
+        },
+        "ecosistema": {
+          "Connessioni con altri siti": 83.3,
+          "Connessioni con stakeholder": 83.3,
+          "Patrimoni collegati": 75,
+          "Eventi collaterali": 100,
+          "Area d'influenza": 100
+        },
+        "utenti": {
+          "Tipologie di fruitori": 71.4,
+          "Fasce di età": 100,
+          "Comunicazione e promozione": 75,
+          "Monitoraggio visitatori": 50
+        }
+      }
     },
     {
       "id": "collezione-auto-bandini",
@@ -1401,6 +1683,7 @@
       "immagine_1": null,
       "immagine_2": null,
       "immagine_3": null,
+      "crediti_immagini": [],
       "link_riferimento": [
         "https://www.ilariobandini.it/",
         "https://www.motorvalley.it/en/stories/ilario-bandini/"
@@ -1533,7 +1816,41 @@
       "potenziale_esperienza": 40.5,
       "potenziale_accessibilita": 40.5,
       "potenziale_ecosistema": 21,
-      "potenziale_utenti": 43
+      "potenziale_utenti": 43,
+      "punteggi_voci": {
+        "digitale": {
+          "Accessibilità digitale": 0,
+          "Tecnologie digitali": 0,
+          "Fruizione digitale": 0,
+          "Valorizzazione digitale": 0
+        },
+        "esperienza": {
+          "Forme di valorizzazione": 50,
+          "Tipi di fruizione": 33.3,
+          "Discipline del design": 33.3,
+          "Impatto e obiettivi": 42.9
+        },
+        "accessibilita": {
+          "Forme di accessibilità": 14.3,
+          "Mezzi di trasporto": 16.7,
+          "Servizi generali": 14.3,
+          "Ampiezza orari": 40,
+          "Periodi di apertura": 100
+        },
+        "ecosistema": {
+          "Connessioni con altri siti": 83.3,
+          "Connessioni con stakeholder": 83.3,
+          "Patrimoni collegati": 50,
+          "Eventi collaterali": 60,
+          "Area d'influenza": 60
+        },
+        "utenti": {
+          "Tipologie di fruitori": 42.9,
+          "Fasce di età": 40,
+          "Comunicazione e promozione": 37.5,
+          "Monitoraggio visitatori": 0
+        }
+      }
     },
     {
       "id": "museo-francesco-baracca",
@@ -1560,6 +1877,7 @@
       "immagine_1": null,
       "immagine_2": null,
       "immagine_3": null,
+      "crediti_immagini": [],
       "link_riferimento": [
         "http://www.museobaracca.it/",
         "https://www.motorvalley.it/?p=1863"
@@ -1708,7 +2026,41 @@
       "potenziale_esperienza": 24.4,
       "potenziale_accessibilita": 19.7,
       "potenziale_ecosistema": 17.6,
-      "potenziale_utenti": 21.3
+      "potenziale_utenti": 21.3,
+      "punteggi_voci": {
+        "digitale": {
+          "Accessibilità digitale": 50,
+          "Tecnologie digitali": 0,
+          "Fruizione digitale": 0,
+          "Valorizzazione digitale": 0
+        },
+        "esperienza": {
+          "Forme di valorizzazione": 66.7,
+          "Tipi di fruizione": 50,
+          "Discipline del design": 50,
+          "Impatto e obiettivi": 57.1
+        },
+        "accessibilita": {
+          "Forme di accessibilità": 14.3,
+          "Mezzi di trasporto": 66.7,
+          "Servizi generali": 28.6,
+          "Ampiezza orari": 80,
+          "Periodi di apertura": 100
+        },
+        "ecosistema": {
+          "Connessioni con altri siti": 83.3,
+          "Connessioni con stakeholder": 100,
+          "Patrimoni collegati": 50,
+          "Eventi collaterali": 60,
+          "Area d'influenza": 60
+        },
+        "utenti": {
+          "Tipologie di fruitori": 71.4,
+          "Fasce di età": 80,
+          "Comunicazione e promozione": 50,
+          "Monitoraggio visitatori": 0
+        }
+      }
     },
     {
       "id": "museo-automobili-lamborghini",
@@ -1736,6 +2088,7 @@
       "immagine_1": null,
       "immagine_2": null,
       "immagine_3": null,
+      "crediti_immagini": [],
       "link_riferimento": [
         "https://www.lamborghini.com/it-en/museo-lamborghini",
         "https://www.motorvalley.it/"
@@ -1887,7 +2240,41 @@
       "potenziale_esperienza": 16.1,
       "potenziale_accessibilita": 9.5,
       "potenziale_ecosistema": 15.6,
-      "potenziale_utenti": 24.3
+      "potenziale_utenti": 24.3,
+      "punteggi_voci": {
+        "digitale": {
+          "Accessibilità digitale": 50,
+          "Tecnologie digitali": 40,
+          "Fruizione digitale": 50,
+          "Valorizzazione digitale": 50
+        },
+        "esperienza": {
+          "Forme di valorizzazione": 66.7,
+          "Tipi di fruizione": 66.7,
+          "Discipline del design": 66.7,
+          "Impatto e obiettivi": 57.1
+        },
+        "accessibilita": {
+          "Forme di accessibilità": 42.9,
+          "Mezzi di trasporto": 33.3,
+          "Servizi generali": 57.1,
+          "Ampiezza orari": 100,
+          "Periodi di apertura": 100
+        },
+        "ecosistema": {
+          "Connessioni con altri siti": 66.7,
+          "Connessioni con stakeholder": 66.7,
+          "Patrimoni collegati": 50,
+          "Eventi collaterali": 80,
+          "Area d'influenza": 100
+        },
+        "utenti": {
+          "Tipologie di fruitori": 57.1,
+          "Fasce di età": 60,
+          "Comunicazione e promozione": 75,
+          "Monitoraggio visitatori": 0
+        }
+      }
     }
   ]
 }

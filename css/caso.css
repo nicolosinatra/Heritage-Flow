@@ -4,7 +4,7 @@
    .chips/.chip--contorno (tag dell'archivio), .elenco/.elenco__voce (linee
    puntinate della pagina Info) e .esempio/.barra (barre degli indici).
    Mobile-first: una colonna; da M i campi hanno titolo a sinistra e voci a
-   destra; da L descrizione e potenziale affiancati.
+   destra; da L intestazione e corpo (.caso__scheda) su due colonne.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -72,7 +72,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Immagini (nel corpo, sotto la descrizione; da L in alto a destra): su
+   Immagini (sotto la descrizione; da L a destra, allineate al titolo): su
    mobile scorrono in orizzontale, da M affiancate
    -------------------------------------------------------------------------- */
 /* figure: foto (.caso__foto) e, sotto, i crediti */
@@ -95,6 +95,25 @@
   scroll-snap-type: x mandatory;
   overscroll-behavior-x: contain;
 }
+
+/* Bordi sfumati mentre le foto scorrono (come le colonne dell'archivio):
+   a sinistra dopo aver iniziato a scorrere, a destra finché c'è altro.
+   Le classi le mette js/caso.js; da M le foto non scorrono e le classi
+   restano spente */
+.caso__foto {
+  --sfumatura: calc(2 * var(--space-s));
+  --sfumatura-sx: #000;
+  --sfumatura-dx: #000;
+  -webkit-mask-image: linear-gradient(to right,
+    var(--sfumatura-sx) 0, #000 var(--sfumatura),
+    #000 calc(100% - var(--sfumatura)), var(--sfumatura-dx) 100%);
+  mask-image: linear-gradient(to right,
+    var(--sfumatura-sx) 0, #000 var(--sfumatura),
+    #000 calc(100% - var(--sfumatura)), var(--sfumatura-dx) 100%);
+}
+
+.caso__foto.is-scorsa { --sfumatura-sx: transparent; }
+.caso__foto.is-altro  { --sfumatura-dx: transparent; }
 
 /* Una sola immagine: larga quanto la pagina */
 .caso__immagini--1 .caso__foto {
@@ -124,18 +143,25 @@
   max-width: 670px;
 }
 
-/* Sotto L: una colonna sola, con il grafico prima di possibili sviluppi e
-   apertura. Il contenitore di sviluppi e apertura (che da L occupa la
-   colonna sinistra) si "apre" (display: contents) e l'ordine si decide qui */
+/* Sotto L: una colonna sola (intestazione, poi descrizione, immagini,
+   grafico, possibili sviluppi, apertura). Il contenitore di sviluppi e
+   apertura (che da L occupa la colonna sinistra) si "apre" (display:
+   contents) e l'ordine si decide qui; l'intestazione resta prima (order 0) */
 @media (max-width: 991.98px) {
   .caso__presentazione {
     display: contents;
+  }
+
+  /* più spazio tra intestazione e descrizione */
+  .caso__descrizione {
+    margin-top: var(--space-l);
   }
 
   .caso__descrizione                 { order: 1; }
   .caso__immagini                    { order: 2; }
   .caso__potenziale                  { order: 3; }
   .caso__presentazione .caso__gruppo { order: 4; }
+  .caso__presentazione .caso__indici-voci { order: 4; }
   .caso__presentazione .caso__blocco { order: 5; }
 }
 
@@ -143,6 +169,128 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-m);
+}
+
+/* --------------------------------------------------------------------------
+   Voci degli indici "esplose" (js/caso.js, vociIndici): per ogni voce una
+   scala 0–100 con il caso (punto pieno, colore dell'indice) e la media dei
+   casi simili (punto vuoto), uniti da un segmento. Il colore dell'indice
+   arriva da .barra--<indice> di style.css (--indice-color)
+   -------------------------------------------------------------------------- */
+.caso__indici-voci {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+
+.caso__nota {
+  max-width: 670px;
+  opacity: var(--opacity-muted);
+}
+
+.caso__legenda-voci {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-fixed-xxs) var(--space-m);
+}
+
+.caso__legenda-voce {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-fixed-xxs);
+}
+
+.caso__indice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xs);
+}
+
+.caso__indice-valore {
+  opacity: var(--opacity-muted);
+}
+
+.caso__voci-indice {
+  border-top: var(--border-width) dotted var(--color-divider);
+}
+
+/* XS, S: nome e valori sopra, scala sotto a tutta larghezza */
+.caso__voce-indice {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "nome  valori"
+    "scala scala";
+  align-items: center;
+  gap: var(--space-fixed-xxs) var(--space-fixed-xs);
+  padding: var(--space-fixed-xs) 0;
+  border-bottom: var(--border-width) dotted var(--color-divider);
+}
+
+.caso__voce-nome   { grid-area: nome; }
+.caso__scala       { grid-area: scala; }
+.caso__voce-valori { grid-area: valori; white-space: nowrap; }
+
+.caso__voce-media {
+  opacity: var(--opacity-muted);
+}
+
+/* Scala: linea sottile da 0 a 100 */
+/* rientra di mezzo punto per lato: i punti a 0 e a 100 restano dentro */
+.caso__scala {
+  position: relative;
+  display: block;
+  height: var(--space-fixed-xs);
+  margin: 0 6px;
+}
+
+.caso__scala::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: var(--border-width);
+  background: var(--color-border);
+  opacity: 0.3;
+}
+
+/* Segmento tra caso e media */
+.caso__scala-segmento {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--da) * 1%);
+  width: calc((var(--a) - var(--da)) * 1%);
+  height: var(--space-xxs);
+  background: var(--indice-color);
+  transform: translateY(-50%);
+}
+
+/* Punti: il caso pieno (colore dell'indice), la media vuota */
+.caso__scala-punto {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--v) * 1%);
+  width: 12px;
+  height: 12px;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.caso__scala-punto--caso  { background: var(--indice-color, var(--color-dark)); }
+.caso__scala-punto--media { background: var(--color-light); }
+
+/* Nella legenda i punti non stanno su una scala */
+.caso__scala-punto--legenda {
+  position: static;
+  flex: none;
+  transform: none;
+}
+
+/* Il punto del caso nella legenda: neutro (ogni indice ha il suo colore) */
+.caso__legenda-voci .caso__scala-punto--caso {
+  background: var(--color-dark);
 }
 
 /* --------------------------------------------------------------------------
@@ -199,6 +347,18 @@
    Modo M — 768px
    -------------------------------------------------------------------------- */
 @media (min-width: 768px) {
+  .caso__voce-indice {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto;
+    grid-template-areas: "nome scala valori";
+  }
+
+  /* larghezza minima uguale per tutte le righe ("100 · media 100"):
+     così le scale cominciano e finiscono tutte allo stesso punto */
+  .caso__voce-valori {
+    min-width: 8.5em;
+    text-align: right;
+  }
+
   .caso__dati {
     flex-direction: row;
     flex-wrap: wrap;
@@ -222,26 +382,96 @@
 }
 
 /* --------------------------------------------------------------------------
-   Modo L — 992px: corpo su due colonne e due righe
-     descrizione                    | immagini (o spazio vuoto)
-     possibili sviluppi e apertura  | potenziale
-   così il grafico parte all'altezza dei possibili sviluppi
+   Modo L — 992px: intestazione e corpo in una griglia a due colonne
+     pulsante indietro, occhiello      |
+     titolo                            | immagini (in alto al titolo)
+     sottotitolo, dati, descrizione    |   "
+     (spazio se le immagini sono più alte dei testi accanto)
+     possibili sviluppi e apertura     | potenziale
+   L'occhiello e il titolo escono dal loro gruppo (display: contents) per
+   stare in righe diverse; le distanze tra le righe sono margini (la
+   distanza tra occhiello e titolo è diversa dalle altre)
    -------------------------------------------------------------------------- */
 @media (min-width: 992px) {
-  .caso__corpo {
+  .caso__scheda {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(6, auto) 1fr auto;
     grid-template-areas:
+      "torna       ."
+      "occhiello   ."
+      "titolo      immagini"
+      "sottotitolo immagini"
+      "dati        immagini"
       "descrizione immagini"
+      ".           immagini"
       "sinistra    potenziale";
     align-items: start;
-    gap: var(--space-xl);
+    gap: 0 var(--space-xl);
   }
 
-  .caso__descrizione  { grid-area: descrizione; }
-  .caso__immagini     { grid-area: immagini; }
+  .caso__scheda > .heading-group {
+    display: contents;
+  }
+
+  .caso__torna        { grid-area: torna; margin-bottom: var(--space-l); }
+  .caso__scheda > .heading-group > .text-label { grid-area: occhiello; margin-bottom: var(--space-fixed-xs); }
+  .caso__titolo       { grid-area: titolo; margin-bottom: var(--space-l); }
+  .caso__sottotitolo  { grid-area: sottotitolo; margin-bottom: var(--space-l); }
+  .caso__dati         { grid-area: dati; margin-bottom: var(--space-xl); }
+  .caso__descrizione  { grid-area: descrizione; margin-bottom: var(--space-xl); }
+  .caso__immagini     { grid-area: immagini; margin-bottom: var(--space-xl); }
   .caso__presentazione { grid-area: sinistra; }
   .caso__potenziale   { grid-area: potenziale; }
+
+  /* Con le immagini la colonna destra è tutta loro: il potenziale va a
+     sinistra, tra descrizione e possibili sviluppi (come su mobile).
+     L'ultima riga (1fr) prende lo spazio se le immagini sono più alte dei
+     testi, così i testi non si allargano */
+  .caso__scheda--immagini {
+    grid-template-rows: repeat(9, auto) 1fr auto;
+    grid-template-areas:
+      "torna       ."
+      "occhiello   ."
+      "titolo      immagini"
+      "sottotitolo immagini"
+      "dati        immagini"
+      "descrizione immagini"
+      "potenziale  immagini"
+      "sinistra    immagini"
+      "indici      immagini"
+      ".           immagini"
+      "apertura    apertura";
+  }
+
+  .caso__scheda--immagini .caso__potenziale {
+    margin-bottom: var(--space-xl);
+  }
+
+  /* "Apertura" come i gruppi successivi: a tutta larghezza, staccata
+     quanto i gruppi tra loro (--space-xxl). Il contenitore di sviluppi e
+     apertura si apre per mettere i due blocchi in righe diverse */
+  .caso__scheda--immagini .caso__presentazione {
+    display: contents;
+  }
+
+  .caso__scheda--immagini .caso__presentazione > .caso__gruppo {
+    grid-area: sinistra;
+  }
+
+  .caso__scheda--immagini .caso__presentazione > .caso__indici-voci {
+    grid-area: indici;
+    margin-top: var(--space-xl);
+  }
+
+  .caso__scheda--immagini .caso__presentazione > .caso__blocco {
+    grid-area: apertura;
+    margin-top: var(--space-xxl);
+  }
+
+  .caso__scheda--immagini .caso__immagini {
+    margin-bottom: 0;
+  }
 
   /* Nella mezza colonna: tre immagini = una grande sopra, due sotto */
   .caso__immagini--3 .caso__foto {
