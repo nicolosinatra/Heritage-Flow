@@ -312,7 +312,8 @@
   transform: translate(-50%, -50%);
 }
 
-.caso__scala-punto--caso  { background: var(--indice-color, var(--color-dark)); }
+/* Questo caso: nero; il colore dell'indice resta al segmento */
+.caso__scala-punto--caso  { background: var(--color-dark); }
 .caso__scala-punto--media { background: var(--color-light); }
 
 /* Caso più vicino: cerchio di un altro colore (--color-3, diverso da
@@ -334,10 +335,6 @@
   transform: none;
 }
 
-/* Il punto del caso nella legenda: neutro (ogni indice ha il suo colore) */
-.caso__legenda-voci .caso__scala-punto--caso {
-  background: var(--color-dark);
-}
 
 /* --------------------------------------------------------------------------
    Gruppi di voci

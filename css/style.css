@@ -734,10 +734,19 @@
   opacity: var(--opacity-muted);
 }
 
-/* Voci della scheda separate dalla linea puntinata */
+/* Voci della scheda separate dalla linea puntinata; a destra il peso */
 .indice__voci li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-fixed-xs);
   padding: var(--space-fixed-xxs) 0;
   border-bottom: var(--border-width) dotted var(--color-divider);
+}
+
+.indice__peso {
+  flex: none;
+  opacity: var(--opacity-muted);
 }
 
 /* --------------------------------------------------------------------------
@@ -860,6 +869,24 @@
 
 .esempio__chiave--attuale {
   background: var(--color-light);
+}
+
+/* Link alla scheda del caso studio dell'esempio */
+.esempio__link {
+  align-self: flex-start;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width);
+  text-underline-offset: 0.2em;
+}
+
+.esempio__link:hover {
+  color: var(--color-main);
+}
+
+.esempio__link:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
 }
 
 /* --------------------------------------------------------------------------

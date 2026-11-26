@@ -73,7 +73,7 @@
       </ol>
     </section>
 
-    <!-- I cinque indici -->
+    <!-- I cinque indici (modello del foglio: Indici_Definizioni) -->
     <section class="section" aria-labelledby="indici-title">
       <div class="section__intro">
         <div class="heading-group">
@@ -81,7 +81,7 @@
           <h2 class="section__title text-h2" id="indici-title">Cinque indici per misurare il potenziale</h2>
         </div>
         <p class="section__lead text-body">
-          Dalle voci della scheda analitica si calcolano cinque indici, ciascuno da 0 a 100. Più che un voto, ogni indice è una misura di quanto potenziale resta da attivare: il margine di miglioramento, cioè 100 meno il punteggio, mostra dove un intervento può fare la differenza.
+          Dalle voci della scheda analitica si calcolano cinque indici, ciascuno da 0 a 100. Ogni indice è la somma pesata di quattro o cinque voci: il peso dice quanto conta ciascuna voce nell’indice.
         </p>
       </div>
       <ul class="indici">
@@ -92,12 +92,12 @@
           </div>
           <p class="text-body-small">Quanto il patrimonio è accessibile e raccontato in digitale.</p>
           <div class="indice__block">
-            <p class="indice__caption text-label">Voci della scheda</p>
+            <p class="indice__caption text-label">Voci della scheda e peso</p>
             <ul class="indice__voci text-body-small">
-              <li>Supporto o forma di accesso</li>
-              <li>Tecnologie digitali utilizzate</li>
-              <li>Fruizione digitale</li>
-              <li>Valorizzazione digitale</li>
+              <li><span>Accessibilità digitale</span><span class="indice__peso">25%</span></li>
+              <li><span>Tecnologie digitali</span><span class="indice__peso">35%</span></li>
+              <li><span>Fruizione digitale</span><span class="indice__peso">25%</span></li>
+              <li><span>Valorizzazione digitale</span><span class="indice__peso">15%</span></li>
             </ul>
           </div>
           <div class="indice__block">
@@ -113,12 +113,12 @@
           </div>
           <p class="text-body-small">Quanto sono varie le esperienze offerte al pubblico e quanto contribuisce il design.</p>
           <div class="indice__block">
-            <p class="indice__caption text-label">Voci della scheda</p>
+            <p class="indice__caption text-label">Voci della scheda e peso</p>
             <ul class="indice__voci text-body-small">
-              <li>Forme attuali di valorizzazione</li>
-              <li>Tipo di fruizione</li>
-              <li>Discipline del design coinvolte</li>
-              <li>Impatto e obiettivi</li>
+              <li><span>Forme di valorizzazione</span><span class="indice__peso">25%</span></li>
+              <li><span>Tipi di fruizione</span><span class="indice__peso">25%</span></li>
+              <li><span>Discipline del design</span><span class="indice__peso">25%</span></li>
+              <li><span>Impatto e obiettivi</span><span class="indice__peso">25%</span></li>
             </ul>
           </div>
           <div class="indice__block">
@@ -132,20 +132,20 @@
             <p class="text-label">INDICE 03</p>
             <h3 class="text-h4">Inclusività e accessibilità</h3>
           </div>
-          <p class="text-body-small">Quanto il patrimonio è raggiungibile e aperto a pubblici diversi.</p>
+          <p class="text-body-small">Quanto il patrimonio è raggiungibile, aperto e accogliente.</p>
           <div class="indice__block">
-            <p class="indice__caption text-label">Voci della scheda</p>
+            <p class="indice__caption text-label">Voci della scheda e peso</p>
             <ul class="indice__voci text-body-small">
-              <li>Accessibilità</li>
-              <li>Tipologia di fruitore</li>
-              <li>Fasce di età</li>
-              <li>Mezzi di trasporto</li>
-              <li>Servizi garantiti</li>
+              <li><span>Forme di accessibilità</span><span class="indice__peso">25%</span></li>
+              <li><span>Mezzi di trasporto</span><span class="indice__peso">20%</span></li>
+              <li><span>Servizi generali</span><span class="indice__peso">20%</span></li>
+              <li><span>Ampiezza orari</span><span class="indice__peso">20%</span></li>
+              <li><span>Periodi di apertura</span><span class="indice__peso">15%</span></li>
             </ul>
           </div>
           <div class="indice__block">
             <p class="indice__caption text-label">Serve a</p>
-            <p class="text-body-small">Ampliare i pubblici e ridurre le barriere fisiche, economiche e linguistiche.</p>
+            <p class="text-body-small">Ridurre le barriere fisiche, economiche e linguistiche e ampliare i tempi di apertura.</p>
           </div>
         </li>
 
@@ -156,13 +156,13 @@
           </div>
           <p class="text-body-small">Quanto il patrimonio è già inserito in una rete di luoghi, soggetti ed eventi.</p>
           <div class="indice__block">
-            <p class="indice__caption text-label">Voci della scheda</p>
+            <p class="indice__caption text-label">Voci della scheda e peso</p>
             <ul class="indice__voci text-body-small">
-              <li>Connessioni con altri siti</li>
-              <li>Connessioni con stakeholder</li>
-              <li>Altre tipologie di patrimonio</li>
-              <li>Eventi collaterali</li>
-              <li>Area d’influenza</li>
+              <li><span>Connessioni con altri siti</span><span class="indice__peso">20%</span></li>
+              <li><span>Connessioni con stakeholder</span><span class="indice__peso">20%</span></li>
+              <li><span>Patrimoni collegati</span><span class="indice__peso">20%</span></li>
+              <li><span>Eventi collaterali</span><span class="indice__peso">20%</span></li>
+              <li><span>Area d’influenza</span><span class="indice__peso">20%</span></li>
             </ul>
           </div>
           <div class="indice__block">
@@ -174,27 +174,57 @@
         <li class="indice indice--comunicazione">
           <div class="heading-group">
             <p class="text-label">INDICE 05</p>
-            <h3 class="text-h4">Comunicazione e sostenibilità</h3>
+            <h3 class="text-h4">Utenti e comunicazione</h3>
           </div>
-          <p class="text-body-small">Come il patrimonio si fa conoscere e quanto è sostenibile e monitorato.</p>
+          <p class="text-body-small">A quali pubblici si rivolge il patrimonio, come si fa conoscere e se conosce i suoi visitatori.</p>
           <div class="indice__block">
-            <p class="indice__caption text-label">Voci della scheda</p>
+            <p class="indice__caption text-label">Voci della scheda e peso</p>
             <ul class="indice__voci text-body-small">
-              <li>Comunicazione e promozione</li>
-              <li>Sostenibilità</li>
-              <li>Monitoraggio dei visitatori</li>
-              <li>Orari di apertura</li>
+              <li><span>Tipologie di fruitori</span><span class="indice__peso">30%</span></li>
+              <li><span>Fasce di età</span><span class="indice__peso">25%</span></li>
+              <li><span>Comunicazione e promozione</span><span class="indice__peso">25%</span></li>
+              <li><span>Monitoraggio visitatori</span><span class="indice__peso">20%</span></li>
             </ul>
           </div>
           <div class="indice__block">
             <p class="indice__caption text-label">Serve a</p>
-            <p class="text-body-small">Rendere il patrimonio riconoscibile e gestire i flussi di visita nel tempo.</p>
+            <p class="text-body-small">Raggiungere pubblici nuovi e seguire i flussi di visita nel tempo.</p>
           </div>
+        </li>
+      </ul>
+      <p class="info-nota text-label">
+        La sostenibilità resta un dato descrittivo della scheda e non entra in nessun indice.
+      </p>
+    </section>
+
+    <!-- Come si calcolano -->
+    <section class="section" aria-labelledby="calcolo-title">
+      <div class="heading-group">
+        <p class="text-label">IL CALCOLO</p>
+        <h2 class="section__title text-h2" id="calcolo-title">Dalle voci al potenziale di valorizzazione</h2>
+      </div>
+      <ul class="elenco">
+        <li class="elenco__voce">
+          <h3 class="text-h4">Punteggio di una voce</h3>
+          <p class="text-body-small">Va da 0 a 100. Per le voci a scelta multipla conta quante opzioni sono state scelte rispetto a una soglia (per esempio 5 tecnologie digitali danno il punteggio pieno); per i testi conta il numero di righe (siti, stakeholder, eventi); per le voci a scelta singola vale una scala (per esempio aperto tutti i giorni 100, su prenotazione 40).</p>
+        </li>
+        <li class="elenco__voce">
+          <h3 class="text-h4">Indice</h3>
+          <p class="text-body-small">La somma dei punteggi delle sue voci, ciascuno moltiplicato per il proprio peso. La media dei cinque indici dà il profilo complessivo del patrimonio.</p>
+        </li>
+        <li class="elenco__voce">
+          <h3 class="text-h4">Potenziale di un indice</h3>
+          <p class="text-body-small">La distanza dal caso studio migliore in quell’indice: quanto il patrimonio potrebbe crescere prendendo a riferimento ciò che un altro patrimonio fa già.</p>
+        </li>
+        <li class="elenco__voce">
+          <h3 class="text-h4">Potenziale di valorizzazione</h3>
+          <p class="text-body-small">La media dei cinque potenziali. Più è alto, più il patrimonio ha margini da attivare: la classifica ordina i casi studio dal potenziale più alto al più basso.</p>
         </li>
       </ul>
     </section>
 
-    <!-- Esempio -->
+    <!-- Esempio: Collezione Auto Bandini. I numeri sono quelli del foglio al
+         26/11/2026; js/info.js li aggiorna con i dati dell'App web -->
     <section class="section" aria-labelledby="esempio-title">
       <div class="section__intro">
         <div class="heading-group">
@@ -202,46 +232,77 @@
           <h2 class="section__title text-h2" id="esempio-title">Dal punteggio al potenziale</h2>
         </div>
         <p class="section__lead text-body">
-          La Collezione Bandini di Forlì è ben inserita nella rete della Motor Valley, ma non è accessibile in digitale e si visita solo su prenotazione. Gli indici rendono visibile quanto potenziale resta da attivare: il margine più ampio è nel digitale, poi nella comunicazione e nell’accessibilità.
+          La Collezione Auto Bandini di Forlì è ben inserita nella rete della Motor Valley, ma non è accessibile in digitale e si visita solo su prenotazione. Gli indici rendono visibile dove resta più spazio: il margine più ampio è nel digitale, poi negli utenti e nell’accessibilità.
         </p>
       </div>
-      <figure class="esempio">
+      <figure class="esempio" data-esempio="collezione-auto-bandini">
         <figcaption class="esempio__titolo">
-          <span class="text-h4">Collezione Bandini</span>
-          <span class="text-label">Collezione privata · Forlì</span>
+          <span class="text-h4" data-campo="titolo">Collezione Auto Bandini</span>
+          <span class="text-label" data-campo="sottotitolo">Potenziale di valorizzazione 43 / 100 · 2° su 11 casi studio</span>
         </figcaption>
         <ul class="esempio__barre">
-          <li class="barra barra--digitale" style="--valore: 0">
+          <li class="barra barra--digitale" data-indice="digitale" style="--valore: 0">
             <span class="barra__nome text-body-small">Maturità digitale</span>
             <span class="barra__traccia" aria-hidden="true"><span class="barra__attuale"></span></span>
             <span class="barra__valore"><span class="barra__margine text-h4">+100</span> <span class="barra__stato text-label">attuale 0</span></span>
           </li>
-          <li class="barra barra--esperienza" style="--valore: 40">
+          <li class="barra barra--esperienza" data-indice="esperienza" style="--valore: 40">
             <span class="barra__nome text-body-small">Esperienza e design</span>
             <span class="barra__traccia" aria-hidden="true"><span class="barra__attuale"></span></span>
             <span class="barra__valore"><span class="barra__margine text-h4">+60</span> <span class="barra__stato text-label">attuale 40</span></span>
           </li>
-          <li class="barra barra--inclusivita" style="--valore: 26">
+          <li class="barra barra--inclusivita" data-indice="inclusivita" style="--valore: 33">
             <span class="barra__nome text-body-small">Inclusività e accessibilità</span>
             <span class="barra__traccia" aria-hidden="true"><span class="barra__attuale"></span></span>
-            <span class="barra__valore"><span class="barra__margine text-h4">+74</span> <span class="barra__stato text-label">attuale 26</span></span>
+            <span class="barra__valore"><span class="barra__margine text-h4">+67</span> <span class="barra__stato text-label">attuale 33</span></span>
           </li>
-          <li class="barra barra--ecosistema" style="--valore: 71">
+          <li class="barra barra--ecosistema" data-indice="ecosistema" style="--valore: 67">
             <span class="barra__nome text-body-small">Connessione all’ecosistema</span>
             <span class="barra__traccia" aria-hidden="true"><span class="barra__attuale"></span></span>
-            <span class="barra__valore"><span class="barra__margine text-h4">+29</span> <span class="barra__stato text-label">attuale 71</span></span>
+            <span class="barra__valore"><span class="barra__margine text-h4">+33</span> <span class="barra__stato text-label">attuale 67</span></span>
           </li>
-          <li class="barra barra--comunicazione" style="--valore: 19">
-            <span class="barra__nome text-body-small">Comunicazione e sostenibilità</span>
+          <li class="barra barra--comunicazione" data-indice="comunicazione" style="--valore: 32">
+            <span class="barra__nome text-body-small">Utenti e comunicazione</span>
             <span class="barra__traccia" aria-hidden="true"><span class="barra__attuale"></span></span>
-            <span class="barra__valore"><span class="barra__margine text-h4">+81</span> <span class="barra__stato text-label">attuale 19</span></span>
+            <span class="barra__valore"><span class="barra__margine text-h4">+68</span> <span class="barra__stato text-label">attuale 32</span></span>
           </li>
         </ul>
         <p class="esempio__legenda text-label">
-          <span class="esempio__voce-legenda"><span class="esempio__chiave esempio__chiave--margine" aria-hidden="true"></span>Margine di miglioramento (potenziale)</span>
+          <span class="esempio__voce-legenda"><span class="esempio__chiave esempio__chiave--margine" aria-hidden="true"></span>Margine fino a 100</span>
           <span class="esempio__voce-legenda"><span class="esempio__chiave esempio__chiave--attuale" aria-hidden="true"></span>Stato attuale</span>
         </p>
+        <a class="esempio__link text-label" href="caso.html?id=collezione-auto-bandini">Apri la scheda del caso studio</a>
       </figure>
+    </section>
+
+    <!-- Come leggere mappa e scheda -->
+    <section class="section" aria-labelledby="lettura-title">
+      <div class="heading-group">
+        <p class="text-label">COME LEGGERE</p>
+        <h2 class="section__title text-h2" id="lettura-title">Mappa, archivio e scheda</h2>
+      </div>
+      <ul class="elenco">
+        <li class="elenco__voce">
+          <h3 class="text-h4">Il flow sulla mappa</h3>
+          <p class="text-body-small">Componendo la frase in “Genera” si scelgono tipo di patrimonio, periodo, settore e pubblico. La mappa tiene i casi studio che la rispettano e li collega in un itinerario, dal più a ovest passando ogni volta al più vicino.</p>
+        </li>
+        <li class="elenco__voce">
+          <h3 class="text-h4">Classi di potenziale</h3>
+          <p class="text-body-small">Sulla mappa ogni caso studio ha il colore della sua classe di potenziale di valorizzazione: molto (da 30 in su), discreto (da 15) o poco. Il grafico a bolle mostra lo stesso dato per ciascun ente.</p>
+        </li>
+        <li class="elenco__voce">
+          <h3 class="text-h4">Fisico, digitale, digitalizzato</h3>
+          <p class="text-body-small">Dalla forma di accesso: patrimonio digitale, digitalizzato o, se non è accessibile in digitale, fisico.</p>
+        </li>
+        <li class="elenco__voce">
+          <h3 class="text-h4">Le voci degli indici nella scheda</h3>
+          <p class="text-body-small">Per ogni voce il caso studio è confrontato con la media dei casi simili, cioè quelli con almeno un tipo di patrimonio in comune, e con il caso studio che ha il punteggio più vicino in quell’indice, da cui si può aprire la sua scheda.</p>
+        </li>
+        <li class="elenco__voce">
+          <h3 class="text-h4">Dati sempre aggiornati</h3>
+          <p class="text-body-small">Archivio, mappa e schede leggono gli stessi dati della scheda analitica: quando una scheda viene aggiornata, cambiano anche indici, classifica e visualizzazioni.</p>
+        </li>
+      </ul>
     </section>
 
     <!-- A cosa servono -->
@@ -273,12 +334,14 @@
         </li>
       </ul>
       <p class="info-nota text-label">
-        Prima applicazione: 11 casi studio della Motor Valley emiliano-romagnola, schedati con il modello di scheda analitica di Heritage Flow.
+        Prima applicazione: <span data-campo="numero-casi">11</span> casi studio della Motor Valley emiliano-romagnola, schedati con il modello di scheda analitica di Heritage Flow.
       </p>
     </section>
 
   </main>
 
   <script src="js/navbar.js"></script>
+  <script src="js/dati-casi.js"></script>
+  <script src="js/info.js"></script>
 </body>
 </html>

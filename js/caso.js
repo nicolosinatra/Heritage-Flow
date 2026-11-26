@@ -318,7 +318,7 @@
     return numeri.reduce(function (s, n) { return s + n; }, 0) / numeri.length;
   }
 
-  // Una voce: scala 0–100 con il caso (pieno), la media dei casi simili
+  // Una voce: scala 0–100 con il caso (nero), la media dei casi simili
   // (vuoto, unito al caso da un segmento) e il caso più vicino (cerchio
   // --color-3). Se il caso più vicino coincide con il caso o con la media,
   // il suo cerchio è più grande e sta dietro: due cerchi concentrici
