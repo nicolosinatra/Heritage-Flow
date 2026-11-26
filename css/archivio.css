@@ -29,9 +29,8 @@
    -------------------------------------------------------------------------- */
 /* Testata (pulsante + intestazioni): resta ferma sotto la navbar mentre la
    pagina scorre e sta sopra la sua sfumatura (z-index della navbar: 10),
-   altrimenti il pulsante non sarebbe cliccabile. Con il menu della navbar
-   aperto scende sotto, per non coprirlo. Non intercetta i click: solo il
-   pulsante */
+   altrimenti il pulsante non sarebbe cliccabile. Non intercetta i click:
+   solo il pulsante */
 .archivio__testa {
   position: sticky;
   z-index: 11;
@@ -42,9 +41,7 @@
   pointer-events: none;
 }
 
-.page:has(.navbar--open) .archivio__testa {
-  z-index: 9;
-}
+
 
 .archivio__barra {
   display: flex;
@@ -469,6 +466,21 @@
   display: none;
 }
 
+/* XS: il pannello occupa la larghezza della pagina; un velo chiaro copre
+   ciò che resta visibile intorno (sopra, tra navbar e pannello, e sotto) */
+@media (max-width: 575.98px) {
+  .archivio__filtri {
+    z-index: 9;   /* sotto la navbar (10): il velo non la copre */
+    box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--color-light) 92%, transparent);
+  }
+
+  /* la testata (pulsante Filtri, z-index 11) starebbe sopra il pannello,
+     che ne prende il posto: nascosta finché il pannello è aperto */
+  .archivio:has(.archivio__filtri:not([hidden])) .archivio__testa {
+    visibility: hidden;
+  }
+}
+
 @media (min-width: 576px) {
   .archivio__filtri {
     right: auto;
@@ -512,17 +524,18 @@
   outline-offset: var(--border-width-strong);
 }
 
+/* Sezione: titolo (legend) e sotto le opzioni. Niente flex sul fieldset:
+   Safari non applica il gap al legend flottante e il titolo finiva
+   attaccato alla prima opzione. Lo spazio è un padding esplicito */
 .filtri__sezione {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-fixed-xs);
+  display: block;
   min-width: 0;
   margin: 0;
   padding: 0;
   border: 0;
 }
 
-/* legend non si lascia impaginare dal flex: la si porta nel flusso */
+/* legend portato nel flusso normale (float), poi le opzioni sotto */
 .filtri__titolo {
   float: left;
   width: 100%;
@@ -532,6 +545,7 @@
 
 .filtri__titolo + * {
   clear: both;
+  padding-top: var(--space-fixed-xs);
 }
 
 .filtri__opzioni,
@@ -684,4 +698,25 @@
 .chip--filtro:focus-visible {
   outline: var(--border-width-strong) solid var(--color-main-light);
   outline-offset: var(--border-width-strong);
+}
+
+/* --------------------------------------------------------------------------
+   Menu della navbar aperto: la navbar sale sopra la testata (il menu non
+   viene coperto) e il suo fondo si ferma dove comincia la testata (y 60),
+   così il pulsante Filtri resta intero. In fondo al file: vince sulle
+   regole del fondo della navbar qui sopra
+   -------------------------------------------------------------------------- */
+.page--archivio .navbar.navbar--open {
+  z-index: 12;
+  background-repeat: no-repeat;
+  background-size: 100% calc(2 * var(--space-fixed-xs) + var(--navbar-height));
+}
+
+/* Vista elenco da L: il fondo è pieno; come sfumatura a tinta unita si può
+   accorciare (un colore riempie sempre tutto il riquadro) */
+@media (min-width: 992px) {
+  .page:has(.archivio:not(.archivio--griglia)) .navbar.navbar--open {
+    background: linear-gradient(var(--color-light), var(--color-light)) top / 100%
+      calc(2 * var(--space-fixed-xs) + var(--navbar-height)) no-repeat;
+  }
 }
