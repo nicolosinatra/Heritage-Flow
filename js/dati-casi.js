@@ -16,8 +16,9 @@
    HFDati.carica() → Promise della versione più aggiornata disponibile
      (aspetta l'App web; se non risponde usa la copia di riserva).
 
-   Aggiornare la copia di riserva (dalla cartella del sito):
-     curl -L "<URL_API>" -o dati/casi.json
+   Aggiornare la copia di riserva (dalla cartella del sito), su più righe
+   così i diff mostrano solo i valori cambiati:
+     curl -sfL "<URL_API>" | python3 -c 'import json,sys; print(json.dumps(json.load(sys.stdin), ensure_ascii=False, indent=2))' > dati/casi.json
    ========================================================================== */
 
 (function () {
