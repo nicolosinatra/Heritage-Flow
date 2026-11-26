@@ -167,6 +167,14 @@
     return node;
   }
 
+  // Link alla scheda del caso studio (caso.html)
+  function linkScheda(p, classe, testo) {
+    var a = el("a", classe, testo);
+    a.href = "caso.html?id=" + encodeURIComponent(p.id);
+    if (!testo) a.setAttribute("aria-label", "Scheda del caso studio: " + p.nome);
+    return a;
+  }
+
   function renderEnti() {
     var list = root.querySelector('[data-elenco="enti"]');
     if (!list) return;
@@ -179,19 +187,16 @@
     DATI.patrimoni.forEach(function (p) {
       var li = el("li");
       li.dataset.id = p.id;
-      // Cliccabile (anche da tastiera): zoom sul caso studio nella mappa
-      li.tabIndex = 0;
-      li.setAttribute("role", "button");
-      li.setAttribute("aria-label", p.nome + " (" + p.prov + "): mostra sulla mappa");
-      li.appendChild(el("span", "enti__nome", p.nome));
-      li.appendChild(el("span", "enti__prov", p.prov));
-      li.addEventListener("click", function () { zoomSuEnte(p.id); });
-      li.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          zoomSuEnte(p.id);
-        }
-      });
+      // Nome e provincia: zoom sul caso studio nella mappa
+      var zoom = el("button", "enti__zoom text-label");
+      zoom.type = "button";
+      zoom.setAttribute("aria-label", p.nome + " (" + p.prov + "): mostra sulla mappa");
+      zoom.appendChild(el("span", "enti__nome", p.nome));
+      zoom.appendChild(el("span", "enti__prov", p.prov));
+      zoom.addEventListener("click", function () { zoomSuEnte(p.id); });
+      li.appendChild(zoom);
+      // Freccia: scheda del caso studio
+      li.appendChild(linkScheda(p, "enti__scheda", null));
       list.appendChild(li);
     });
   }
@@ -771,7 +776,9 @@
     container.appendChild(el("p", "mappa__avviso text-body", testo));
   }
 
-  function popupHTML(p) {
+  // conLink: il popup resta aperto (click su un ente o sull'elenco) e
+  // contiene il link alla scheda
+  function popupHTML(p, conLink) {
     var dato;
     if (currentStep === "potenziale") dato = "Potenziale " + numero(p.potenziale) + " / 100 — " + classeDi(p.potenziale).etichetta;
     else if (currentStep === "tipologia") dato = (tipiById[p.tipo] || {}).etichetta || "";
@@ -780,6 +787,7 @@
     var box = el("div", "mappa__popup");
     box.appendChild(el("span", "text-label", p.nome + " (" + p.prov + ")"));
     box.appendChild(el("span", "mappa__popup-dato text-label", dato));
+    if (conLink) box.appendChild(linkScheda(p, "mappa__popup-link text-label", "Scheda del caso studio"));
     return box;
   }
 
@@ -847,7 +855,7 @@
 
   function tornaAllaVistaIniziale() {
     if (!vistaBase) return;
-    if (popup) popup.remove();
+    chiudiPopup();
     map.flyTo({ center: vistaBase.center, zoom: vistaBase.zoom, speed: 1.2, essential: true });
   }
 
@@ -980,6 +988,19 @@
   }
 
   var popup = null;
+  // Popup aperto con un click: resta (con il link alla scheda) finché non si
+  // clicca altrove sulla mappa; il passaggio del mouse non lo sostituisce
+  var popupFisso = false;
+
+  function mostraPopup(p, fisso) {
+    popupFisso = fisso;
+    popup.setLngLat(p.coordinate).setDOMContent(popupHTML(p, fisso)).addTo(map);
+  }
+
+  function chiudiPopup() {
+    popupFisso = false;
+    if (popup) popup.remove();
+  }
 
   // Zoom su un caso studio (click sull'elenco di destra). Lo zoom supera
   // CLUSTER_MAX_ZOOM, così l'ente è sempre separato dai gruppi.
@@ -989,7 +1010,7 @@
     var p = byId[id];
     if (!p || !mapReady) return;
     map.flyTo({ center: p.coordinate, zoom: ZOOM_ENTE, speed: 1.2, essential: true });
-    popup.setLngLat(p.coordinate).setDOMContent(popupHTML(p)).addTo(map);
+    mostraPopup(p, true);
 
     // Sotto L la mappa sta sopra l'elenco: se non si vede, ci si torna
     var box = map.getContainer().getBoundingClientRect();
@@ -1008,13 +1029,13 @@
       if (!p) return;
       map.getCanvas().style.cursor = "pointer";
       highlight(p.id);
-      popup.setLngLat(p.coordinate).setDOMContent(popupHTML(p)).addTo(map);
+      if (!popupFisso) mostraPopup(p, false);
     });
 
     map.on("mouseleave", "patrimoni-punti", function () {
       map.getCanvas().style.cursor = "";
       highlight(null);
-      popup.remove();
+      if (!popupFisso) popup.remove();
     });
 
     // Click / tocco: centra la mappa sull'ente
@@ -1024,7 +1045,12 @@
       var p = byId[f.properties.id];
       if (!p) return;
       map.easeTo({ center: p.coordinate, zoom: Math.max(map.getZoom(), 9) });
-      popup.setLngLat(p.coordinate).setDOMContent(popupHTML(p)).addTo(map);
+      mostraPopup(p, true);
+    });
+
+    // Click fuori dai casi studio: si chiude il popup fisso
+    map.on("click", function (e) {
+      if (!map.queryRenderedFeatures(e.point, { layers: ["patrimoni-punti"] }).length) chiudiPopup();
     });
   }
 
@@ -1070,7 +1096,7 @@
   var datiArrivati = false;
 
   function aggiornaMappa() {
-    if (popup) popup.remove();
+    chiudiPopup();
     vistaIniziale(map.getContainer());
     if (!mapReady) return;   // al "load" le sorgenti leggono già i dati nuovi
     Object.keys(clusterMarkers).forEach(function (id) { clusterMarkers[id].marker.remove(); });

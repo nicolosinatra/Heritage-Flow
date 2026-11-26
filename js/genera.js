@@ -565,6 +565,7 @@
     if (!haValore("patrimonio")) return;
     if (titoloMappa) titoloMappa.textContent = "Flow " + testoFrase();
     if (window.HFMappa) window.HFMappa.filtra(filtriFrase());
+    salvaFrase();
 
     box.classList.add("is-chiusa");
     if (main) main.inert = false;
@@ -598,5 +599,53 @@
     if (document.documentElement.classList.contains("genera-aperta")) riservaSpazioAnteprime();
   });
 
-  apri();
+  /* ------------------------------------------------------------------------
+     Ultima frase: tornando alla mappa dalla scheda di un caso studio
+     (pulsante indietro della scheda o del browser) si ritrova lo stesso
+     flow, senza la schermata "Genera". Aprendo la mappa dal menu o
+     ricaricandola si ricomincia da "Genera". Vale per la sessione
+     (sessionStorage)
+     ------------------------------------------------------------------------ */
+  var CHIAVE_FRASE = "heritage-flow:frase";
+
+  function salvaFrase() {
+    try {
+      sessionStorage.setItem(CHIAVE_FRASE, JSON.stringify({ attivi: stato.attivi, valori: stato.valori }));
+    } catch (e) { /* navigazione privata o spazio pieno: pazienza */ }
+  }
+
+  function leggiFrase() {
+    try {
+      var salvata = JSON.parse(sessionStorage.getItem(CHIAVE_FRASE));
+      return salvata && salvata.attivi && salvata.valori ? salvata : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function ritornoDallaScheda() {
+    var nav = window.performance && performance.getEntriesByType &&
+      performance.getEntriesByType("navigation")[0];
+    if (nav && nav.type === "back_forward") return true;
+    try {
+      var da = new URL(document.referrer);
+      return da.origin === location.origin && /\/caso\.html$/.test(da.pathname);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  var salvata = ritornoDallaScheda() ? leggiFrase() : null;
+  if (salvata) {
+    stato.attivi = salvata.attivi;
+    stato.valori = salvata.valori;
+    stato.inModifica = null;
+    if (titoloMappa) titoloMappa.textContent = "Flow " + testoFrase();
+    // js/mappa.js è caricato dopo questo file
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.HFMappa) window.HFMappa.filtra(filtriFrase());
+    });
+  } else {
+    apri();
+  }
 })();

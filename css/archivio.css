@@ -118,6 +118,23 @@
   margin-bottom: calc(var(--space-fixed-xxs) - var(--space-fixed-xs));
 }
 
+/* Nome: link alla scheda del caso studio (caso.html) */
+.archivio__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.archivio__link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width);
+  text-underline-offset: 0.2em;
+}
+
+.archivio__link:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
+}
+
 /* Nella scheda i campi brevi vengono prima dei gruppi */
 .archivio__campo--breve {
   order: 1;

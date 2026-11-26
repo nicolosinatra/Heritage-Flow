@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heritage Flow — Caso studio</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/caso.css">
+</head>
+<body class="page page--caso">
+
+  <!-- Navbar (Figma: navbar / navbar-mobile) — la scheda fa parte
+       dell'archivio: voce corrente Archivio -->
+  <header class="navbar">
+    <nav class="navbar__links" aria-label="Principale">
+      <a class="navbar__item navbar__item--logo text-menu" href="heritage-flow.html"><span>HERITAGE FLOW</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="mappa.html"><span>Mappa</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="timeline.html"><span>Timeline</span></a>
+      <a class="navbar__item navbar__item--secondary text-menu" href="archivio.html" aria-current="page"><span>Archivio</span></a>
+    </nav>
+    <div class="navbar__menu-box">
+      <div class="navbar__menu-panel">
+        <button class="navbar__menu" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="navbar-menu"></button>
+        <div class="navbar__dropdown">
+          <nav class="navbar__dropdown-links" id="navbar-menu" aria-label="Menu">
+            <a class="navbar__menu-item text-menu" href="info.html"><span>Info</span></a>
+            <a class="navbar__menu-item text-menu" href="about.html"><span>About</span></a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Scheda di un caso studio: caso.html?id=<id del foglio>.
+       Il contenuto lo genera js/caso.js dai dati di Export_Casi
+       (js/dati-casi.js). Prima versione, senza riferimento Figma -->
+  <main class="page__main caso" aria-busy="true">
+    <p class="caso__messaggio text-body">Caricamento del caso studio…</p>
+  </main>
+
+  <script src="js/navbar.js"></script>
+  <script src="js/dati-casi.js"></script>
+  <script src="js/caso.js"></script>
+</body>
+</html>

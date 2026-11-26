@@ -1,0 +1,247 @@
+/* ==========================================================================
+   Scheda del caso studio (caso.html, generata da js/caso.js)
+   Prima versione, senza riferimento Figma: riusa .section, .heading-group,
+   .chips/.chip--contorno (tag dell'archivio), .elenco/.elenco__voce (linee
+   puntinate della pagina Info) e .esempio/.barra (barre degli indici).
+   Mobile-first: una colonna; da M i campi hanno titolo a sinistra e voci a
+   destra; da L descrizione e potenziale affiancati.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Intestazione
+   -------------------------------------------------------------------------- */
+.caso__intro {
+  gap: var(--space-l);
+}
+
+/* Pulsante indietro in alto a sinistra: la freccia nel cerchio di
+   "Genera" (assets/mappa/genera-indietro.svg), alta quanto le voci della
+   navbar */
+.caso__torna {
+  display: block;
+  align-self: flex-start;
+  width: var(--navbar-height);
+  height: var(--navbar-height);
+  border-radius: 50%;
+  transition: background-color 200ms ease;
+}
+
+.caso__torna img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.caso__torna:hover {
+  background: var(--color-9);
+}
+
+.caso__torna:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
+}
+
+.caso__titolo {
+  max-width: 900px;
+}
+
+.caso__sottotitolo {
+  max-width: 670px;
+}
+
+/* Periodo, luogo, area d'influenza: in colonna, da M in riga */
+.caso__dati {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  margin: 0;
+}
+
+.caso__dato {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xxs);
+}
+
+.caso__dato dt {
+  opacity: var(--opacity-muted);
+}
+
+.caso__dato dd {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Immagini (nel corpo, sotto la descrizione; da L in alto a destra): su
+   mobile scorrono in orizzontale, da M affiancate
+   -------------------------------------------------------------------------- */
+.caso__immagini {
+  display: grid;
+  grid-auto-columns: 85%;
+  grid-auto-flow: column;
+  gap: var(--space-fixed-xs);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+}
+
+/* Una sola immagine: larga quanto la pagina */
+.caso__immagini--1 {
+  grid-auto-columns: 100%;
+}
+
+.caso__immagini img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: var(--border-width) solid var(--color-border);
+  background: var(--color-2);
+  scroll-snap-align: start;
+}
+
+/* --------------------------------------------------------------------------
+   Descrizione, apertura, potenziale
+   -------------------------------------------------------------------------- */
+.caso__presentazione {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.caso__descrizione {
+  max-width: 670px;
+}
+
+/* Sotto L: una colonna sola, con il grafico prima di possibili sviluppi e
+   apertura. Il contenitore di sviluppi e apertura (che da L occupa la
+   colonna sinistra) si "apre" (display: contents) e l'ordine si decide qui */
+@media (max-width: 991.98px) {
+  .caso__presentazione {
+    display: contents;
+  }
+
+  .caso__descrizione                 { order: 1; }
+  .caso__immagini                    { order: 2; }
+  .caso__potenziale                  { order: 3; }
+  .caso__presentazione .caso__gruppo { order: 4; }
+  .caso__presentazione .caso__blocco { order: 5; }
+}
+
+.caso__blocco {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+
+/* --------------------------------------------------------------------------
+   Gruppi di voci
+   -------------------------------------------------------------------------- */
+.caso__gruppi {
+  gap: var(--space-xxl);
+}
+
+.caso__gruppo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+
+/* Righe più fitte di quelle della pagina Info */
+.caso__elenco .elenco__voce {
+  padding: var(--space-s) 0;
+}
+
+/* Le voci lunghe vanno a capo invece di uscire dalla colonna */
+.caso__voce .chip {
+  max-width: 100%;
+  white-space: normal;
+}
+
+.caso__righe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xs);
+}
+
+.caso__link,
+.caso__indietro {
+  color: inherit;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width);
+  text-underline-offset: 0.2em;
+}
+
+.caso__link:hover,
+.caso__indietro:hover {
+  color: var(--color-main);
+}
+
+.caso__link:focus-visible,
+.caso__indietro:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
+}
+
+/* --------------------------------------------------------------------------
+   Modo M — 768px
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .caso__dati {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-m) var(--space-xl);
+  }
+
+  .caso__immagini {
+    grid-auto-columns: auto;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .caso__immagini--1 {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+
+  .caso__immagini--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Modo L — 992px: corpo su due colonne e due righe
+     descrizione                    | immagini (o spazio vuoto)
+     possibili sviluppi e apertura  | potenziale
+   così il grafico parte all'altezza dei possibili sviluppi
+   -------------------------------------------------------------------------- */
+@media (min-width: 992px) {
+  .caso__corpo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "descrizione immagini"
+      "sinistra    potenziale";
+    align-items: start;
+    gap: var(--space-xl);
+  }
+
+  .caso__descrizione  { grid-area: descrizione; }
+  .caso__immagini     { grid-area: immagini; }
+  .caso__presentazione { grid-area: sinistra; }
+  .caso__potenziale   { grid-area: potenziale; }
+
+  /* Nella mezza colonna: tre immagini = una grande sopra, due sotto */
+  .caso__immagini--3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .caso__immagini--3 img:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .caso__immagini--1 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

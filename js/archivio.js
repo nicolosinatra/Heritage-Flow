@@ -174,7 +174,12 @@
 
   function voce(caso, attivi) {
     var li = crea("li", "archivio__voce");
-    li.appendChild(crea("h2", "archivio__nome text-label", caso.titolo || ""));
+    // Il nome apre la scheda del caso studio
+    var nome = crea("h2", "archivio__nome text-label");
+    var link = crea("a", "archivio__link", caso.titolo || "");
+    link.href = "caso.html?id=" + encodeURIComponent(caso.id);
+    nome.appendChild(link);
+    li.appendChild(nome);
     attivi.forEach(function (campo) {
       li.appendChild(campo.tipo === "breve" ? campoBreve(caso, campo) : campoGruppo(caso, campo));
     });

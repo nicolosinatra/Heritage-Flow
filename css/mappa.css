@@ -225,7 +225,6 @@
   padding: var(--space-fixed-xxs) 0;
   border-top: 0.5px solid var(--color-border);
   border-bottom: 0.5px solid var(--color-border);
-  cursor: pointer;   /* click: zoom sul caso studio (js/mappa.js) */
   transition: background-color 200ms ease;
 }
 
@@ -233,9 +232,38 @@
   background: var(--color-2);
 }
 
-.enti li:focus-visible {
+/* Nome e provincia: pulsante che fa zoom sul caso studio (js/mappa.js) */
+.enti__zoom {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  gap: var(--space-fixed-xs);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Freccia in fondo alla riga: apre la scheda del caso studio */
+.enti__scheda {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  background: url("../assets/archivio/freccia-destra.svg") center / 14px auto no-repeat;
+  transition: transform 200ms ease;
+}
+
+.enti__scheda:hover {
+  transform: translateX(var(--space-xxs));
+}
+
+.enti__zoom:focus-visible,
+.enti__scheda:focus-visible {
   outline: var(--border-width-strong) solid var(--color-border);
-  outline-offset: -2px;
+  outline-offset: 2px;
 }
 
 .enti__nome {
@@ -349,6 +377,18 @@
 
 .mappa__popup-dato {
   opacity: var(--opacity-muted);
+}
+
+/* Popup aperto con un click: link alla scheda del caso studio */
+.mappa__popup-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width);
+  text-underline-offset: 0.2em;
+}
+
+.mappa__popup-link:hover {
+  color: var(--color-main);
 }
 
 /* --------------------------------------------------------------------------
