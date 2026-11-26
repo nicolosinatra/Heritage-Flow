@@ -117,5 +117,23 @@
     });
   }
 
-  window.HFDati = { osserva: osserva, carica: carica };
+  // Sigla della provincia ("Modena" → "MO"); se manca, il nome com'è
+  var SIGLE = {
+    "Bologna": "BO",
+    "Ferrara": "FE",
+    "Forlì-Cesena": "FC",
+    "Modena": "MO",
+    "Parma": "PR",
+    "Piacenza": "PC",
+    "Ravenna": "RA",
+    "Reggio Emilia": "RE",
+    "Reggio nell'Emilia": "RE",
+    "Rimini": "RN"
+  };
+
+  function sigla(provincia) {
+    return provincia ? (SIGLE[provincia] || provincia) : "";
+  }
+
+  window.HFDati = { osserva: osserva, carica: carica, sigla: sigla };
 })();

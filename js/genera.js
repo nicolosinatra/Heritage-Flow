@@ -16,7 +16,9 @@
      ("ad oggi" se la fine è "oggi"). Per ciascuna si sceglie il secolo e poi
      il decennio (Figma: opzioniDate); la freccia (o Esc) torna ai secoli.
    - "Genera" chiude la schermata e il titolo della mappa diventa la frase.
-     I dati della mappa restano quelli di js/mappa-dati.js.
+     La mappa (js/mappa.js, HFMappa.filtra) tiene i casi studio del foglio
+     che la rispettano: per ogni gruppo di voci (es. tipo di patrimonio,
+     fasce di età) almeno una delle voci scelte, e il periodo.
    Le pillole già compilate nella frase sono cliccabili per cambiarle.
    ========================================================================== */
 
@@ -544,9 +546,25 @@
     box.focus({ preventScroll: true });
   }
 
+  // Frase per la mappa: le voci scelte divise per gruppo (dentro un gruppo
+  // ne basta una) e il periodo
+  function filtriFrase() {
+    var gruppi = [];
+    CAMPI.forEach(function (c) {
+      if (c.periodo || !stato.attivi[c.id] || !haValore(c.id)) return;
+      c.gruppi.forEach(function (g) {
+        var scelte = stato.valori[c.id].filter(function (v) { return g.voci.indexOf(v) >= 0; });
+        if (scelte.length) gruppi.push(scelte);
+      });
+    });
+    var periodo = stato.attivi.periodo && haValore("periodo") ? stato.valori.periodo : null;
+    return { periodo: periodo, gruppi: gruppi };
+  }
+
   function genera() {
     if (!haValore("patrimonio")) return;
     if (titoloMappa) titoloMappa.textContent = "Flow " + testoFrase();
+    if (window.HFMappa) window.HFMappa.filtra(filtriFrase());
 
     box.classList.add("is-chiusa");
     if (main) main.inert = false;

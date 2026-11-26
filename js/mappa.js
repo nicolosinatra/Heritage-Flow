@@ -6,7 +6,12 @@
    - Passi:  flow        → archi del flow generato (Figma: Dataviz-1)
              potenziale  → punti colorati per classe (Figma: Dataviz-2)
              tipologia   → punti per tipo di patrimonio (Figma: Dataviz-3)
-   - Elenco enti, legende e grafici a bolle sono generati da js/mappa-dati.js.
+   - I casi studio arrivano dal Google Sheet (js/dati-casi.js). Restano
+     quelli che rispettano la frase di "Genera" (HFMappa.filtra, chiamata
+     da js/genera.js); il flow li visita da ovest verso est passando ogni
+     volta al più vicino. Classi e tipi sono in js/mappa-dati.js.
+   - Elenco enti, legende e grafici a bolle si rigenerano a ogni filtro e a
+     ogni versione nuova dei dati.
    - Passando su un ente (mappa, elenco o bolla) si evidenzia ovunque.
    ========================================================================== */
 
@@ -15,7 +20,7 @@
 
   var root = document.querySelector(".mappa");
   var DATI = window.HF_MAPPA;
-  if (!root || !DATI) return;
+  if (!root || !DATI || !window.HFDati) return;
 
   var CONFIG = window.HF_MAPBOX || {};
   var SVG_NS = "http://www.w3.org/2000/svg";
@@ -25,8 +30,114 @@
   var map = null;
   var mapReady = false;
 
+  // Casi del flow corrente, nell'ordine delle tappe (aggiorna())
+  DATI.patrimoni = [];
+  DATI.flow = [];
   var byId = {};
-  DATI.patrimoni.forEach(function (p) { byId[p.id] = p; });
+
+  /* ------------------------------------------------------------------------
+     Dal foglio ai patrimoni della mappa
+     ------------------------------------------------------------------------ */
+  var tutti = [];        // tutti i casi con coordinate
+  var filtri = null;     // frase di "Genera": { periodo, gruppi }
+  var ANNO_ATTUALE = new Date().getFullYear();
+
+  function lista(v) {
+    if (v == null || v === "") return [];
+    return Array.isArray(v) ? v : [v];
+  }
+
+  // Forma di accesso → tipo di patrimonio dei grafici
+  function tipoDi(caso) {
+    var accesso = lista(caso.dimensione_patrimonio).join(" ").toLowerCase();
+    if (accesso.indexOf("digitalizzato") >= 0) return "digitalizzato";
+    if (accesso.indexOf("non accessibile") < 0 && accesso.indexOf("digitale") >= 0) return "digitale";
+    return "fisico";
+  }
+
+  // Le voci della frase e quelle del foglio sono scritte in modo diverso
+  // ("gli amatori" / "amatori", "materiale - tangibile" / "Patrimonio
+  // materiale (tangibile)", "bambini: 0–10" / "Bambini: 0-10"): si
+  // confrontano le parole, senza articoli, preposizioni e "patrimonio"
+  var PAROLE_VUOTE = ["e", "di", "del", "della", "dello", "dei", "degli", "delle",
+    "i", "il", "lo", "la", "le", "l", "gli", "patrimonio", "settore"];
+
+  function chiave(testo) {
+    return String(testo).toLowerCase().split(/[^a-z0-9àèéìòù]+/).filter(function (w) {
+      return w && PAROLE_VUOTE.indexOf(w) < 0;
+    }).join(" ");
+  }
+
+  // Campi del foglio confrontati con le voci della frase
+  var CAMPI_FRASE = ["tipo_patrimonio", "natura_patrimonio", "macrosettore",
+    "settore_attivita", "fruitore_attuale", "fasce_eta_fruitore"];
+
+  function daCaso(caso) {
+    if (typeof caso.lon !== "number" || typeof caso.lat !== "number") return null;
+    var p = {
+      id: caso.id,
+      nome: caso.titolo || caso.id,
+      prov: window.HFDati.sigla(caso.provincia),
+      coordinate: [caso.lon, caso.lat],
+      potenziale: typeof caso.potenziale_valorizzazione === "number" ? caso.potenziale_valorizzazione : 0,
+      tipo: tipoDi(caso),
+      caso: caso,
+      chiavi: {}
+    };
+    CAMPI_FRASE.forEach(function (campo) {
+      lista(caso[campo]).forEach(function (v) { p.chiavi[chiave(v)] = true; });
+    });
+    p.chiavi[p.tipo] = true;   // "digitale", "digitalizzato", "fisico"
+    return p;
+  }
+
+  // Come l'archivio: un caso senza anno di inizio passa sempre; se è in
+  // corso arriva a oggi
+  function nelPeriodo(caso, inizio, fine) {
+    if (caso.anno_inizio == null) return true;
+    var ultimo = caso.in_corso ? ANNO_ATTUALE : (caso.anno_fine != null ? caso.anno_fine : caso.anno_inizio);
+    if (fine != null && caso.anno_inizio > fine) return false;
+    if (inizio != null && ultimo < inizio) return false;
+    return true;
+  }
+
+  // Ogni gruppo di voci della frase (es. tipo di patrimonio, fasce di età)
+  // va rispettato; dentro un gruppo basta una delle voci scelte
+  function rispetta(p) {
+    if (!filtri) return true;
+    var per = filtri.periodo;
+    if (per && !nelPeriodo(p.caso, +per.dal, per.al === "oggi" ? null : +per.al)) return false;
+    return (filtri.gruppi || []).every(function (voci) {
+      return voci.some(function (v) { return p.chiavi[chiave(v)]; });
+    });
+  }
+
+  // Ordine delle tappe: dal caso più a ovest, ogni volta il più vicino
+  function ordinaFlow(scelti) {
+    var resto = scelti.slice();
+    var ordine = [];
+    if (!resto.length) return ordine;
+    var corrente = resto.reduce(function (a, b) { return b.coordinate[0] < a.coordinate[0] ? b : a; });
+    while (corrente) {
+      ordine.push(corrente);
+      resto.splice(resto.indexOf(corrente), 1);
+      var da = corrente;
+      var cos = Math.cos(da.coordinate[1] * Math.PI / 180);
+      corrente = null;
+      var minimo = Infinity;
+      resto.forEach(function (p) {
+        var dx = (p.coordinate[0] - da.coordinate[0]) * cos;
+        var dy = p.coordinate[1] - da.coordinate[1];
+        var d = dx * dx + dy * dy;
+        if (d < minimo) { minimo = d; corrente = p; }
+      });
+    }
+    return ordine;
+  }
+
+  function numero(v) {
+    return v.toLocaleString("it-IT", { maximumFractionDigits: 1 });
+  }
 
   /* Colori dalle variabili CSS di style.css (unica fonte) */
   var styles = getComputedStyle(document.documentElement);
@@ -59,6 +170,12 @@
   function renderEnti() {
     var list = root.querySelector('[data-elenco="enti"]');
     if (!list) return;
+    list.textContent = "";
+    list.removeAttribute("aria-busy");
+    if (!DATI.patrimoni.length) {
+      list.appendChild(el("li", "enti__vuoto", "Nessun caso studio corrisponde al flow scelto."));
+      return;
+    }
     DATI.patrimoni.forEach(function (p) {
       var li = el("li");
       li.dataset.id = p.id;
@@ -112,38 +229,179 @@
     return g;
   }
 
-  // Figma: Data viz 2 — una bolla per ente, raggio = punteggio
+  /* Bolle come palloncini (al posto delle posizioni fisse di Figma, che
+     valevano per 10 enti), compatte come nel riferimento Figma (Frame 181).
+     Vincoli: i bordi laterali (larghi quanto il frame di Figma, 425) e il
+     bordo in alto.
+     - Una bolla alla volta si appoggia a due elementi (bolle, bordi o bordo
+       in alto), quindi è tangente ad almeno due: nel punto che alza meno il
+       grafico, a parità dove tocca più bolle, poi il più in alto.
+     - Si provano BOLLE_PROVE ordini casuali e si tiene quello che lascia
+       meno spazio vuoto (il grafico più basso), a parità quello con più
+       tangenze tra bolle. Gli ordini sono casuali ma ripetibili (casualeDa): stessi
+       casi → stessa disposizione.
+     cerchi: [{ r, chiave }] → aggiunge x, y e restituisce il viewBox */
+  var BOLLE_LARGHEZZA = 425;
+  var BOLLE_PROVE = 300;
+  var BOLLE_TOLLERANZA = 0.01;    // px: sotto questa distanza è tangenza
+
+  // Numeri "casuali" ripetibili: stessi casi → stessa disposizione, così le
+  // bolle non cambiano posto quando arrivano dati uguali o si ridisegna
+  function casualeDa(testo) {
+    var h = 2166136261;
+    for (var i = 0; i < testo.length; i++) { h ^= testo.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return function () {
+      h += 0x6D2B79F5;
+      var t = h;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  // Posizioni in cui una bolla di raggio r tocca due elementi
+  function appoggi(r, messi, W) {
+    var punti = [[r, r], [W - r, r]];                       // angoli in alto
+    messi.forEach(function (m, i) {
+      var d = m.r + r;
+      // bordo in alto
+      var dy = r - m.y;
+      if (Math.abs(dy) <= d) {
+        var dx = Math.sqrt(d * d - dy * dy);
+        punti.push([m.x - dx, r], [m.x + dx, r]);
+      }
+      // bordi laterali
+      [r, W - r].forEach(function (x) {
+        var ddx = x - m.x;
+        if (Math.abs(ddx) <= d) {
+          var ddy = Math.sqrt(d * d - ddx * ddx);
+          punti.push([x, m.y - ddy], [x, m.y + ddy]);
+        }
+      });
+      // un'altra bolla: incroci delle circonferenze allargate di r
+      for (var j = i + 1; j < messi.length; j++) {
+        var n = messi[j];
+        var e = n.r + r;
+        var vx = n.x - m.x, vy = n.y - m.y;
+        var l = Math.sqrt(vx * vx + vy * vy);
+        if (!l || l > d + e || l < Math.abs(d - e)) continue;
+        var t = (d * d - e * e + l * l) / (2 * l);
+        var h = Math.sqrt(Math.max(d * d - t * t, 0));
+        var px = m.x + vx * t / l, py = m.y + vy * t / l;
+        punti.push([px - vy * h / l, py + vx * h / l], [px + vy * h / l, py - vx * h / l]);
+      }
+    });
+    return punti;
+  }
+
+  function libero(x, y, r, messi, W) {
+    if (x < r - BOLLE_TOLLERANZA || x > W - r + BOLLE_TOLLERANZA || y < r - BOLLE_TOLLERANZA) return false;
+    return messi.every(function (m) {
+      return Math.hypot(m.x - x, m.y - y) >= m.r + r - BOLLE_TOLLERANZA;
+    });
+  }
+
+  // Tangenze con le altre bolle (i bordi non contano)
+  function tangenze(x, y, r, messi) {
+    var n = 0;
+    messi.forEach(function (m) { if (Math.abs(Math.hypot(m.x - x, m.y - y) - m.r - r) < 0.5) n++; });
+    return n;
+  }
+
+  // Una disposizione con le bolle nell'ordine dato. Per ogni bolla, tra le
+  // posizioni d'appoggio libere: quella che alza meno il grafico, a parità
+  // quella con più tangenze con altre bolle, poi la più in alto
+  function disponi(ordine, W) {
+    var messi = [];
+    var altezza = 0;
+    var contatti = 0;
+    ordine.forEach(function (c) {
+      var migliore = null;
+      appoggi(c.r, messi, W).forEach(function (p) {
+        if (!libero(p[0], p[1], c.r, messi, W)) return;
+        var cand = { x: p[0], y: p[1], h: Math.max(altezza, p[1] + c.r), t: tangenze(p[0], p[1], c.r, messi) };
+        if (!migliore || cand.h < migliore.h - 0.5 ||
+            (cand.h < migliore.h + 0.5 && (cand.t > migliore.t ||
+              (cand.t === migliore.t && cand.y < migliore.y - 0.01)))) migliore = cand;
+      });
+      altezza = migliore.h;
+      contatti += migliore.t;
+      messi.push({ c: c, x: migliore.x, y: migliore.y, r: c.r });
+    });
+    return { messi: messi, altezza: altezza, contatti: contatti };
+  }
+
+  function impacchetta(cerchi) {
+    var W = BOLLE_LARGHEZZA;
+    cerchi.forEach(function (c) { c.r = Math.min(c.r, W / 2); });
+    var casuale = casualeDa(cerchi.map(function (c) { return c.chiave + ":" + c.r.toFixed(2); }).join("|"));
+
+    var migliore = null;
+    for (var prova = 0; prova < BOLLE_PROVE; prova++) {
+      var ordine = cerchi.slice();
+      for (var i = ordine.length - 1; i > 0; i--) {
+        var j = Math.floor(casuale() * (i + 1));
+        var t = ordine[i]; ordine[i] = ordine[j]; ordine[j] = t;
+      }
+      var d = disponi(ordine, W);
+      if (!migliore || d.altezza < migliore.altezza - 0.5 ||
+          (d.altezza < migliore.altezza + 0.5 && d.contatti > migliore.contatti)) migliore = d;
+    }
+    migliore.messi.forEach(function (m) { m.c.x = m.x; m.c.y = m.y; });
+    return "0 0 " + W + " " + migliore.altezza;
+  }
+
+  // Figma: Data viz 2 — una bolla per ente. L'area cresce con il
+  // potenziale; la più grande ha il raggio di Figma (75)
+  var POTENZIALE_RAGGIO_MAX = 75;
+  var POTENZIALE_RAGGIO_MIN = 16;
+
   function renderGraficoPotenziale() {
     var fig = root.querySelector('[data-grafico="potenziale"]');
     if (!fig) return;
-    var s = svg("svg", { viewBox: "0 0 425 330", role: "img",
+    fig.textContent = "";
+    if (!DATI.patrimoni.length) return;
+    var massimo = Math.max.apply(null, DATI.patrimoni.map(function (p) { return p.potenziale; })) || 1;
+    var cerchi = DATI.patrimoni.map(function (p) {
+      return { p: p, chiave: p.id, r: Math.max(POTENZIALE_RAGGIO_MIN, POTENZIALE_RAGGIO_MAX * Math.sqrt(p.potenziale / massimo)) };
+    });
+    var s = svg("svg", { viewBox: impacchetta(cerchi), role: "img",
       "aria-label": "Punteggio di potenziale di valorizzazione per ciascun ente" });
-    DATI.patrimoni.forEach(function (p) {
-      var r = p.potenziale;
-      var size = r >= 59 ? 32 : r >= 43 ? 24 : 16;
-      var g = bolla(p.bolla.x, p.bolla.y, r, cssColor(classeDi(r).colore),
-        r + " / 100", size, p.nome + ": " + r + " / 100");
+    cerchi.forEach(function (c) {
+      var p = c.p;
+      var size = c.r >= 59 ? 32 : c.r >= 43 ? 24 : 16;
+      // Nelle bolle piccole solo il numero
+      var testo = Math.round(p.potenziale) + (c.r >= 43 ? " / 100" : "");
+      var g = bolla(c.x, c.y, c.r, cssColor(classeDi(p.potenziale).colore),
+        testo, size, p.nome + ": " + numero(p.potenziale) + " / 100");
       g.dataset.id = p.id;
       s.appendChild(g);
     });
     fig.appendChild(s);
   }
 
-  // Figma: Data viz 4 — una bolla per tipo, percentuale sul totale
+  // Figma: Data viz 4 — una bolla per tipo, percentuale sul totale. L'area
+  // cresce con il numero di enti; la più grande ha il raggio di Figma
+  var TIPI_RAGGIO_MAX = 157.5;
+
   function renderGraficoTipologia() {
     var fig = root.querySelector('[data-grafico="tipologia"]');
     if (!fig) return;
+    fig.textContent = "";
     var totale = DATI.patrimoni.length;
-    var s = svg("svg", { viewBox: "0 0 425 379", role: "img",
+    if (!totale) return;
+    var conteggi = DATI.tipi.map(function (tipo) {
+      return { tipo: tipo, n: DATI.patrimoni.filter(function (p) { return p.tipo === tipo.id; }).length };
+    }).filter(function (c) { return c.n; });
+    var massimo = Math.max.apply(null, conteggi.map(function (c) { return c.n; }));
+    conteggi.forEach(function (c) { c.chiave = c.tipo.id; c.r = TIPI_RAGGIO_MAX * Math.sqrt(c.n / massimo); });
+    var s = svg("svg", { viewBox: impacchetta(conteggi), role: "img",
       "aria-label": "Quota di enti per tipo di patrimonio" });
-    DATI.tipi.forEach(function (tipo) {
-      var pos = DATI.bolleTipi[tipo.id];
-      if (!pos) return;
-      var n = DATI.patrimoni.filter(function (p) { return p.tipo === tipo.id; }).length;
-      var perc = Math.round((n / totale) * 100) + "%";
-      var size = pos.r >= 100 ? 56 : pos.r >= 50 ? 32 : 24;
-      s.appendChild(bolla(pos.x, pos.y, pos.r, cssColor(tipo.colore), perc, size,
-        tipo.etichetta + ": " + perc));
+    conteggi.forEach(function (c) {
+      var perc = Math.round((c.n / totale) * 100) + "%";
+      var size = c.r >= 100 ? 56 : c.r >= 50 ? 32 : 24;
+      s.appendChild(bolla(c.x, c.y, c.r, cssColor(c.tipo.colore), perc, size,
+        c.tipo.etichetta + ": " + perc + " (" + c.n + ")"));
     });
     fig.appendChild(s);
   }
@@ -341,9 +599,10 @@
     return expr;
   }
 
-  // Figma: Dataviz-1/2/3 — punti tutti uguali (16px, bordo scuro), cambia
-  // solo il colore di riempimento
-  var PUNTO_RAGGIO = 8;
+  // Figma: Dataviz-1/2/3 — punti tutti uguali (bordo scuro), cambia solo il
+  // colore di riempimento. 24px (in Figma 16px, ingranditi); i gruppi
+  // crescono in proporzione (CLUSTER_LATO_MAX)
+  var PUNTO_RAGGIO = 12;
 
   var STEP_STYLES = {
     flow: function () {
@@ -372,7 +631,10 @@
      spicchi, uno per ente, con il numero di enti al centro. Usa il
      clustering di Mapbox: con lo zoom i gruppi si separano.
      ------------------------------------------------------------------------ */
-  var CLUSTER_RAGGIO = 25;     // distanza (px) entro cui gli enti si uniscono
+  // Misure in proporzione al pallino (in origine: raggio 8, distanza 25,
+  // lato massimo 64)
+  var CLUSTER_RAGGIO = Math.round(PUNTO_RAGGIO * 25 / 8);   // distanza (px) entro cui gli enti si uniscono
+  var CLUSTER_LATO_MAX = PUNTO_RAGGIO * 8;                   // diametro massimo di un gruppo (px)
   var CLUSTER_MAX_ZOOM = 11;   // oltre questo zoom i punti sono sempre separati
   var clusterMarkers = {};     // cluster_id → { marker, node, props, onMap }
 
@@ -421,7 +683,7 @@
   function creaCluster(id, props, coord) {
     var node = el("button", "mappa__cluster text-h4", String(props.point_count));
     node.type = "button";
-    var lato = Math.min(PUNTO_RAGGIO * 2 * props.point_count, 64);
+    var lato = Math.min(PUNTO_RAGGIO * 2 * props.point_count, CLUSTER_LATO_MAX);
     node.style.setProperty("--cluster-lato", lato + "px");
     node.setAttribute("aria-label", props.point_count + " enti vicini: avvicina la mappa");
 
@@ -445,7 +707,7 @@
       var ids = leaves.map(function (f) { return f.properties.id; });
       gruppo.ids = ids;
       node.dataset.ids = ids.join(" ");
-      node.title = ids.map(function (i) { return byId[i].nome; }).join(", ");
+      node.title = ids.map(function (i) { return byId[i] ? byId[i].nome : i; }).join(", ");
       if (highlighted && ids.indexOf(highlighted) >= 0) node.classList.add("is-highlighted");
       map.triggerRepaint();    // ricalcola gli archi con il gruppo completo
     });
@@ -511,7 +773,7 @@
 
   function popupHTML(p) {
     var dato;
-    if (currentStep === "potenziale") dato = "Potenziale " + p.potenziale + " / 100 — " + classeDi(p.potenziale).etichetta;
+    if (currentStep === "potenziale") dato = "Potenziale " + numero(p.potenziale) + " / 100 — " + classeDi(p.potenziale).etichetta;
     else if (currentStep === "tipologia") dato = (tipiById[p.tipo] || {}).etichetta || "";
     else dato = "Tappa " + (DATI.flow.indexOf(p.id) + 1) + " del flow";
 
@@ -589,7 +851,15 @@
     map.flyTo({ center: vistaBase.center, zoom: vistaBase.zoom, speed: 1.2, essential: true });
   }
 
+  // Senza casi studio: l'Emilia-Romagna
+  var VISTA_VUOTA = { center: [11.2, 44.5], zoom: 6.5 };
+
   function vistaIniziale(container) {
+    if (!DATI.patrimoni.length) {
+      vistaBase = VISTA_VUOTA;
+      map.jumpTo(vistaBase);
+      return;
+    }
     var punti = DATI.patrimoni.map(function (p) { return mercatore(p.coordinate); });
     var archi = [];
     flowGeoJSON().features.forEach(function (f) {
@@ -606,9 +876,11 @@
     var w = container.clientWidth;
     var h = container.clientHeight;
     var grande = window.matchMedia("(min-width: 992px)").matches;
+    // (con un solo caso lo zoom si ferma a quello del click su un ente)
     var zoom = Math.min(
       zoomMassimo(punti, centro, grande ? PUNTI_MARGINE : PUNTI_MARGINE_PICCOLO, w, h),
-      zoomMassimo(archi, centro, grande ? ARCHI_MARGINE : ARCHI_MARGINE_PICCOLO, w, h)
+      zoomMassimo(archi, centro, grande ? ARCHI_MARGINE : ARCHI_MARGINE_PICCOLO, w, h),
+      ZOOM_ENTE
     );
     var lngLat = new mapboxgl.MercatorCoordinate(centro.x, centro.y).toLngLat();
     vistaBase = { center: lngLat, zoom: zoom };
@@ -630,14 +902,12 @@
 
     mapboxgl.accessToken = CONFIG.token;
 
-    var bounds = new mapboxgl.LngLatBounds();
-    DATI.patrimoni.forEach(function (p) { bounds.extend(p.coordinate); });
-
+    // La vista la imposta subito vistaIniziale() sui casi del flow
     map = new mapboxgl.Map({
       container: container,
       style: CONFIG.style || "mapbox://styles/mapbox/light-v11",
-      bounds: bounds,
-      fitBoundsOptions: { padding: 60 },
+      center: VISTA_VUOTA.center,
+      zoom: VISTA_VUOTA.zoom,
       // Logo e attribuzione sono obbligatori (condizioni d'uso di Mapbox):
       // l'attribuzione si aggiunge sotto, compatta in tutte le versioni
       attributionControl: false,
@@ -735,6 +1005,7 @@
       var f = e.features && e.features[0];
       if (!f) return;
       var p = byId[f.properties.id];
+      if (!p) return;
       map.getCanvas().style.cursor = "pointer";
       highlight(p.id);
       popup.setLngLat(p.coordinate).setDOMContent(popupHTML(p)).addTo(map);
@@ -751,6 +1022,7 @@
       var f = e.features && e.features[0];
       if (!f) return;
       var p = byId[f.properties.id];
+      if (!p) return;
       map.easeTo({ center: p.coordinate, zoom: Math.max(map.getZoom(), 9) });
       popup.setLngLat(p.coordinate).setDOMContent(popupHTML(p)).addTo(map);
     });
@@ -792,11 +1064,59 @@
   // Passando da L a M (o viceversa) cambia l'area che scorre
   modoL.addEventListener("change", observeSteps);
 
-  renderEnti();
+  /* ------------------------------------------------------------------------
+     Aggiornamento: a ogni versione dei dati e a ogni frase di "Genera"
+     ------------------------------------------------------------------------ */
+  var datiArrivati = false;
+
+  function aggiornaMappa() {
+    if (popup) popup.remove();
+    vistaIniziale(map.getContainer());
+    if (!mapReady) return;   // al "load" le sorgenti leggono già i dati nuovi
+    Object.keys(clusterMarkers).forEach(function (id) { clusterMarkers[id].marker.remove(); });
+    clusterMarkers = {};
+    flowChiave = null;
+    map.getSource("patrimoni").setData(puntiGeoJSON());
+    map.getSource("flow").setData(flowGeoJSON());
+  }
+
+  function aggiorna() {
+    if (!datiArrivati) return;
+    DATI.patrimoni = ordinaFlow(tutti.filter(rispetta));
+    DATI.flow = DATI.patrimoni.map(function (p) { return p.id; });
+    byId = {};
+    DATI.patrimoni.forEach(function (p) { byId[p.id] = p; });
+    highlight(null);
+    renderEnti();
+    renderGraficoPotenziale();
+    renderGraficoTipologia();
+    bindHighlight();
+    if (map) aggiornaMappa();
+    else initMap();
+  }
+
+  // Frase di "Genera" (js/genera.js): { periodo: { dal, al } | null,
+  // gruppi: [[voci], ...] }; null = tutti i casi
+  window.HFMappa = {
+    filtra: function (nuovi) {
+      filtri = nuovi || null;
+      aggiorna();
+    }
+  };
+
   renderLegende();
-  renderGraficoPotenziale();
-  renderGraficoTipologia();
-  bindHighlight();
   observeSteps();
-  initMap();
+
+  window.HFDati.osserva(function (dati) {
+    tutti = dati.casi.map(daCaso).filter(Boolean);
+    datiArrivati = true;
+    aggiorna();
+  }).catch(function (errore) {
+    console.error("Mappa: dati non disponibili.", errore);
+    var list = root.querySelector('[data-elenco="enti"]');
+    if (list) {
+      list.textContent = "";
+      list.appendChild(el("li", "enti__vuoto", "Non è stato possibile caricare i casi studio. Riprova più tardi."));
+    }
+  });
 })();

@@ -42,20 +42,6 @@
   // Larghezza di una colonna di peso 1 (Tipi di patrimonio a 1280px)
   var UNITA_COLONNA = 290;
 
-  // Sigle delle province (le altre restano con il nome intero)
-  var SIGLE = {
-    "Bologna": "BO",
-    "Ferrara": "FE",
-    "Forlì-Cesena": "FC",
-    "Modena": "MO",
-    "Parma": "PR",
-    "Piacenza": "PC",
-    "Ravenna": "RA",
-    "Reggio Emilia": "RE",
-    "Reggio nell'Emilia": "RE",
-    "Rimini": "RN"
-  };
-
   var CAMPI = [
     { id: "periodo", etichetta: "Periodo temporale", tipo: "breve", peso: 0.5, attivo: true },
     { id: "periodi_apertura", etichetta: "Periodi di apertura", tipo: "tag", peso: 0.75 },
@@ -150,7 +136,7 @@
     if (campo.id === "periodo") {
       p.appendChild(document.createTextNode(testoPeriodo(caso)));
     } else {
-      var provincia = caso.provincia ? (SIGLE[caso.provincia] || caso.provincia) : "";
+      var provincia = window.HFDati.sigla(caso.provincia);
       var riga1 = [caso.comune, provincia].filter(Boolean).join(", ");
       if (riga1) p.appendChild(document.createTextNode(riga1 + "."));
       if (riga1 && caso.regione) p.appendChild(document.createElement("br"));
