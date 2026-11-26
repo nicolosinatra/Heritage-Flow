@@ -1,0 +1,278 @@
+/* ==========================================================================
+   Heritage Flow — come nasce un flow (heritage-flow.html, js/flusso.js)
+   Lo schema del flow (Figma: Flow schema) in verticale. A sinistra una
+   colonna con i nodi (la linea puntinata dello schema, nel colore della
+   tappa), il ⊕ tra le tappe e la freccia prima del FLOW; accanto ai nodi
+   voci e opzioni. Gli archi arancioni (SVG) collegano le scelte
+   dell'esempio nel margine a sinistra della colonna.
+   Mobile-first: le opzioni sotto il nome della voce; da L nome della voce
+   e opzioni affiancati, nome della tappa e testo affiancati.
+   ========================================================================== */
+
+.flusso {
+  --flusso-colonna: 40px;          /* larghezza della colonna dei nodi */
+  --flusso-nodo: 28px;             /* nodo di una voce */
+  --flusso-nodo-flow: 88px;        /* cerchio del FLOW */
+}
+
+/* Spazio a sinistra per gli archi */
+.flusso__schema {
+  position: relative;
+  padding-left: calc(var(--space-s) + var(--space-xl));
+}
+
+.flusso__linee {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.flusso__linea {
+  fill: none;
+  stroke: var(--color-7);
+  stroke-width: 1;
+  opacity: 0.35;
+}
+
+/* Il percorso dell'esempio: si disegna scorrendo (stroke-dashoffset) */
+.flusso__linea--flow {
+  stroke-width: 3;
+  opacity: 1;
+  stroke-linecap: round;
+}
+
+.flusso__tappe {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   Tappa: colonna dei nodi | contenuto
+   -------------------------------------------------------------------------- */
+.flusso__tappa {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--flusso-colonna) minmax(0, 1fr);
+  column-gap: var(--space-s);
+  row-gap: var(--space-l);
+}
+
+/* La linea puntinata della tappa, al centro della colonna dei nodi */
+.flusso__tappa:not(.flusso__esito)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--flusso-colonna) / 2 - var(--border-width-strong) / 2);
+  border-left: var(--border-width-strong) dotted var(--tappa-colore);
+}
+
+.flusso__testa {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  padding-top: var(--space-l);
+}
+
+.flusso__testo {
+  max-width: 560px;
+}
+
+.flusso__voci {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+/* Voce: nodo nella colonna, nome e opzioni accanto */
+.flusso__voce {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--flusso-colonna) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-fixed-xs) var(--space-s);
+}
+
+.flusso__nodo {
+  justify-self: center;
+  width: var(--flusso-nodo);
+  height: var(--flusso-nodo);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 50%;
+  background: var(--tappa-colore);
+}
+
+.flusso__voce-nome {
+  grid-column: 2;
+}
+
+.flusso__righe {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xs);
+}
+
+.flusso__riga {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-fixed-xs);
+}
+
+/* Le opzioni vanno a capo dentro la riga (anche le voci lunghe) */
+.flusso__opzioni {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.flusso__opzione {
+  max-width: 100%;
+  white-space: normal;
+}
+
+.flusso__etichetta {
+  flex: none;
+  width: 4em;
+  opacity: var(--opacity-muted);
+}
+
+.flusso__opzione {
+  transition: background-color 400ms ease;
+}
+
+/* Le scelte dell'esempio si colorano quando la linea arriva alla tappa */
+.flusso__tappa.is-raggiunta .flusso__opzione.is-scelta {
+  background: var(--tappa-colore);
+}
+
+/* ⊕ tra una tappa e l'altra, → prima del FLOW (come nello schema) */
+.flusso__segno {
+  grid-column: 1;
+  justify-self: center;
+  position: relative;      /* sopra la linea puntinata */
+  display: block;
+  width: 28px;
+  height: 28px;
+  margin-block: var(--space-l);
+  border-radius: 50%;
+  background: var(--color-light);
+}
+
+.flusso__segno img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.flusso__segno--freccia img {
+  transform: rotate(180deg);
+}
+
+/* --------------------------------------------------------------------------
+   Il FLOW: cerchio, frase dell'esempio, link alla mappa
+   -------------------------------------------------------------------------- */
+.flusso__esito {
+  align-items: start;
+}
+
+.flusso__nodo--flow {
+  display: grid;
+  place-items: center;
+  width: var(--flusso-nodo-flow);
+  height: var(--flusso-nodo-flow);
+  background: var(--color-7);
+  transition: transform 400ms ease;
+}
+
+.flusso__esito.is-raggiunta .flusso__nodo--flow {
+  transform: scale(1.08);
+}
+
+/* Il cerchio è più largo della colonna dei nodi (è centrato su di essa):
+   il testo comincia dopo il suo bordo destro */
+.flusso__esito-testo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  padding-top: var(--space-s);
+  padding-left: calc(var(--flusso-nodo-flow) / 2 - var(--flusso-colonna) / 2);
+}
+
+.flusso__frase {
+  max-width: 640px;
+}
+
+.flusso__link {
+  align-self: flex-start;
+  padding: var(--space-fixed-xxs) var(--space-fixed-xs);
+  background: var(--color-dark);
+  color: var(--color-light);
+  text-decoration: none;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.flusso__link:hover {
+  background: var(--color-main-light);
+  color: var(--color-dark);
+}
+
+.flusso__link:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
+}
+
+/* XS, S: il testo del flow sotto il cerchio, per avere tutta la larghezza */
+@media (max-width: 767.98px) {
+  .flusso__esito-testo {
+    grid-row: 2;
+    grid-column: 2;
+    padding-left: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Modo S — 576px: margini laterali come le altre sezioni
+   -------------------------------------------------------------------------- */
+@media (min-width: 576px) {
+  .flusso__schema {
+    padding-left: calc(var(--space-l) + var(--space-xl));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Modo L — 992px: nome della tappa e testo affiancati; nome della voce e
+   opzioni affiancati
+   -------------------------------------------------------------------------- */
+@media (min-width: 992px) {
+  .flusso {
+    --flusso-nodo: 36px;
+    --flusso-nodo-flow: 120px;
+  }
+
+  .flusso__testa {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-items: baseline;
+    gap: var(--space-xl);
+  }
+
+  .flusso__voce {
+    grid-template-columns: var(--flusso-colonna) minmax(0, 1fr) minmax(0, 2fr);
+  }
+
+  .flusso__righe {
+    grid-column: 3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flusso__opzione,
+  .flusso__nodo--flow {
+    transition: none;
+  }
+}

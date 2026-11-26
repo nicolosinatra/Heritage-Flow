@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Heritage Flow — Il progetto</title>
+  <title>Heritage Flow — Come nasce un flow</title>
   <meta name="description" content="Heritage Flow è una piattaforma digitale per la lettura del patrimonio culturale e creativo dell'Emilia-Romagna a supporto di un turismo sostenibile.">
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/flusso.css">
 </head>
 <body class="page">
 
@@ -34,90 +35,40 @@
     </div>
   </header>
 
-  <main class="page__main">
+  <!-- Heritage Flow: come si genera un flow. Lo schema del flow (Figma:
+       Flow schema, assets/heritage-flow/flow-schema.svg) messo in verticale:
+       le quattro tappe (patrimonio, tempo, filiera, utenti) una sotto
+       l'altra con tutte le voci e le opzioni tra cui si sceglie; la linea
+       arancione collega le scelte di un esempio fino al FLOW e si disegna
+       scorrendo. Le tappe le genera js/flusso.js dalle voci di
+       js/flow-campi.js (le stesse di "Genera" nella pagina Mappa) -->
+  <main class="page__main flusso">
 
-    <!-- Hero -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__text">
-        <div class="heading-group">
-          <p class="text-label">EMILIA-ROMAGNA · PATRIMONIO CULTURALE E CREATIVO</p>
-          <h1 class="text-h2" id="hero-title">Leggere il patrimonio diffuso per un turismo sostenibile</h1>
-        </div>
-        <p class="text-body-small">
-          Heritage Flow è una piattaforma digitale per la lettura del patrimonio culturale e creativo a supporto di un turismo sostenibile. Racconta in forma visiva, con dati qualitativi e quantitativi, il patrimonio materiale e immateriale dell’Emilia-Romagna.
-        </p>
-      </div>
-      <div class="hero__illustration">
-        <img src="assets/heritage-flow/illustrazione-hero.svg" width="518" height="518" alt="">
-      </div>
-    </section>
-
-    <!-- A chi si rivolge -->
-    <section class="audience" aria-labelledby="audience-title">
-      <div class="heading-group">
-        <p class="text-label">A CHI SI RIVOLGE</p>
-        <h2 class="text-h2" id="audience-title">Decisioni informate, per chi governa e promuove il territorio</h2>
-      </div>
-      <div class="audience__body">
-        <div class="audience__texts text-body-small">
-          <p>La piattaforma si rivolge in particolare agli operatori turistici e agli enti locali, offrendo loro un supporto puntuale e informato ai processi decisionali.</p>
-          <p>Heritage Flow restituisce una lettura strutturata e dinamica del patrimonio diffuso del territorio, spesso poco visibile nel suo insieme, e ne fa emergere le connessioni potenziali con altri patrimoni, servizi, luoghi e stakeholder.</p>
-          <p>In questo modo contribuisce a orientare scelte di valorizzazione capaci di coniugare attrattività, tutela e sostenibilità.</p>
-        </div>
-        <ul class="chips">
-          <li class="chip text-label">Operatori turistici</li>
-          <li class="chip text-label">Enti locali</li>
-          <li class="chip text-label">Attrattività</li>
-          <li class="chip text-label">Tutela</li>
-          <li class="chip text-label">Sostenibilità</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Il progetto -->
-    <section class="section" aria-labelledby="project-title">
+    <section class="section" aria-labelledby="flusso-titolo">
       <div class="section__intro">
         <div class="heading-group">
-          <p class="text-label">IL PROGETTO</p>
-          <h2 class="section__title text-h2" id="project-title">Patrimoni nascosti che meritano di essere valorizzati</h2>
+          <p class="text-label">HERITAGE FLOW · COME FUNZIONA</p>
+          <h1 class="section__title text-h2" id="flusso-titolo">Come nasce un flow</h1>
         </div>
         <p class="section__lead text-body">
-          Heritage Flow mira a raccontare il patrimonio diffuso dell’Emilia-Romagna tanto nelle sue forme materiali quanto in quelle immateriali, avvalendosi di dati qualitativi e quantitativi.
+          Un flow è un itinerario tra patrimoni che hanno qualcosa in comune. Si compone in quattro passi, scegliendo il patrimonio, il tempo, la filiera e gli utenti: ogni scelta restringe i casi studio e la mappa li collega in un percorso. Scorri per vedere tutte le possibilità e come si compone un esempio.
         </p>
       </div>
-      <ul class="ambiti">
-        <li class="card-ambito">
-          <h3 class="text-h4">Pratiche artigianali</h3>
-          <p class="text-body-small">Le competenze e i gesti di bottega che si tramandano nel tempo.</p>
-        </li>
-        <li class="card-ambito">
-          <h3 class="text-h4">Saperi tecnico-industriali</h3>
-          <p class="text-body-small">Le conoscenze che hanno reso nota la Motor Valley.</p>
-        </li>
-        <li class="card-ambito">
-          <h3 class="text-h4">Beni storici e culturali</h3>
-          <p class="text-body-small">Le memorie che raccontano la storia del territorio.</p>
-        </li>
-      </ul>
     </section>
 
-    <!-- Nuovi flow turistici -->
-    <section class="section section--flow" aria-labelledby="flow-title">
-      <div class="section__intro">
-        <h2 class="section__title text-h2" id="flow-title">Nuovi flow turistici</h2>
-        <p class="section__lead text-body">
-          I patrimoni contenuti all’interno della piattaforma vengono riletti assieme a chi detiene tali patrimoni con la finalità di scoprire potenzialità inedite.<br>
-          Allo stesso tempo dati anagrafici, periodo temporale, esperienza di fruizione ed ecosistema di relazioni diventano strumenti per generare nuovi flussi narrativi e di relazione.
-        </p>
-      </div>
-      <figure class="flow-schema">
+    <section class="section flusso__schema" aria-label="Le scelte per generare un flow">
+      <svg class="flusso__linee" aria-hidden="true"></svg>
+      <ol class="flusso__tappe" data-flusso="tappe"></ol>
+      <noscript>
         <img src="assets/heritage-flow/flow-schema.svg" width="1136" height="539"
              alt="Schema del flow: patrimonio (tipologia, natura, dimensione), più tempo (periodo), più filiera (macrosettore, settore), più utenti (tipologie, fasce d’età), danno il flow.">
-      </figure>
+      </noscript>
     </section>
 
   </main>
 
   <script src="js/navbar.js"></script>
+  <script src="js/flow-campi.js"></script>
+  <script src="js/flusso.js"></script>
 </body>
 </html>
