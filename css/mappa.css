@@ -203,6 +203,14 @@
 
 /* Il cerchio sta dentro .mappa__cluster-marker (posizionato da Mapbox):
    l'ingrandimento resta centrato sul punto */
+/* Passo "territorio": gruppi grandi la metà, come i pallini (js/mappa.js) */
+.mappa[data-step="territorio"] .mappa__cluster {
+  width: calc(var(--cluster-lato, 48px) / 2);
+  height: calc(var(--cluster-lato, 48px) / 2);
+  font-size: var(--text-label-size);
+  line-height: 1;
+}
+
 .mappa__cluster.is-highlighted,
 .mappa__cluster:hover {
   transform: scale(1.15);
@@ -260,6 +268,17 @@
   border-top: 0.5px solid var(--color-border);
   border-bottom: 0.5px solid var(--color-border);
   transition: background-color 200ms ease;
+}
+
+/* La freccia della scheda rientra dal margine destro: 16px, in XS e S 8px */
+.enti li {
+  padding-right: var(--space-fixed-xs);
+}
+
+@media (max-width: 767.98px) {
+  .enti li {
+    padding-right: var(--space-fixed-xxs);
+  }
 }
 
 .enti li.is-highlighted {
@@ -456,6 +475,33 @@
   overflow: visible;
 }
 
+/* Grafici a bolle: il passo è alto esattamente quanto l'area che scorre
+   (height 0 + min-height del passo) e il grafico prende lo spazio rimasto
+   sotto titolo e testo. L'SVG si adatta a larghezza e altezza insieme
+   (preserveAspectRatio "xMinYMin meet", js/mappa.js): le bolle si
+   rimpiccioliscono tutte nella stessa misura, le proporzioni tra i dati
+   restano */
+.step:has(> .step__viz--bolle) {
+  height: 0;
+}
+
+.step__viz--bolle {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.step__viz--bolle > svg {
+  height: 100%;
+}
+
+/* XS, S: niente freccia in basso (e il contenitore ha già il suo spazio
+   sotto la sfumatura), quindi i grafici a bolle non lasciano i 140px */
+@media (max-width: 767.98px) {
+  .step:has(> .step__viz--bolle) {
+    padding-bottom: 0;
+  }
+}
+
 .bolla circle {
   stroke: none;
   transition: opacity 200ms ease;
@@ -582,6 +628,39 @@
 
 .mappa__popup-dato {
   opacity: var(--opacity-muted);
+}
+
+/* Scheda del comune (passo "territorio"): aziende, casi studio, stakeholder
+   ed eventi; gli elenchi lunghi scorrono */
+.mappa__popup--comune {
+  max-width: 280px;
+  padding-block: 2px;   /* lo scorrimento non taglia le maiuscole rifilate */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.mappa__popup-sezione {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xxs);
+  padding-top: var(--space-fixed-xxs);
+  border-top: var(--border-width) dotted var(--color-divider);
+}
+
+.mappa__popup-elenco {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fixed-xxs);
+  max-height: 76px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Nell'elenco che scorre niente rifilo (text-box): le righe a capo non si
+   sovrappongono e aste e code delle lettere restano intere */
+.page .mappa__popup-elenco li {
+  text-box: normal;
+  line-height: 1.2;
 }
 
 /* Popup aperto con un click: link alla scheda del caso studio */

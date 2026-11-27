@@ -363,13 +363,11 @@
     return { messi: messi, altezza: altezza, contatti: contatti };
   }
 
-  function impacchetta(cerchi) {
-    var W = BOLLE_LARGHEZZA;
-    cerchi.forEach(function (c) { c.r = Math.min(c.r, W / 2); });
+  // La disposizione migliore su BOLLE_PROVE ordini, in una larghezza W
+  function migliorePer(cerchi, W, prove) {
     var casuale = casualeDa(cerchi.map(function (c) { return c.chiave + ":" + c.r.toFixed(2); }).join("|"));
-
     var migliore = null;
-    for (var prova = 0; prova < BOLLE_PROVE; prova++) {
+    for (var prova = 0; prova < prove; prova++) {
       var ordine = cerchi.slice();
       for (var i = ordine.length - 1; i > 0; i--) {
         var j = Math.floor(casuale() * (i + 1));
@@ -379,8 +377,45 @@
       if (!migliore || d.altezza < migliore.altezza - 0.5 ||
           (d.altezza < migliore.altezza + 0.5 && d.contatti > migliore.contatti)) migliore = d;
     }
+    return migliore;
+  }
+
+  /* rapporto: altezza / larghezza dello spazio del grafico (facoltativo).
+     Le bolle occupano sempre tutta la larghezza. Se nella larghezza di
+     sempre (BOLLE_LARGHEZZA) il grafico è troppo alto per lo spazio, si
+     cerca una larghezza (in unità del grafico) più ampia, la più stretta
+     con cui il grafico ci sta: le bolle restano nelle stesse proporzioni
+     tra loro, si dispongono su più colonne e, scalate alla larghezza
+     reale, risultano più piccole */
+  var BOLLE_PROVE_RICERCA = 60;
+
+  function impacchetta(cerchi, rapporto) {
+    var W = BOLLE_LARGHEZZA;
+    cerchi.forEach(function (c) { c.r = Math.min(c.r, W / 2); });
+    var migliore = migliorePer(cerchi, W, BOLLE_PROVE);
+
+    if (rapporto > 0 && migliore.altezza / W > rapporto) {
+      var minimo = W;
+      var massimo = Math.max(W, cerchi.reduce(function (t, c) { return t + 2 * c.r; }, 0));
+      for (var passo = 0; passo < 12 && massimo - minimo > 2; passo++) {
+        var medio = (minimo + massimo) / 2;
+        var d = migliorePer(cerchi, medio, BOLLE_PROVE_RICERCA);
+        if (d.altezza / medio <= rapporto) massimo = medio; else minimo = medio;
+      }
+      W = massimo;
+      migliore = migliorePer(cerchi, W, BOLLE_PROVE);
+    }
+
     migliore.messi.forEach(function (m) { m.c.x = m.x; m.c.y = m.y; });
     return "0 0 " + W + " " + migliore.altezza;
+  }
+
+  // Rapporto altezza / larghezza dello spazio di un grafico a bolle (il
+  // riquadro prende lo spazio rimasto nel passo, css/mappa.css); 0 se non
+  // è misurabile (pagina nascosta)
+  function rapportoSpazio(fig) {
+    var w = fig.clientWidth, h = fig.clientHeight;
+    return w > 0 && h > 0 ? h / w : 0;
   }
 
   // Figma: Data viz 2 — una bolla per ente. L'area cresce con il
@@ -397,7 +432,7 @@
     var cerchi = DATI.patrimoni.map(function (p) {
       return { p: p, chiave: p.id, r: Math.max(POTENZIALE_RAGGIO_MIN, POTENZIALE_RAGGIO_MAX * Math.sqrt(p.potenziale / massimo)) };
     });
-    var s = svg("svg", { viewBox: impacchetta(cerchi), role: "img",
+    var s = svg("svg", { preserveAspectRatio: "xMinYMin meet", viewBox: impacchetta(cerchi, rapportoSpazio(fig)), role: "img",
       "aria-label": "Punteggio di potenziale di valorizzazione per ciascun ente" });
     cerchi.forEach(function (c) {
       var p = c.p;
@@ -427,7 +462,7 @@
     }).filter(function (c) { return c.n; });
     var massimo = Math.max.apply(null, conteggi.map(function (c) { return c.n; }));
     conteggi.forEach(function (c) { c.chiave = c.tipo.id; c.r = TIPI_RAGGIO_MAX * Math.sqrt(c.n / massimo); });
-    var s = svg("svg", { viewBox: impacchetta(conteggi), role: "img",
+    var s = svg("svg", { preserveAspectRatio: "xMinYMin meet", viewBox: impacchetta(conteggi, rapportoSpazio(fig)), role: "img",
       "aria-label": "Quota di enti per tipo di patrimonio" });
     conteggi.forEach(function (c) {
       var perc = Math.round((c.n / totale) * 100) + "%";
@@ -492,7 +527,7 @@
     if (!conteggi.length) return;
     var massimo = Math.max.apply(null, conteggi.map(function (c) { return c.n; }));
     conteggi.forEach(function (c) { c.r = TIPI_RAGGIO_MAX * Math.sqrt(c.n / massimo); });
-    var s = svg("svg", { viewBox: impacchetta(conteggi), role: "img",
+    var s = svg("svg", { preserveAspectRatio: "xMinYMin meet", viewBox: impacchetta(conteggi, rapportoSpazio(fig)), role: "img",
       "aria-label": "Numero di enti per area d’influenza" });
     conteggi.forEach(function (c) {
       var size = c.r >= 100 ? 56 : c.r >= 50 ? 32 : 24;
@@ -804,8 +839,9 @@
       return { lineOpacity: 0, color: coloreTipi() };
     },
     // Relazioni con il territorio: si accende il gruppo "Numero aziende"
+    // pallini più piccoli (metà), per lasciare leggibili i comuni
     territorio: function () {
-      return { lineOpacity: 0, color: coloreUnico("--color-light"), aziende: true };
+      return { lineOpacity: 0, color: coloreUnico("--color-light"), aziende: true, raggio: PUNTO_RAGGIO / 2 };
     },
     area: function () {
       return { lineOpacity: 0, color: coloreDa("area", DATI.aree) };
@@ -837,6 +873,138 @@
       map.setLayoutProperty(id, "visibility", si ? "visible" : "none");
     });
     root.dataset.aziende = si ? livelli.length : 0;
+    if (map.getLayer("comune-confine")) {
+      map.setLayoutProperty("comune-confine", "visibility", si ? "visible" : "none");
+      if (!si) evidenziaComune(null);
+    }
+  }
+
+  /* Confine del comune sotto il mouse (passo "territorio"): una linea sulla
+     stessa sorgente dei livelli del gruppo "Numero aziende", filtrata sul
+     comune indicato. Il tileset ha i campi "comune" (nome) e "numero
+     aziende"; il comune si riconosce dal nome (così anche un comune diviso
+     in più poligoni si vede intero) */
+  var comuneAttivo = null;   // chiave del comune evidenziato
+
+  function aggiungiConfineComune() {
+    var stile = map.getStyle() || {};
+    var ids = livelliAziende();
+    var base = (stile.layers || []).filter(function (l) {
+      return ids.indexOf(l.id) !== -1 && l.type === "fill" && l.source;
+    })[0];
+    if (!base) return;
+    map.addLayer({
+      id: "comune-confine",
+      type: "line",
+      source: base.source,
+      "source-layer": base["source-layer"],
+      filter: ["boolean", false],
+      layout: { "line-join": "round", visibility: "none" },
+      paint: {
+        "line-color": cssColor("--color-dark"),
+        // sottile da lontano, più spesso avvicinandosi
+        "line-width": ["interpolate", ["linear"], ["zoom"], 6, 0.75, 9, 1.25, 12, 2]
+      }
+    }, "flow-linee");
+  }
+
+  function filtroComune(f) {
+    var nome = (f.properties || {}).comune;
+    if (nome != null) return ["==", ["get", "comune"], nome];
+    if (f.id !== undefined && f.id !== null) return ["==", ["id"], f.id];
+    var condizioni = Object.keys(f.properties || {}).map(function (k) {
+      return ["==", ["get", k], f.properties[k]];
+    });
+    return condizioni.length ? ["all"].concat(condizioni) : ["boolean", false];
+  }
+
+  function evidenziaComune(f) {
+    if (!map.getLayer("comune-confine")) return;
+    var chiave = f ? JSON.stringify(filtroComune(f)) : null;
+    if (chiave === comuneAttivo) return;
+    comuneAttivo = chiave;
+    map.setFilter("comune-confine", f ? filtroComune(f) : ["boolean", false]);
+  }
+
+  // Nome del comune confrontabile con il foglio: minuscole, senza accenti,
+  // apostrofi e spazi ("Varano de' Melegari" = "VARANO DE MELEGARI")
+  function chiaveComune(nome) {
+    return String(nome || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase().replace(/[^a-z0-9]/g, "");
+  }
+
+  // Piccola scheda del comune: aziende, casi studio del flow che vi si
+  // trovano, i loro stakeholder ed eventi (righe del foglio, senza doppioni)
+  function schedaComune(f) {
+    var pr = f.properties || {};
+    var k = chiaveComune(pr.comune);
+    var casi = Object.keys(byId).map(function (id) { return byId[id]; }).filter(function (p) {
+      return k && chiaveComune(p.caso.comune) === k;
+    });
+    function unici(campo) {
+      var visti = {};
+      var voci = [];
+      casi.forEach(function (p) {
+        lista(p.caso[campo]).forEach(function (v) {
+          var c = String(v).trim();
+          if (c && !visti[c.toLowerCase()]) { visti[c.toLowerCase()] = true; voci.push(c); }
+        });
+      });
+      return voci;
+    }
+
+    var box = el("div", "mappa__popup mappa__popup--comune");
+    box.appendChild(el("span", "text-label", pr.comune || "Comune"));
+    var n = pr["numero aziende"];
+    box.appendChild(el("span", "mappa__popup-dato text-label",
+      typeof n === "number" ? (n === 1 ? "1 azienda" : n + " aziende") : "Aziende: dato non disponibile"));
+
+    if (!casi.length) {
+      box.appendChild(el("span", "mappa__popup-dato text-label", "Nessun caso studio del flow in questo comune"));
+      return box;
+    }
+    box.appendChild(el("span", "mappa__popup-dato text-label",
+      "Casi studio: " + casi.map(function (p) { return p.nome; }).join(", ")));
+    [["connessioni_stakeholder", "Stakeholder"], ["eventi_collaterali", "Eventi"]].forEach(function (g) {
+      var voci = unici(g[0]);
+      if (!voci.length) return;
+      var sez = el("div", "mappa__popup-sezione");
+      sez.appendChild(el("span", "text-label", g[1] + " (" + voci.length + ")"));
+      var ul = el("ul", "mappa__popup-elenco");
+      voci.forEach(function (v) { ul.appendChild(el("li", "text-label", v)); });
+      sez.appendChild(ul);
+      box.appendChild(sez);
+    });
+    return box;
+  }
+
+  function mostraComune(f, lngLat) {
+    popupFisso = true;
+    var scheda = schedaComune(f);
+    // mai più alta della mappa (sotto L la mappa è bassa): il resto scorre
+    scheda.style.maxHeight = Math.max(map.getContainer().clientHeight - 40, 120) + "px";
+    popup.setLngLat(lngLat).setDOMContent(scheda).addTo(map);
+    // Se la scheda esce dal riquadro della mappa, la mappa si sposta
+    // (dopo che Mapbox l'ha posizionata e il testo è impaginato)
+    setTimeout(function () {
+      var el = popup.getElement();
+      if (!el) return;
+      var r = el.getBoundingClientRect();
+      var c = map.getContainer().getBoundingClientRect();
+      var m = 8;
+      var dx = r.left < c.left + m ? r.left - c.left - m : (r.right > c.right - m ? r.right - c.right + m : 0);
+      var dy = r.top < c.top + m ? r.top - c.top - m : (r.bottom > c.bottom - m ? r.bottom - c.bottom + m : 0);
+      if (dx || dy) map.panBy([dx, dy], { duration: 300 });
+    }, 80);
+  }
+
+  function comuneNelPunto(point) {
+    if (currentStep !== "territorio" || !map.getLayer("comune-confine")) return null;
+    var livelli = livelliAziende().filter(function (id) {
+      var l = map.getLayer(id);
+      return l && l.type === "fill";
+    });
+    return map.queryRenderedFeatures(point, { layers: livelli })[0] || null;
   }
 
   function applyStepToMap(step) {
@@ -844,6 +1012,7 @@
     var s = STEP_STYLES[step]();
     map.setPaintProperty("flow-linee", "line-opacity", s.lineOpacity);
     map.setPaintProperty("patrimoni-punti", "circle-color", s.color);
+    map.setPaintProperty("patrimoni-punti", "circle-radius", conHover(s.raggio || PUNTO_RAGGIO));
     mostraAziende(!!s.aziende);
     Object.keys(clusterMarkers).forEach(function (id) {
       disegnaCluster(clusterMarkers[id].node, clusterMarkers[id].props);
@@ -1210,7 +1379,7 @@
         filter: ["!", ["has", "point_count"]],   // i gruppi sono marker HTML
         paint: {
           "circle-radius": conHover(PUNTO_RAGGIO),
-          "circle-color": cssColor("--color-light"),
+          "circle-color": coloreUnico("--color-light"),
           "circle-stroke-width": 1,
           "circle-stroke-color": cssColor("--color-dark"),
           "circle-radius-transition": TRANSITION,
@@ -1218,6 +1387,7 @@
         }
       });
 
+      aggiungiConfineComune();
       mapReady = true;
       applyStepToMap(currentStep);
       motiviAziende();
@@ -1292,9 +1462,27 @@
       mostraPopup(p, true);
     });
 
-    // Click fuori dai casi studio: si chiude il popup fisso
+    // Passo "territorio": confine del comune sotto il mouse (o toccato)
+    map.on("mousemove", function (e) {
+      var f = comuneNelPunto(e.point);
+      evidenziaComune(f);
+      if (currentStep === "territorio" && !map.queryRenderedFeatures(e.point, { layers: ["patrimoni-punti"] }).length) {
+        map.getCanvas().style.cursor = f ? "pointer" : "";
+      }
+    });
+    map.on("mouseout", function () { evidenziaComune(null); });
+
+    // Click fuori dai casi studio: nel passo "territorio" si apre la scheda
+    // del comune, altrimenti si chiude il popup fisso
     map.on("click", function (e) {
-      if (!map.queryRenderedFeatures(e.point, { layers: ["patrimoni-punti"] }).length) chiudiPopup();
+      if (map.queryRenderedFeatures(e.point, { layers: ["patrimoni-punti"] }).length) return;
+      var f = comuneNelPunto(e.point);
+      if (f) {
+        evidenziaComune(f);
+        mostraComune(f, e.lngLat);
+      } else {
+        chiudiPopup();
+      }
     });
   }
 
@@ -1362,6 +1550,29 @@
     flowChiave = null;
     map.getSource("patrimoni").setData(puntiGeoJSON());
     map.getSource("flow").setData(flowGeoJSON());
+  }
+
+  // Grafici a bolle: si ridispongono quando cambia il loro spazio
+  var BOLLE_GRAFICI = { potenziale: renderGraficoPotenziale, tipologia: renderGraficoTipologia, area: renderGraficoAree };
+  if ("ResizeObserver" in window) {
+    var misureBolle = {};
+    var attesaBolle = null;
+    var osservaBolle = new ResizeObserver(function (voci) {
+      var cambiati = {};
+      voci.forEach(function (v) {
+        var id = v.target.dataset.grafico;
+        var m = Math.round(v.contentRect.width) + "x" + Math.round(v.contentRect.height);
+        if (misureBolle[id] !== m) { misureBolle[id] = m; cambiati[id] = true; }
+      });
+      clearTimeout(attesaBolle);
+      attesaBolle = setTimeout(function () {
+        Object.keys(cambiati).forEach(function (id) { BOLLE_GRAFICI[id](); });
+      }, 150);
+    });
+    Object.keys(BOLLE_GRAFICI).forEach(function (id) {
+      var fig = root.querySelector('[data-grafico="' + id + '"]');
+      if (fig) osservaBolle.observe(fig);
+    });
   }
 
   function aggiorna() {
