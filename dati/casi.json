@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-11-27T10:48:29.208Z",
+  "aggiornato": "2026-11-27T11:01:47.210Z",
   "casi": [
     {
       "id": "stamperia-marchi",
@@ -625,9 +625,13 @@
       "periodi_apertura": "Tutto l'anno",
       "orari_apertura": "Indicativamente tutti i giorni, orario diurno (circa 9:30-18:00/19:00); verificare il calendario sul sito ufficiale.",
       "scala": [
-        "museo-ferrari-1.jpg"
+        "Edificio",
+        "Complesso architettonico",
+        "Installazione espositiva",
+        "Artefatto",
+        "Spazio privato"
       ],
-      "immagine_1": "museo-ferrari-1.jpeg",
+      "immagine_1": "museo-ferrari-1.jpg",
       "immagine_2": "museo-ferrari-2.jpg",
       "immagine_3": "museo-ferrari-3.jpg",
       "crediti_immagini": [

@@ -101,7 +101,7 @@
    Le classi le mette js/caso.js; da M le foto non scorrono e le classi
    restano spente */
 .caso__foto {
-  --sfumatura: calc(2 * var(--space-s));
+  --sfumatura: var(--space-s);
   --sfumatura-sx: #000;
   --sfumatura-dx: #000;
   -webkit-mask-image: linear-gradient(to right,
@@ -162,6 +162,14 @@
   .caso__potenziale                  { order: 3; }
   .caso__presentazione .caso__gruppo { order: 4; }
   .caso__presentazione .caso__indici-voci { order: 4; }
+}
+
+/* XS, S, M: le immagini subito dopo il sottotitolo, prima di periodo, luogo
+   e area d'influenza (che seguono con la descrizione) */
+@media (max-width: 991.98px) {
+  .caso__immagini { order: 1; }
+  .caso__dati,
+  .caso__descrizione { order: 2; }
 }
 
 .caso__blocco {
