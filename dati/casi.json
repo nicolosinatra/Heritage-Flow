@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-11-26T14:06:45.241Z",
+  "aggiornato": "2026-11-27T10:48:29.208Z",
   "casi": [
     {
       "id": "stamperia-marchi",
@@ -237,10 +237,12 @@
         "Installazione espositiva",
         "Spazio privato"
       ],
-      "immagine_1": null,
-      "immagine_2": null,
-      "immagine_3": null,
-      "crediti_immagini": [],
+      "immagine_1": "museo-stanguellini-1.jpg",
+      "immagine_2": "museo-stanguellini-2.jpg",
+      "immagine_3": "museo-stanguellini-3.jpg",
+      "crediti_immagini": [
+        "Museo Stanguellini"
+      ],
       "link_riferimento": [
         "https://www.stanguellini.it/la-storia-di-stanguellini/"
       ],
@@ -623,16 +625,16 @@
       "periodi_apertura": "Tutto l'anno",
       "orari_apertura": "Indicativamente tutti i giorni, orario diurno (circa 9:30-18:00/19:00); verificare il calendario sul sito ufficiale.",
       "scala": [
-        "Edificio",
-        "Complesso architettonico",
-        "Installazione espositiva",
-        "Artefatto",
-        "Spazio privato"
+        "museo-ferrari-1.jpg"
       ],
-      "immagine_1": null,
-      "immagine_2": null,
-      "immagine_3": null,
-      "crediti_immagini": [],
+      "immagine_1": "museo-ferrari-1.jpeg",
+      "immagine_2": "museo-ferrari-2.jpg",
+      "immagine_3": "museo-ferrari-3.jpg",
+      "crediti_immagini": [
+        "Museo Ferrari Maranello",
+        "Museo Ferrari Maranello",
+        "Foto di Aerautodromo Modena"
+      ],
       "link_riferimento": [
         "https://www.ferrari.com/it-IT/museums/maranello",
         "https://www.motorvalley.it/"
@@ -862,10 +864,12 @@
         "Artefatto",
         "Spazio privato"
       ],
-      "immagine_1": null,
-      "immagine_2": null,
-      "immagine_3": null,
-      "crediti_immagini": [],
+      "immagine_1": "museo-ducati-1.jpg",
+      "immagine_2": "museo-ducati-2.jpg",
+      "immagine_3": "museo-ducati-3.jpg",
+      "crediti_immagini": [
+        "Museo Ducati Borgo Panigale"
+      ],
       "link_riferimento": [
         "https://www.ducati.com/it/it/ducati-museum",
         "https://www.motorvalley.it/"
@@ -1082,10 +1086,14 @@
         "Installazione espositiva",
         "Spazio privato"
       ],
-      "immagine_1": null,
-      "immagine_2": null,
-      "immagine_3": null,
-      "crediti_immagini": [],
+      "immagine_1": "dallara-academy-1.jpg",
+      "immagine_2": "dallara-academy-2.jpg",
+      "immagine_3": "dallara-academy-3.jpg",
+      "crediti_immagini": [
+        "Dallara Academy",
+        "Un gruppo di studenti simula il crash test con il gaming",
+        "La fabbrica delle auto Dallara a Varano de’ Melegari"
+      ],
       "link_riferimento": [
         "https://www.dallara.it/dallara-academy/",
         "https://www.motorvalley.it/"
@@ -1304,10 +1312,12 @@
         "Artefatto",
         "Spazio privato"
       ],
-      "immagine_1": null,
-      "immagine_2": null,
-      "immagine_3": null,
-      "crediti_immagini": [],
+      "immagine_1": "collezione-maserati-umberto-panini-1.jpg",
+      "immagine_2": "collezione-maserati-umberto-panini-2.jpg",
+      "immagine_3": "collezione-maserati-umberto-panini-3.jpg",
+      "crediti_immagini": [
+        "Collezione Maserati Umberto Panini"
+      ],
       "link_riferimento": [
         "https://paninimotormuseum.it/",
         "https://www.motorwebmuseum.it/en/places/modena/the-umberto-panini-collection-temple-of-maserati-cars/"
@@ -1513,10 +1523,12 @@
         "Spazio fisico",
         "Spazio pubblico"
       ],
-      "immagine_1": null,
-      "immagine_2": null,
-      "immagine_3": null,
-      "crediti_immagini": [],
+      "immagine_1": "museo-multimediale-autodromo-di-imola-checco-costa-maicc-1.jpg",
+      "immagine_2": "museo-multimediale-autodromo-di-imola-checco-costa-maicc-2.jpg",
+      "immagine_3": "museo-multimediale-autodromo-di-imola-checco-costa-maicc-3.jpg",
+      "crediti_immagini": [
+        "Museo Multimediale Autodromo di Imola Checco Costa (MAICC)"
+      ],
       "link_riferimento": [
         "https://www.autodromoimola.it/",
         "https://www.motorvalley.it/en/?p=2485"
@@ -1729,7 +1741,7 @@
       "id": "collezione-auto-bandini",
       "titolo": "Collezione Auto Bandini",
       "sottotitolo": "Le auto da competizione di Ilario Bandini",
-      "anno_inizio": null,
+      "anno_inizio": 1946,
       "anno_fine": null,
       "in_corso": true,
       "lon": 11.977971,
@@ -1737,7 +1749,7 @@
       "comune": "Forlì",
       "provincia": "Forlì-Cesena",
       "regione": "Emilia-Romagna",
-      "descrizione": "Museo-collezione nell'ex officina di Ilario Bandini a Rovere (Forlì), costruttore romagnolo di auto sportive attivo dal 1946 al 1992. Raccoglie vetture da competizione (circa 75 costruite, 46-47 ancora esistenti), fotografie, coppe, trofei, articoli e modelli in legno. È curata dagli eredi tramite il Registro Storico Bandini. Nota: l'anno di inizio è da verificare, perché il 1946 è la fondazione della casa automobilistica Bandini e non l'apertura del museo, il cui anno non è stato accertato.",
+      "descrizione": "Museo-collezione nell'ex officina di Ilario Bandini a Rovere (Forlì), costruttore romagnolo di auto sportive attivo dal 1946 al 1992. Raccoglie vetture da competizione (circa 75 costruite, 46-47 ancora esistenti), fotografie, coppe, trofei, articoli e modelli in legno. È curata dagli eredi tramite il Registro Storico Bandini.",
       "tipologia_apertura": "Permanente",
       "periodi_apertura": "Tutto l'anno",
       "orari_apertura": "Aperto su appuntamento, tutte le mattine (anche sabato e domenica); prenotare telefonicamente.",
@@ -1747,10 +1759,13 @@
         "Artefatto",
         "Spazio privato"
       ],
-      "immagine_1": null,
-      "immagine_2": null,
-      "immagine_3": null,
-      "crediti_immagini": [],
+      "immagine_1": "collezione-auto-bandini-1.jpg",
+      "immagine_2": "collezione-auto-bandini-2.jpg",
+      "immagine_3": "collezione-auto-bandini-3.jpg",
+      "crediti_immagini": [
+        "Dino Bandini, nipote di Ilario Bandini all'interno della Collezione dell’Automobile Bandini",
+        "Bandini 750 Sport Siluro Chassis 211 during the Mille Miglia 1953 © Dino Bandini Archives"
+      ],
       "link_riferimento": [
         "https://www.ilariobandini.it/",
         "https://www.motorvalley.it/en/stories/ilario-bandini/"
@@ -1949,10 +1964,12 @@
         "Artefatto",
         "Spazio fisico"
       ],
-      "immagine_1": null,
-      "immagine_2": null,
-      "immagine_3": null,
-      "crediti_immagini": [],
+      "immagine_1": "museo-francesco-baracca-1.jpg",
+      "immagine_2": "museo-francesco-baracca-2.jpg",
+      "immagine_3": "museo-francesco-baracca-3.jpg",
+      "crediti_immagini": [
+        "Museo Francesco Baracca"
+      ],
       "link_riferimento": [
         "http://www.museobaracca.it/",
         "https://www.motorvalley.it/?p=1863"
@@ -1963,7 +1980,6 @@
       ],
       "tipo_patrimonio": [
         "Patrimonio museale",
-        "Patrimonio architettonico",
         "Patrimonio dissonante"
       ],
       "natura_patrimonio": [
@@ -2169,10 +2185,12 @@
         "Artefatto",
         "Spazio privato"
       ],
-      "immagine_1": null,
-      "immagine_2": null,
-      "immagine_3": null,
-      "crediti_immagini": [],
+      "immagine_1": "museo-automobili-lamborghini-1.jpg",
+      "immagine_2": "museo-automobili-lamborghini-2.jpg",
+      "immagine_3": "museo-automobili-lamborghini-3.jpg",
+      "crediti_immagini": [
+        "Museo Automobili Lamborghini"
+      ],
       "link_riferimento": [
         "https://www.lamborghini.com/it-en/museo-lamborghini",
         "https://www.motorvalley.it/"
