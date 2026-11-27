@@ -875,7 +875,7 @@
     root.dataset.aziende = si ? livelli.length : 0;
     if (map.getLayer("comune-confine")) {
       map.setLayoutProperty("comune-confine", "visibility", si ? "visible" : "none");
-      if (!si) evidenziaComune(null);
+      if (!si) { chiudiComune(); evidenziaComune(null); }
     }
   }
 
@@ -978,24 +978,78 @@
     return box;
   }
 
+  // Riquadro del comune: tutti i suoi pezzi nei tasselli caricati (un
+  // comune può essere diviso tra più tasselli o in più poligoni)
+  function riquadroComune(f) {
+    var nome = (f.properties || {}).comune;
+    var pezzi = nome != null
+      ? map.querySourceFeatures(f.source, { sourceLayer: f.sourceLayer, filter: ["==", ["get", "comune"], nome] })
+      : [f];
+    var b = new mapboxgl.LngLatBounds();
+    function aggiungi(c) {
+      if (typeof c[0] === "number") b.extend(c);
+      else c.forEach(aggiungi);
+    }
+    pezzi.forEach(function (p) { if (p.geometry) aggiungi(p.geometry.coordinates); });
+    return b.isEmpty() ? null : b;
+  }
+
+  // Se la scheda esce dal riquadro della mappa, la mappa si sposta
+  function adattaScheda(pop) {
+    var el = pop && pop.getElement();
+    if (!el) return;
+    var r = el.getBoundingClientRect();
+    var c = map.getContainer().getBoundingClientRect();
+    var m = 8;
+    var dx = r.left < c.left + m ? r.left - c.left - m : (r.right > c.right - m ? r.right - c.right + m : 0);
+    var dy = r.top < c.top + m ? r.top - c.top - m : (r.bottom > c.bottom - m ? r.bottom - c.bottom + m : 0);
+    if (dx || dy) map.panBy([dx, dy], { duration: 300 });
+  }
+
+  /* Al click: il comune va al centro con un piccolo zoom (un livello in
+     più, senza superare lo zoom con cui il comune sta tutto nella mappa).
+     La scheda, se la mappa è abbastanza larga, sta a destra del comune
+     (così non lo copre), altrimenti nel punto del click; poi, se serve,
+     la mappa si sposta per mostrarla tutta. Finché la scheda è aperta il
+     confine resta su quel comune */
+  var COMUNE_ZOOM_IN = 1;
+  var COMUNE_ZOOM_MAX = 12;
+  var COMUNE_SCHEDA_A_LATO = 560;   // px: larghezza minima della mappa
+  var popupComune = null;
+  var comuneFisso = false;
+
+  function chiudiComune() {
+    comuneFisso = false;
+    if (popupComune) { popupComune.remove(); popupComune = null; popupFisso = false; }
+  }
+
   function mostraComune(f, lngLat) {
+    chiudiPopup();
     popupFisso = true;
+    comuneFisso = true;
+    evidenziaComune(f);
+
     var scheda = schedaComune(f);
     // mai più alta della mappa (sotto L la mappa è bassa): il resto scorre
     scheda.style.maxHeight = Math.max(map.getContainer().clientHeight - 40, 120) + "px";
-    popup.setLngLat(lngLat).setDOMContent(scheda).addTo(map);
-    // Se la scheda esce dal riquadro della mappa, la mappa si sposta
-    // (dopo che Mapbox l'ha posizionata e il testo è impaginato)
-    setTimeout(function () {
-      var el = popup.getElement();
-      if (!el) return;
-      var r = el.getBoundingClientRect();
-      var c = map.getContainer().getBoundingClientRect();
-      var m = 8;
-      var dx = r.left < c.left + m ? r.left - c.left - m : (r.right > c.right - m ? r.right - c.right + m : 0);
-      var dy = r.top < c.top + m ? r.top - c.top - m : (r.bottom > c.bottom - m ? r.bottom - c.bottom + m : 0);
-      if (dx || dy) map.panBy([dx, dy], { duration: 300 });
-    }, 80);
+
+    var riquadro = riquadroComune(f);
+    var aLato = riquadro && map.getContainer().clientWidth >= COMUNE_SCHEDA_A_LATO;
+    popupComune = new mapboxgl.Popup(aLato
+      ? { closeButton: false, closeOnClick: false, anchor: "left", offset: 12 }
+      : { closeButton: false, closeOnClick: false, offset: 14 });
+    popupComune
+      .setLngLat(aLato ? [riquadro.getEast(), riquadro.getCenter().lat] : lngLat)
+      .setDOMContent(scheda)
+      .addTo(map);
+
+    var pop = popupComune;
+    if (!riquadro) { setTimeout(function () { adattaScheda(pop); }, 80); return; }
+    var zoom = Math.min(map.getZoom() + COMUNE_ZOOM_IN, COMUNE_ZOOM_MAX);
+    var adatto = map.cameraForBounds(riquadro, { padding: 40 });
+    if (adatto && typeof adatto.zoom === "number") zoom = Math.max(map.getZoom(), Math.min(zoom, adatto.zoom));
+    map.once("moveend", function () { setTimeout(function () { adattaScheda(pop); }, 30); });
+    map.easeTo({ center: riquadro.getCenter(), zoom: zoom, duration: 600, essential: true });
   }
 
   function comuneNelPunto(point) {
@@ -1407,6 +1461,7 @@
   var popupFisso = false;
 
   function mostraPopup(p, fisso) {
+    if (fisso) chiudiComune();
     popupFisso = fisso;
     popup.setLngLat(p.coordinate).setDOMContent(popupHTML(p, fisso)).addTo(map);
   }
@@ -1414,6 +1469,7 @@
   function chiudiPopup() {
     popupFisso = false;
     if (popup) popup.remove();
+    chiudiComune();
   }
 
   // Zoom su un caso studio (click sull'elenco di destra). Lo zoom supera
@@ -1465,17 +1521,20 @@
     // Passo "territorio": confine del comune sotto il mouse (o toccato)
     map.on("mousemove", function (e) {
       var f = comuneNelPunto(e.point);
-      evidenziaComune(f);
+      if (!comuneFisso) evidenziaComune(f);
       if (currentStep === "territorio" && !map.queryRenderedFeatures(e.point, { layers: ["patrimoni-punti"] }).length) {
         map.getCanvas().style.cursor = f ? "pointer" : "";
       }
     });
-    map.on("mouseout", function () { evidenziaComune(null); });
+    map.on("mouseout", function () { if (!comuneFisso) evidenziaComune(null); });
 
     // Click fuori dai casi studio: nel passo "territorio" si apre la scheda
     // del comune, altrimenti si chiude il popup fisso
     map.on("click", function (e) {
       if (map.queryRenderedFeatures(e.point, { layers: ["patrimoni-punti"] }).length) return;
+      // click su un gruppo di enti (marker HTML): ci pensa il gruppo
+      var bersaglio = e.originalEvent && e.originalEvent.target;
+      if (bersaglio && bersaglio.closest && bersaglio.closest(".mappa__cluster-marker")) return;
       var f = comuneNelPunto(e.point);
       if (f) {
         evidenziaComune(f);
