@@ -785,9 +785,17 @@
   // crescono in proporzione (CLUSTER_LATO_MAX)
   var PUNTO_RAGGIO = 12;
 
+  // Un colore uguale per tutti, ma scritto come espressione sui dati come
+  // negli altri passi: passando da un colore fisso a uno per ente (e
+  // viceversa) Mapbox GL JS 3.36 dà errore nel disegno dei pallini
+  function coloreUnico(variabile) {
+    var c = cssColor(variabile);
+    return ["match", ["get", "tipo"], "", c, c];
+  }
+
   var STEP_STYLES = {
     flow: function () {
-      return { lineOpacity: 1, color: cssColor("--color-light") };
+      return { lineOpacity: 1, color: coloreUnico("--color-light") };
     },
     potenziale: function () {
       return { lineOpacity: 0, color: coloreClassi() };
@@ -797,7 +805,7 @@
     },
     // Relazioni con il territorio: si accende il gruppo "Numero aziende"
     territorio: function () {
-      return { lineOpacity: 0, color: cssColor("--color-light"), aziende: true };
+      return { lineOpacity: 0, color: coloreUnico("--color-light"), aziende: true };
     },
     area: function () {
       return { lineOpacity: 0, color: coloreDa("area", DATI.aree) };
