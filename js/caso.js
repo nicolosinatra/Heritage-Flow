@@ -138,17 +138,27 @@
   // Pulsante indietro (freccia nel cerchio, come in "Genera"): torna alla
   // pagina da cui si è arrivati (archivio o mappa, che ritrova il suo
   // flow); se si è arrivati da fuori, porta all'archivio
+  // Freccia nel cerchio e scritta: "Torna alla mappa" se si arriva dalla
+  // mappa, altrimenti "Torna all'archivio" (anche aprendo il link diretto)
   function indietro() {
+    var dalSito = false, dallaMappa = false;
+    try {
+      var rif = new URL(document.referrer);
+      dalSito = rif.origin === location.origin;
+      dallaMappa = dalSito && /\/mappa\.html$/.test(rif.pathname);
+    } catch (err) { /* nessun referrer */ }
+
     var a = crea("a", "caso__torna");
-    a.href = "archivio.html";
-    a.setAttribute("aria-label", "Torna indietro");
+    a.href = dallaMappa ? "mappa.html" : "archivio.html";
+    var cerchio = crea("span", "caso__torna-cerchio");
     var img = crea("img");
     img.src = "assets/mappa/genera-indietro.svg";
     img.alt = "";
-    a.appendChild(img);
+    cerchio.appendChild(img);
+    a.appendChild(cerchio);
+    a.appendChild(crea("span", "caso__torna-testo text-body-small",
+      dallaMappa ? "Torna alla mappa" : "Torna all’archivio"));
     a.addEventListener("click", function (e) {
-      var dalSito = false;
-      try { dalSito = new URL(document.referrer).origin === location.origin; } catch (err) { /* nessun referrer */ }
       if (dalSito && history.length > 1) {
         e.preventDefault();
         history.back();

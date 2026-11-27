@@ -16,10 +16,19 @@
 
 /* Pulsante indietro in alto a sinistra: la freccia nel cerchio di
    "Genera" (assets/mappa/genera-indietro.svg), alta quanto le voci della
-   navbar */
+   navbar; accanto "Torna alla mappa" o "Torna all'archivio" */
 .caso__torna {
-  display: block;
+  display: inline-flex;
+  align-items: center;
   align-self: flex-start;
+  gap: var(--space-fixed-xs);
+  color: inherit;
+  text-decoration: none;
+}
+
+.caso__torna-cerchio {
+  display: block;
+  flex: none;
   width: var(--navbar-height);
   height: var(--navbar-height);
   border-radius: 50%;
@@ -32,7 +41,7 @@
   height: 100%;
 }
 
-.caso__torna:hover {
+.caso__torna:hover .caso__torna-cerchio {
   background: var(--color-9);
 }
 
