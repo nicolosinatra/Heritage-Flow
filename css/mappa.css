@@ -101,7 +101,10 @@
 
 .mappa[data-step="flow"]       [data-legenda="flow"],
 .mappa[data-step="potenziale"] [data-legenda="potenziale"],
-.mappa[data-step="tipologia"]  [data-legenda="tipologia"] {
+.mappa[data-step="tipologia"]  [data-legenda="tipologia"],
+.mappa[data-step="territorio"] [data-legenda="territorio"],
+.mappa[data-step="area"]       [data-legenda="area"],
+.mappa[data-step="indici"]     [data-legenda="indici"] {
   opacity: 1;
   visibility: visible;
   transition: opacity var(--mappa-duration) ease, visibility 0s linear;
@@ -153,6 +156,28 @@
   height: var(--mappa-legenda-swatch);
   border-radius: 50%;
   background: var(--voce-colore);
+}
+
+/* Legenda 4 (aziende per comune): titolo e, accanto, le trame dei comuni
+   (immagini dello sprite Mapbox, js/mappa.js) in quadrati con bordo */
+.legenda__set--titolo {
+  column-gap: var(--space-fixed-xs);
+}
+
+.legenda__titolo {
+  flex: none;
+}
+
+.legenda__voci {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-fixed-xxs) var(--space-fixed-xs);
+}
+
+.legenda__chiave--motivo {
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 0;
+  background: var(--color-light) repeat;
 }
 
 /* --------------------------------------------------------------------------
@@ -277,6 +302,140 @@
 }
 
 /* Grafici a bolle (SVG generati da js/mappa.js) */
+/* Testo sotto il titolo dei passi nuovi (territorio, area, indici) */
+.step__testo {
+  max-width: 520px;
+  margin-top: calc(var(--space-m) - var(--space-xl));
+}
+
+/* --------------------------------------------------------------------------
+   Grafico "Relazioni con il territorio": una riga per ente, barra divisa
+   per tipo di rete (siti, stakeholder, eventi), totale a destra
+   -------------------------------------------------------------------------- */
+.reti {
+  display: flex;
+  flex-direction: column;
+}
+
+.reti__riga {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) 2ch;
+  align-items: center;
+  gap: var(--space-fixed-xs);
+  padding: var(--space-fixed-xxs) 0;
+  border-bottom: var(--border-width) dotted var(--color-divider);
+  transition: background-color 200ms ease;
+}
+
+.reti__riga.is-highlighted {
+  background: var(--color-2);
+}
+
+.reti__nome {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reti__barra {
+  display: flex;
+  height: var(--space-fixed-xs);
+}
+
+.reti__pezzo {
+  height: 100%;
+  border: var(--border-width) solid var(--color-border);
+}
+
+.reti__pezzo + .reti__pezzo {
+  border-left: 0;
+}
+
+.reti__totale {
+  text-align: right;
+}
+
+.reti__legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-fixed-xxs) var(--space-m);
+  margin-top: var(--space-fixed-xs);
+}
+
+.reti__voce {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-fixed-xxs);
+}
+
+.reti__chiave {
+  width: var(--space-fixed-xs);
+  height: var(--space-fixed-xxs);
+  border: var(--border-width) solid var(--color-border);
+}
+
+/* --------------------------------------------------------------------------
+   Grafico "Profilo degli indici": righe = enti, colonne = indici; cerchio
+   grande quanto il punteggio (area: --v = radice del punteggio / 100),
+   bordo spesso sull'indice più alto
+   -------------------------------------------------------------------------- */
+.profilo {
+  --profilo-cella: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profilo__riga {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(5, var(--profilo-cella));
+  align-items: center;
+  gap: var(--space-fixed-xxs);
+  padding: var(--space-xxs) 0;
+  border-bottom: var(--border-width) dotted var(--color-divider);
+  transition: background-color 200ms ease;
+}
+
+.profilo__riga--testa {
+  border-bottom: 0;
+}
+
+.profilo__riga.is-highlighted {
+  background: var(--color-2);
+}
+
+.profilo__nome {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* nomi degli indici in verticale, per stare nelle colonne strette */
+.profilo__indice {
+  justify-self: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  opacity: var(--opacity-muted);
+}
+
+.profilo__cella {
+  display: grid;
+  place-items: center;
+  height: var(--profilo-cella);
+}
+
+.profilo__punto {
+  width: calc(var(--profilo-cella) * var(--v));
+  height: calc(var(--profilo-cella) * var(--v));
+  min-width: 3px;
+  min-height: 3px;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 50%;
+}
+
+.profilo__punto.is-forte {
+  border-width: var(--border-width-strong);
+}
+
 .step__viz {
   margin: 0;
 }
@@ -317,7 +476,7 @@
   transition: opacity var(--mappa-duration) ease;
 }
 
-.mappa[data-step="tipologia"] .mappa__scroll-hint {
+.mappa[data-step="indici"] .mappa__scroll-hint {
   opacity: 0;
 }
 

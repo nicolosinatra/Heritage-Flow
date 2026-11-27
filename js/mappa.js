@@ -6,6 +6,10 @@
    - Passi:  flow        → archi del flow generato (Figma: Dataviz-1)
              potenziale  → punti colorati per classe (Figma: Dataviz-2)
              tipologia   → punti per tipo di patrimonio (Figma: Dataviz-3)
+             territorio  → gruppo "Numero aziende" dello stile Mapbox +
+                           reti attive di ogni ente
+             area        → punti per area d'influenza
+             indici      → punti per indice più alto + profilo degli indici
    - I casi studio arrivano dal Google Sheet (js/dati-casi.js). Restano
      quelli che rispettano la frase di "Genera" (HFMappa.filtra, chiamata
      da js/genera.js); il flow li visita da ovest verso est passando ogni
@@ -88,6 +92,24 @@
       lista(caso[campo]).forEach(function (v) { p.chiavi[chiave(v)] = true; });
     });
     p.chiavi[p.tipo] = true;   // "digitale", "digitalizzato", "fisico"
+
+    // Relazioni con il territorio: righe di siti, stakeholder ed eventi
+    p.reti = {};
+    p.retiTotale = 0;
+    (DATI.reti || []).forEach(function (r) {
+      p.reti[r.id] = lista(caso[r.id]).length;
+      p.retiTotale += p.reti[r.id];
+    });
+    // Area d'influenza (testo del foglio, es. "Nazionale")
+    p.area = lista(caso.area_influenza)[0] || "";
+    // Indici e indice più alto (a pari valore il primo dell'elenco)
+    p.indici = {};
+    p.forte = "";
+    (DATI.indici || []).forEach(function (ind) {
+      var v = caso[ind.campo];
+      p.indici[ind.id] = typeof v === "number" ? v : null;
+      if (typeof v === "number" && (!p.forte || v > p.indici[p.forte])) p.forte = ind.id;
+    });
     return p;
   }
 
@@ -206,7 +228,12 @@
       (DATI[list.dataset.voci] || []).forEach(function (voce) {
         var li = el("li", "legenda__voce text-body");
         var chiave = el("span", "legenda__chiave");
-        chiave.style.setProperty("--voce-colore", "var(" + voce.colore + ")");
+        if (voce.colore) chiave.style.setProperty("--voce-colore", "var(" + voce.colore + ")");
+        // trama del livello Mapbox (aziende): riempita da motiviAziende()
+        if (voce.motivo) {
+          chiave.classList.add("legenda__chiave--motivo");
+          chiave.dataset.motivo = voce.motivo;
+        }
         li.appendChild(chiave);
         // Etichetta intera e breve: il CSS mostra la breve in XS e S
         li.appendChild(el("span", "legenda__testo", voce.etichetta));
@@ -411,6 +438,146 @@
     fig.appendChild(s);
   }
 
+  /* Relazioni con il territorio: per ogni ente le reti attive (siti,
+     stakeholder, eventi collegati) in una barra divisa per tipo, lunga
+     quanto il totale; ordinate dalla rete più ampia */
+  function renderGraficoReti() {
+    var fig = root.querySelector('[data-grafico="territorio"]');
+    if (!fig) return;
+    fig.textContent = "";
+    if (!DATI.patrimoni.length) return;
+    var massimo = Math.max.apply(null, DATI.patrimoni.map(function (p) { return p.retiTotale; })) || 1;
+    var ul = el("ul", "reti");
+    DATI.patrimoni.slice().sort(function (a, b) { return b.retiTotale - a.retiTotale; }).forEach(function (p) {
+      var li = el("li", "reti__riga");
+      li.dataset.id = p.id;
+      li.appendChild(el("span", "reti__nome text-label", p.nome));
+      var barra = el("span", "reti__barra");
+      barra.setAttribute("aria-hidden", "true");
+      DATI.reti.forEach(function (r) {
+        if (!p.reti[r.id]) return;
+        var pezzo = el("span", "reti__pezzo");
+        pezzo.style.width = (p.reti[r.id] / massimo * 100) + "%";
+        pezzo.style.background = "var(" + r.colore + ")";
+        barra.appendChild(pezzo);
+      });
+      li.appendChild(barra);
+      var totale = el("span", "reti__totale text-label", String(p.retiTotale));
+      totale.title = DATI.reti.map(function (r) { return p.reti[r.id] + " " + r.etichetta.toLowerCase(); }).join(", ");
+      li.appendChild(totale);
+      li.setAttribute("aria-label", p.nome + ": " + totale.title);
+      ul.appendChild(li);
+    });
+    fig.appendChild(ul);
+    var legenda = el("p", "reti__legenda text-label");
+    DATI.reti.forEach(function (r) {
+      var v = el("span", "reti__voce");
+      var k = el("span", "reti__chiave");
+      k.style.background = "var(" + r.colore + ")";
+      v.appendChild(k);
+      v.appendChild(document.createTextNode(r.etichetta));
+      legenda.appendChild(v);
+    });
+    fig.appendChild(legenda);
+  }
+
+  // Area d'influenza: una bolla per area, grande quanto il numero di enti
+  function renderGraficoAree() {
+    var fig = root.querySelector('[data-grafico="area"]');
+    if (!fig) return;
+    fig.textContent = "";
+    var conteggi = DATI.aree.map(function (a) {
+      return { area: a, chiave: a.id, n: DATI.patrimoni.filter(function (p) { return p.area === a.id; }).length };
+    }).filter(function (c) { return c.n; });
+    if (!conteggi.length) return;
+    var massimo = Math.max.apply(null, conteggi.map(function (c) { return c.n; }));
+    conteggi.forEach(function (c) { c.r = TIPI_RAGGIO_MAX * Math.sqrt(c.n / massimo); });
+    var s = svg("svg", { viewBox: impacchetta(conteggi), role: "img",
+      "aria-label": "Numero di enti per area d’influenza" });
+    conteggi.forEach(function (c) {
+      var size = c.r >= 100 ? 56 : c.r >= 50 ? 32 : 24;
+      s.appendChild(bolla(c.x, c.y, c.r, cssColor(c.area.colore), String(c.n), size,
+        c.area.etichetta + ": " + c.n + (c.n === 1 ? " ente" : " enti")));
+    });
+    fig.appendChild(s);
+  }
+
+  /* Profilo degli indici: una riga per ente, una colonna per indice; il
+     cerchio è grande quanto il punteggio (area), quello dell'indice più
+     alto ha il bordo spesso */
+  function renderGraficoIndici() {
+    var fig = root.querySelector('[data-grafico="indici"]');
+    if (!fig) return;
+    fig.textContent = "";
+    if (!DATI.patrimoni.length) return;
+    var tabella = el("div", "profilo");
+    tabella.setAttribute("role", "table");
+    tabella.setAttribute("aria-label", "Punteggio dei cinque indici per ciascun ente");
+    var testa = el("div", "profilo__riga profilo__riga--testa");
+    testa.setAttribute("role", "row");
+    testa.appendChild(el("span", "profilo__nome"));
+    DATI.indici.forEach(function (ind) {
+      var h = el("span", "profilo__indice text-label", ind.breve);
+      h.setAttribute("role", "columnheader");
+      h.title = ind.etichetta;
+      testa.appendChild(h);
+    });
+    tabella.appendChild(testa);
+    DATI.patrimoni.forEach(function (p) {
+      var riga = el("div", "profilo__riga");
+      riga.setAttribute("role", "row");
+      riga.dataset.id = p.id;
+      var nome = el("span", "profilo__nome text-label", p.nome);
+      nome.setAttribute("role", "rowheader");
+      riga.appendChild(nome);
+      DATI.indici.forEach(function (ind) {
+        var cella = el("span", "profilo__cella");
+        cella.setAttribute("role", "cell");
+        var v = p.indici[ind.id];
+        cella.setAttribute("aria-label", ind.etichetta + ": " + (v == null ? "n.d." : Math.round(v)));
+        cella.title = ind.etichetta + ": " + (v == null ? "n.d." : Math.round(v));
+        if (v != null) {
+          var punto = el("span", "profilo__punto" + (ind.id === p.forte ? " is-forte" : ""));
+          punto.style.setProperty("--v", Math.sqrt(Math.max(v, 0) / 100));
+          punto.style.background = "var(" + ind.colore + ")";
+          cella.appendChild(punto);
+        }
+        riga.appendChild(cella);
+      });
+      tabella.appendChild(riga);
+    });
+    fig.appendChild(tabella);
+  }
+
+  /* Legenda delle aziende: le trame dello sprite dello stile Mapbox
+     (le stesse dei comuni sulla mappa), ritagliate su un canvas */
+  function motiviAziende() {
+    var nodi = root.querySelectorAll("[data-motivo]");
+    if (!nodi.length || !map) return;
+    var sprite = (map.getStyle() || {}).sprite;
+    if (Array.isArray(sprite)) sprite = (sprite[0] || {}).url;
+    if (typeof sprite !== "string" || sprite.indexOf("mapbox://sprites/") !== 0) return;
+    var base = sprite.replace("mapbox://sprites/", "https://api.mapbox.com/styles/v1/") + "/sprite@2x";
+    var chiave = "?access_token=" + encodeURIComponent(CONFIG.token);
+    fetch(base + ".json" + chiave).then(function (r) { return r.json(); }).then(function (indice) {
+      var img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = function () {
+        nodi.forEach(function (n) {
+          var pos = indice[n.dataset.motivo];
+          if (!pos) return;
+          var c = document.createElement("canvas");
+          c.width = pos.width;
+          c.height = pos.height;
+          c.getContext("2d").drawImage(img, pos.x, pos.y, pos.width, pos.height, 0, 0, pos.width, pos.height);
+          n.style.backgroundImage = "url(" + c.toDataURL() + ")";
+          n.style.backgroundSize = (pos.width / (pos.pixelRatio || 2)) + "px";
+        });
+      };
+      img.src = base + ".png" + chiave;
+    }).catch(function () { /* resta la chiave semplice */ });
+  }
+
   /* ------------------------------------------------------------------------
      Evidenziazione condivisa tra mappa, elenco e bolle
      ------------------------------------------------------------------------ */
@@ -455,7 +622,8 @@
         return {
           type: "Feature",
           geometry: { type: "Point", coordinates: p.coordinate },
-          properties: { id: p.id, nome: p.nome, prov: p.prov, potenziale: p.potenziale, tipo: p.tipo }
+          properties: { id: p.id, nome: p.nome, prov: p.prov, potenziale: p.potenziale, tipo: p.tipo,
+            area: p.area, forte: p.forte, reti: p.retiTotale }
         };
       })
     };
@@ -597,6 +765,14 @@
     return expr;
   }
 
+  // Colore per valore di una proprietà (area, indice più alto)
+  function coloreDa(proprieta, voci) {
+    var expr = ["match", ["get", proprieta]];
+    voci.forEach(function (v) { expr.push(v.id, cssColor(v.colore)); });
+    expr.push(cssColor("--color-light"));
+    return expr;
+  }
+
   function coloreTipi() {
     var expr = ["match", ["get", "tipo"]];
     DATI.tipi.forEach(function (t) { expr.push(t.id, cssColor(t.colore)); });
@@ -618,14 +794,49 @@
     },
     tipologia: function () {
       return { lineOpacity: 0, color: coloreTipi() };
+    },
+    // Relazioni con il territorio: si accende il gruppo "Numero aziende"
+    territorio: function () {
+      return { lineOpacity: 0, color: cssColor("--color-light"), aziende: true };
+    },
+    area: function () {
+      return { lineOpacity: 0, color: coloreDa("area", DATI.aree) };
+    },
+    indici: function () {
+      return { lineOpacity: 0, color: coloreDa("forte", DATI.indici) };
     }
   };
+
+  /* Livelli del gruppo "Numero aziende" dello stile Mapbox (confini dei
+     comuni e numero di aziende per comune): spenti nello stile, accesi solo
+     nel passo "territorio". Il gruppo si riconosce dal nome (metadati dello
+     stile di Mapbox Studio) */
+  function livelliAziende() {
+    var stile = map.getStyle() || {};
+    var gruppi = (stile.metadata || {})["mapbox:groups"] || {};
+    var id = Object.keys(gruppi).filter(function (k) { return gruppi[k].name === DATI.gruppoAziende; })[0];
+    if (!id) return [];
+    return (stile.layers || []).filter(function (l) {
+      return (l.metadata || {})["mapbox:group"] === id;
+    }).map(function (l) { return l.id; });
+  }
+
+  // data-aziende su .mappa: quanti livelli del gruppo sono accesi (0 se il
+  // gruppo non c'è nello stile o il passo non è "territorio")
+  function mostraAziende(si) {
+    var livelli = livelliAziende();
+    livelli.forEach(function (id) {
+      map.setLayoutProperty(id, "visibility", si ? "visible" : "none");
+    });
+    root.dataset.aziende = si ? livelli.length : 0;
+  }
 
   function applyStepToMap(step) {
     if (!mapReady || !STEP_STYLES[step]) return;
     var s = STEP_STYLES[step]();
     map.setPaintProperty("flow-linee", "line-opacity", s.lineOpacity);
     map.setPaintProperty("patrimoni-punti", "circle-color", s.color);
+    mostraAziende(!!s.aziende);
     Object.keys(clusterMarkers).forEach(function (id) {
       disegnaCluster(clusterMarkers[id].node, clusterMarkers[id].props);
     });
@@ -655,6 +866,12 @@
     DATI.tipi.forEach(function (t) {
       props["tipo_" + t.id] = ["+", ["case", ["==", ["get", "tipo"], t.id], 1, 0]];
     });
+    DATI.aree.forEach(function (a, i) {
+      props["area_" + i] = ["+", ["case", ["==", ["get", "area"], a.id], 1, 0]];
+    });
+    DATI.indici.forEach(function (ind) {
+      props["forte_" + ind.id] = ["+", ["case", ["==", ["get", "forte"], ind.id], 1, 0]];
+    });
     return props;
   }
 
@@ -667,6 +884,16 @@
     if (currentStep === "tipologia") {
       return DATI.tipi.map(function (t) {
         return { colore: cssColor(t.colore), n: props["tipo_" + t.id] || 0 };
+      });
+    }
+    if (currentStep === "area") {
+      return DATI.aree.map(function (a, i) {
+        return { colore: cssColor(a.colore), n: props["area_" + i] || 0 };
+      });
+    }
+    if (currentStep === "indici") {
+      return DATI.indici.map(function (ind) {
+        return { colore: cssColor(ind.colore), n: props["forte_" + ind.id] || 0 };
       });
     }
     return [{ colore: cssColor("--color-light"), n: props.point_count }];
@@ -782,6 +1009,14 @@
     var dato;
     if (currentStep === "potenziale") dato = "Potenziale " + numero(p.potenziale) + " / 100 — " + classeDi(p.potenziale).etichetta;
     else if (currentStep === "tipologia") dato = (tipiById[p.tipo] || {}).etichetta || "";
+    else if (currentStep === "territorio") dato = "Reti attive: " + DATI.reti.map(function (r) {
+      return p.reti[r.id] + " " + r.etichetta.toLowerCase();
+    }).join(", ");
+    else if (currentStep === "area") dato = "Area d’influenza: " + (p.area || "non indicata");
+    else if (currentStep === "indici") {
+      var forte = DATI.indici.filter(function (i) { return i.id === p.forte; })[0];
+      dato = forte ? "Indice più alto: " + forte.etichetta + " " + Math.round(p.indici[forte.id]) : "";
+    }
     else dato = "Tappa " + (DATI.flow.indexOf(p.id) + 1) + " del flow";
 
     var box = el("div", "mappa__popup");
@@ -977,6 +1212,7 @@
 
       mapReady = true;
       applyStepToMap(currentStep);
+      motiviAziende();
       bindMapEvents();
       map.on("render", aggiornaCluster);
     });
@@ -1116,6 +1352,9 @@
     renderEnti();
     renderGraficoPotenziale();
     renderGraficoTipologia();
+    renderGraficoReti();
+    renderGraficoAree();
+    renderGraficoIndici();
     bindHighlight();
     if (map) aggiornaMappa();
     else initMap();

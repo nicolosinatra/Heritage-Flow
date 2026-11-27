@@ -73,6 +73,12 @@
         </div>
         <ul class="legenda__set" data-legenda="potenziale" data-voci="classiPotenziale"></ul>
         <ul class="legenda__set" data-legenda="tipologia" data-voci="tipi"></ul>
+        <div class="legenda__set legenda__set--titolo" data-legenda="territorio">
+          <p class="legenda__titolo text-label">Aziende per comune</p>
+          <ul class="legenda__voci" data-voci="aziende"></ul>
+        </div>
+        <ul class="legenda__set" data-legenda="area" data-voci="aree"></ul>
+        <ul class="legenda__set" data-legenda="indici" data-voci="indici"></ul>
       </div>
     </div>
 
@@ -91,6 +97,24 @@
       <section class="step" data-step="tipologia" aria-labelledby="step-tipologia">
         <h2 class="step__title text-h3" id="step-tipologia">Tra questi quanti detengono patrimoni fisici, digitali o digitalizzati</h2>
         <figure class="step__viz" data-grafico="tipologia"></figure>
+      </section>
+
+      <section class="step" data-step="territorio" aria-labelledby="step-territorio">
+        <h2 class="step__title text-h3" id="step-territorio">Relazioni con il territorio</h2>
+        <p class="step__testo text-body-small">Sulla mappa, quante aziende ha ogni comune. Nel grafico, le reti attive di ciascun patrimonio: siti, stakeholder ed eventi con cui è collegato.</p>
+        <figure class="step__viz" data-grafico="territorio"></figure>
+      </section>
+
+      <section class="step" data-step="area" aria-labelledby="step-area">
+        <h2 class="step__title text-h3" id="step-area">Fino a dove arriva ciascun patrimonio</h2>
+        <p class="step__testo text-body-small">L’area d’influenza: da quella locale a quella globale, quanti enti per ciascuna.</p>
+        <figure class="step__viz" data-grafico="area"></figure>
+      </section>
+
+      <section class="step" data-step="indici" aria-labelledby="step-indici">
+        <h2 class="step__title text-h3" id="step-indici">Il profilo degli indici</h2>
+        <p class="step__testo text-body-small">I cinque indici di ciascun ente: più grande il cerchio, più alto il punteggio. Sulla mappa ogni ente ha il colore del suo indice più alto.</p>
+        <figure class="step__viz" data-grafico="indici"></figure>
       </section>
     </div>
 
