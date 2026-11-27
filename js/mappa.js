@@ -1326,6 +1326,20 @@
   // Passando da L a M (o viceversa) cambia l'area che scorre
   modoL.addEventListener("change", observeSteps);
 
+  // Freccia in basso: porta al passo successivo (lo scorrimento si aggancia
+  // al suo inizio, css/mappa.css)
+  var avanti = root.querySelector(".mappa__avanti");
+  if (avanti) {
+    avanti.addEventListener("click", function () {
+      var attivo = root.querySelector(".step.is-active");
+      var dopo = attivo && attivo.nextElementSibling;
+      while (dopo && !dopo.classList.contains("step")) dopo = dopo.nextElementSibling;
+      if (!dopo) return;
+      var lento = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      dopo.scrollIntoView({ behavior: lento ? "smooth" : "auto", block: "start" });
+    });
+  }
+
   /* ------------------------------------------------------------------------
      Aggiornamento: a ogni versione dei dati e a ogni frase di "Genera"
      ------------------------------------------------------------------------ */

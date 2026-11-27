@@ -221,20 +221,29 @@
   flex-direction: column;
 }
 
-/* Ogni passo è alto almeno quasi uno schermo, così ne è attivo uno alla
-   volta; l'ultimo lascia spazio per arrivare a metà schermo */
+/* Un passo alla volta: ogni passo è alto quanto l'area che scorre e lo
+   scorrimento si aggancia al suo inizio (scroll-snap: da L sulla pagina,
+   sotto L sul contenitore dei passi). Si vede solo il passo attivo (quello
+   che attraversa la metà dell'area, js/mappa.js): gli altri sono
+   trasparenti e compaiono quando diventano attivi */
 .step {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
-  min-height: 80vh;
   padding-bottom: 140px;
+  scroll-snap-align: start;
+  transition: opacity var(--mappa-duration) ease, visibility 0s;
 }
 
-/* Ultimo passo: alto almeno metà schermo, così a fine scorrimento il suo
-   inizio supera la metà e diventa attivo; sotto il grafico solo un margine */
+.step:not(.is-active) {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--mappa-duration) ease, visibility 0s linear var(--mappa-duration);
+}
+
+/* Ultimo passo: sotto il grafico solo un margine */
 .step:last-child {
-  min-height: 50vh;
   padding-bottom: var(--space-xl);
 }
 
@@ -476,8 +485,45 @@
   transition: opacity var(--mappa-duration) ease;
 }
 
+.mappa__scroll-hint img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* La freccia (al centro dell'SVG) porta al passo successivo: cerchio
+   trasparente sopra la freccia, bordato al passaggio */
+.mappa__avanti {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: var(--border-width) solid transparent;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  pointer-events: auto;
+  transform: translate(-50%, -50%);
+  transition: border-color 200ms ease;
+}
+
+.mappa__avanti:hover {
+  border-color: var(--color-border);
+}
+
+.mappa__avanti:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
+}
+
 .mappa[data-step="indici"] .mappa__scroll-hint {
   opacity: 0;
+}
+
+.mappa[data-step="indici"] .mappa__avanti {
+  pointer-events: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -626,13 +672,14 @@
 
   /* Stesse proporzioni di L, ma rispetto al contenitore. flex: none: il
      contenitore ha altezza fissa e altrimenti schiaccerebbe i passi */
-  .step {
-    flex: none;
-    min-height: 80cqh;
+  .mappa__steps {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: var(--mappa-sfumatura);
   }
 
-  .step:last-child {
-    min-height: 50cqh;
+  .step {
+    flex: none;
+    min-height: 100cqh;
   }
 
   /* Invito a scorrere largo quanto la pagina, entro i margini laterali.
@@ -642,8 +689,6 @@
     right: var(--space-fixed-xs);
     width: calc(100% - 2 * var(--space-fixed-xs));
     height: 100px;
-    object-fit: none;
-    object-position: center;
     /* solo nelle due fasce ai lati dell'SVG (largo 443.536px), così al
        centro i gradienti non si sommano */
     --hint-fascia: calc((100% - 443.536px) / 2);
@@ -651,6 +696,12 @@
     background:
       var(--hint-gradiente) left / var(--hint-fascia) 100% no-repeat,
       var(--hint-gradiente) right / var(--hint-fascia) 100% no-repeat;
+  }
+
+  .mappa__scroll-hint img {
+    height: 100%;
+    object-fit: none;
+    object-position: center;
   }
 
   /* XS, S: niente freccia. La sfumatura in basso non è più l'immagine
@@ -694,10 +745,25 @@
     padding-bottom: var(--space-fixed-xs);
   }
 
+  /* Lo scorrimento della pagina si aggancia all'inizio di ogni passo, sotto
+     la navbar (bordo pagina + --mappa-top di .mappa, 60px) */
+  html:has(.page--mappa) {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: calc(var(--space-fixed-xs) + 60px);
+  }
+
+  .mappa {
+    --mappa-stage-top: calc(var(--space-fixed-xs) + var(--mappa-top));
+  }
+
+  /* Ogni passo alto quanto la colonna sinistra */
+  .step {
+    min-height: calc(100dvh - var(--mappa-stage-top) - var(--space-fixed-xs));
+  }
+
   /* Ferma fin dall'inizio: "top" coincide con la posizione di partenza
      (bordo pagina + spazio per la navbar) */
   .mappa__stage {
-    --mappa-stage-top: calc(var(--space-fixed-xs) + var(--mappa-top));
     position: sticky;
     top: var(--mappa-stage-top);
     grid-column: 1 / span 5;

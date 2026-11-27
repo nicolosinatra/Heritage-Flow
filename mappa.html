@@ -84,7 +84,7 @@
 
     <!-- Colonna destra (L/XL: 3 colonne su 8): un passo per sezione -->
     <div class="mappa__steps">
-      <section class="step" data-step="flow" aria-labelledby="step-enti">
+      <section class="step is-active" data-step="flow" aria-labelledby="step-enti">
         <h2 class="step__title text-h3" id="step-enti">Enti e patrimoni coinvolti</h2>
         <ul class="enti text-label" data-elenco="enti"></ul>
       </section>
@@ -118,8 +118,12 @@
       </section>
     </div>
 
-    <!-- Invito a scorrere (Figma: white-gradient) -->
-    <img class="mappa__scroll-hint" src="assets/mappa/white-gradient.svg" width="443.536" height="100" alt="">
+    <!-- Invito a scorrere (Figma: white-gradient): la freccia porta al passo
+         successivo -->
+    <div class="mappa__scroll-hint">
+      <img src="assets/mappa/white-gradient.svg" width="443.536" height="100" alt="">
+      <button class="mappa__avanti" type="button" aria-label="Passo successivo"></button>
+    </div>
   </main>
 
   <script src="js/navbar.js"></script>
