@@ -203,7 +203,17 @@
     list.textContent = "";
     list.removeAttribute("aria-busy");
     if (!DATI.patrimoni.length) {
-      list.appendChild(el("li", "enti__vuoto", "Nessun caso studio corrisponde al flow scelto."));
+      // Flow vuoto: messaggio e pulsante per tornare a "Genera" (la frase
+      // scelta resta, si può modificare)
+      var vuoto = el("li", "enti__vuoto");
+      vuoto.appendChild(el("p", "text-body", "Nessun caso studio corrisponde al flow scelto."));
+      if (window.HFGenera) {
+        var nuovo = el("button", "genera__bottone text-h4", "Genera un nuovo flow");
+        nuovo.type = "button";
+        nuovo.addEventListener("click", function () { window.HFGenera.apri(); });
+        vuoto.appendChild(nuovo);
+      }
+      list.appendChild(vuoto);
       return;
     }
     DATI.patrimoni.forEach(function (p) {
@@ -1641,6 +1651,15 @@
     byId = {};
     DATI.patrimoni.forEach(function (p) { byId[p.id] = p; });
     highlight(null);
+    // Flow vuoto: resta solo il primo passo (messaggio e "Genera un nuovo
+    // flow"), gli altri sono nascosti (css/mappa.css) e non si scorre
+    var vuoto = !DATI.patrimoni.length;
+    root.classList.toggle("mappa--vuota", vuoto);
+    if (vuoto) {
+      var area = modoL.matches ? document.scrollingElement : root.querySelector(".mappa__steps");
+      if (area) area.scrollTop = 0;
+      setStep("flow");
+    }
     renderEnti();
     renderGraficoPotenziale();
     renderGraficoTipologia();

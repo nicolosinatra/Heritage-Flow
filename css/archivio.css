@@ -179,6 +179,60 @@
   border-bottom: 0;
 }
 
+/* Vista griglia: la scheda è cliccabile (js/archivio.js) e al passaggio
+   si colora come le righe dell'elenco: tutta la scheda con le pillole,
+   oppure solo la pillola se il mouse è sopra una pillola. Un piccolo
+   margine interno: testo e immagine non toccano il bordo del colore */
+.archivio--griglia .archivio__voce {
+  padding-inline: var(--space-fixed-xxs);
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+@media (hover: hover) {
+  .archivio--griglia .archivio__voce:hover:not(:has(.chip--filtro:hover)),
+  .archivio--griglia .archivio__voce:hover:not(:has(.chip--filtro:hover)) .chip--filtro {
+    background: var(--color-9);
+  }
+
+  .archivio--griglia .archivio__link:hover {
+    text-decoration: none;
+  }
+}
+
+/* Prima immagine del caso, in cima alla scheda (solo vista griglia):
+   come le immagini di caso.html, 4:3 con il bordo */
+.archivio__immagine {
+  display: none;
+}
+
+.archivio--griglia .archivio__immagine {
+  display: block;
+  grid-column: 1 / -1;
+}
+
+/* Caso senza immagine: riquadro scuro 4:3 con il nome in Brukt */
+.archivio--griglia .archivio__immagine--vuota {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  padding: var(--space-m);
+  border: var(--border-width) solid var(--color-border);
+  background: var(--color-dark);
+  color: var(--color-light);
+  text-align: center;
+  text-decoration: none;
+}
+
+.archivio--griglia .archivio__immagine img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: var(--border-width) solid var(--color-border);
+  background: var(--color-2);
+}
+
 /* Sfumatura in fondo alla finestra, entro il bordo pagina (Figma: 120px) */
 .archivio__sfumatura {
   position: fixed;
@@ -369,6 +423,47 @@
     overflow: hidden;
     clip-path: inset(50%);
     white-space: nowrap;
+  }
+
+  /* Riga cliccabile (js/archivio.js): al passaggio si colora (Color 9),
+     anche la cella dei nomi bloccata e le pillole. Un
+     piccolo margine interno a sinistra e a destra (anche sulle
+     intestazioni, per tenerle allineate): il testo non tocca il bordo del
+     fondo colorato */
+  .archivio:not(.archivio--griglia) .archivio__intestazioni,
+  .archivio:not(.archivio--griglia) .archivio__voce {
+    padding-inline: var(--space-fixed-xxs);
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__voce {
+    cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__nome {
+    margin-left: calc(-1 * var(--space-fixed-xxs));
+    padding-left: var(--space-fixed-xxs);
+    transition: background-color 150ms ease;
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__intestazioni > :first-child {
+    margin-left: calc(-1 * var(--space-fixed-xxs));
+    padding-left: var(--space-fixed-xxs);
+  }
+
+  /* Sopra una pillola si colora solo la pillola (filtra, non apre la
+     scheda); altrove si colora tutta la riga, pillole comprese */
+  .archivio:not(.archivio--griglia) .archivio__voce:hover:not(:has(.chip--filtro:hover)) {
+    background: var(--color-9);
+  }
+
+  .archivio:not(.archivio--griglia) .archivio__voce:hover:not(:has(.chip--filtro:hover)) :is(.archivio__nome, .chip--filtro) {
+    background: var(--color-9);
+  }
+
+  /* Il nome non si sottolinea: si colora già tutta la riga */
+  .archivio:not(.archivio--griglia) .archivio__link:hover {
+    text-decoration: none;
   }
 }
 
@@ -706,8 +801,15 @@
    così il pulsante Filtri resta intero. In fondo al file: vince sulle
    regole del fondo della navbar qui sopra
    -------------------------------------------------------------------------- */
+/* Chiudendo (anche dopo il click su una voce) la navbar torna sotto la
+   testata solo a menu richiuso: z-index cambia alla fine della transizione */
+.page--archivio .navbar {
+  transition: z-index 0s linear var(--navbar-duration);
+}
+
 .page--archivio .navbar.navbar--open {
   z-index: 12;
+  transition-delay: 0s;
   background-repeat: no-repeat;
   background-size: 100% calc(2 * var(--space-fixed-xs) + var(--navbar-height));
 }

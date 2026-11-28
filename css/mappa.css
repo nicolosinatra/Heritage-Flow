@@ -281,6 +281,16 @@
   }
 }
 
+/* Flow vuoto: messaggio e pulsante "Genera un nuovo flow", senza le linee
+   delle righe */
+.enti li.enti__vuoto {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-m);
+  padding-block: 0;
+  border: 0;
+}
+
 .enti li.is-highlighted {
   background: var(--color-2);
 }
@@ -566,6 +576,18 @@
 
 .mappa[data-step="indici"] .mappa__scroll-hint {
   opacity: 0;
+}
+
+/* Flow vuoto (js/mappa.js): solo il primo passo, niente da scorrere */
+.mappa--vuota .step:not([data-step="flow"]),
+.mappa--vuota .mappa__scroll-hint {
+  display: none;
+}
+
+/* sotto L il contenitore dei passi ha spazio sopra e sotto per le
+   sfumature: con un passo solo non deve comunque scorrere */
+.mappa--vuota .mappa__steps {
+  overflow-y: hidden;
 }
 
 .mappa[data-step="indici"] .mappa__avanti {

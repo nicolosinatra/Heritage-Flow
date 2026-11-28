@@ -167,10 +167,62 @@
     return a;
   }
 
+  /* Switch in alto a destra: "Presente" (i dati del caso, nei gruppi in
+     fondo alla pagina) | "Futuro potenziale" (potenziale di
+     valorizzazione, voci degli indici e testo sul potenziale del
+     patrimonio). La scelta è una classe su .caso (css/caso.css) e resta per
+     la sessione, anche passando da un caso all'altro */
+  var CHIAVE_VISTA = "heritage-flow:vista-caso";
+  var vista = "presente";
+  try { if (sessionStorage.getItem(CHIAVE_VISTA) === "futuro") vista = "futuro"; } catch (e) { /* niente */ }
+
+  function applicaVista() {
+    main.classList.toggle("caso--presente", vista === "presente");
+    main.classList.toggle("caso--futuro", vista === "futuro");
+    main.querySelectorAll(".caso__switch").forEach(function (sw) {
+      sw.querySelector(".caso__switch-leva").setAttribute("aria-checked", String(vista === "futuro"));
+      sw.querySelectorAll(".caso__switch-etichetta").forEach(function (e) {
+        e.classList.toggle("is-attiva", e.dataset.vista === vista);
+      });
+    });
+  }
+
+  function scegliVista(v) {
+    vista = v;
+    try { sessionStorage.setItem(CHIAVE_VISTA, v); } catch (e) { /* niente */ }
+    applicaVista();
+  }
+
+  function interruttore() {
+    var div = crea("div", "caso__switch");
+    function etichetta(v, testo) {
+      var b = crea("button", "caso__switch-etichetta text-body", testo);
+      b.type = "button";
+      b.dataset.vista = v;
+      b.tabIndex = -1;   // da tastiera basta la leva
+      b.addEventListener("click", function () { scegliVista(v); });
+      return b;
+    }
+    var leva = crea("button", "caso__switch-leva");
+    leva.type = "button";
+    leva.setAttribute("role", "switch");
+    leva.setAttribute("aria-label", "Futuro potenziale");
+    leva.appendChild(crea("span", "caso__switch-pallino"));
+    leva.addEventListener("click", function () {
+      scegliVista(vista === "futuro" ? "presente" : "futuro");
+    });
+    div.appendChild(etichetta("presente", "Presente"));
+    div.appendChild(leva);
+    div.appendChild(etichetta("futuro", "Futuro potenziale"));
+    return div;
+  }
+
   function intestazione(caso) {
     var sezione = crea("section", "section caso__intro");
     sezione.setAttribute("aria-labelledby", "caso-titolo");
-    sezione.appendChild(indietro());
+    var barra = crea("div", "caso__barra");
+    barra.appendChild(indietro());
+    sezione.appendChild(barra);
 
     var gruppo = crea("div", "heading-group");
     gruppo.appendChild(crea("p", "text-label", "CASO STUDIO"));
@@ -180,6 +232,9 @@
     sezione.appendChild(gruppo);
 
     if (caso.sottotitolo) sezione.appendChild(crea("p", "caso__sottotitolo text-h4", caso.sottotitolo));
+
+    // Switch Presente / Futuro potenziale sotto il sottotitolo
+    sezione.appendChild(interruttore());
 
     // Dati principali: periodo, luogo, area d'influenza
     var dati = crea("dl", "caso__dati");
@@ -595,6 +650,7 @@
     });
     if (espandibili.children.length) gruppi.insertBefore(espandibili, gruppi.firstChild);
     main.appendChild(gruppi);
+    applicaVista();
     main.removeAttribute("aria-busy");
   }
 

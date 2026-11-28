@@ -465,8 +465,20 @@
    Modo L — 992px: misure del frame Figma
    -------------------------------------------------------------------------- */
 @media (min-width: 992px) {
+  /* Più spazio tra la frase e il blocco delle opzioni: una volta e mezzo
+     --space-xxl (nessun token più grande) */
+  .genera {
+    gap: calc(var(--space-xxl) * 1.5);
+  }
+
+  /* Campi e scelta: blocco centrato in larghezza, largo al massimo
+     1040px (nessun token di larghezza: misura scelta per tenere su una o
+     due righe le voci di "tipo di patrimonio"). Larghezza fissa e non
+     sul contenuto: il blocco non si sposta mentre cambiano le voci */
   .genera__opzioni {
     gap: var(--space-xxl);
+    width: min(100%, 1040px);
+    margin-inline: auto;
   }
 
   .genera__invito {

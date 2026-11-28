@@ -17,6 +17,105 @@
 /* Pulsante indietro in alto a sinistra: la freccia nel cerchio di
    "Genera" (assets/mappa/genera-indietro.svg), alta quanto le voci della
    navbar; accanto "Torna alla mappa" o "Torna all'archivio" */
+/* Riga in alto: indietro a sinistra */
+.caso__barra {
+  display: flex;
+  align-items: center;
+}
+
+/* Switch (js/caso.js) sotto il sottotitolo: le due etichette ai lati della
+   leva; quella della vista attiva piena, l'altra attenuata */
+.caso__switch {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--space-fixed-xs);
+  max-width: 100%;
+}
+
+.caso__switch-etichetta {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  white-space: nowrap;
+  opacity: 0.3;   /* vista non attiva (nessun token: --opacity-muted è 0.6) */
+  cursor: pointer;
+  transition: opacity 200ms ease;
+}
+
+.caso__switch-etichetta.is-attiva {
+  opacity: 1;
+}
+
+/* Leva come lo switch della home (css/home.css): contorno scuro spesso,
+   fondo trasparente, cursore allungato color-9 che scorre da un lato
+   all'altro. Proporzioni della home (bordo 2,56/28, cursore alto 0,6 e a
+   0,2 dal bordo), più corta */
+.caso__switch-leva {
+  --leva-h: 20px;
+  --leva-w: 120px;
+  --leva-cursore-w: 48px;
+  --leva-cursore-h: calc(var(--leva-h) * 16.88 / 28);
+  --leva-spazio: calc(var(--leva-h) * 5.56 / 28);
+  position: relative;
+  /* larga --leva-w; si accorcia solo se la riga non basta (XS) */
+  flex: 0 1 var(--leva-w);
+  min-width: calc(var(--leva-cursore-w) * 1.5 + 2 * var(--leva-spazio));
+  box-sizing: border-box;
+  width: var(--leva-w);
+  height: var(--leva-h);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  /* bordo come ombra interna, come nella home */
+  box-shadow: inset 0 0 0 var(--border-width-strong) var(--color-dark);
+  background: transparent;
+  cursor: pointer;
+}
+
+.caso__switch-pallino {
+  position: absolute;
+  top: 50%;
+  left: var(--leva-spazio);
+  width: var(--leva-cursore-w);
+  height: var(--leva-cursore-h);
+  border-radius: var(--radius-pill);
+  background: var(--color-9);
+  transform: translateY(-50%);
+  transition: left var(--navbar-duration) var(--navbar-ease);
+}
+
+.caso__switch-leva[aria-checked="true"] .caso__switch-pallino {
+  left: calc(100% - var(--leva-cursore-w) - var(--leva-spazio));
+}
+
+/* XS: voci body e leva su una riga; meno spazio e cursore più corto */
+@media (max-width: 575.98px) {
+  .caso__switch {
+    gap: var(--space-fixed-xxs);
+  }
+
+  .caso__switch-leva {
+    --leva-cursore-w: 32px;
+  }
+}
+
+.caso__switch-leva:focus-visible {
+  outline: var(--border-width-strong) solid var(--color-main-light);
+  outline-offset: var(--border-width-strong);
+}
+
+/* Presente: i dati del caso (gruppi in fondo); niente potenziale, voci
+   degli indici e testo sul potenziale del patrimonio.
+   Futuro potenziale: il contrario. Le fonti restano in entrambe */
+.caso--presente .caso__potenziale,
+.caso--presente .caso__presentazione > .caso__gruppo,
+.caso--presente .caso__indici-voci,
+.caso--futuro .caso__espandibili {
+  display: none;
+}
+
 .caso__torna {
   display: inline-flex;
   align-items: center;
@@ -518,12 +617,13 @@
   .caso__scheda {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(6, auto) 1fr repeat(2, auto);
+    grid-template-rows: repeat(7, auto) 1fr repeat(2, auto);
     grid-template-areas:
-      "torna       ."
+      "torna       torna"
       "occhiello   ."
       "titolo      immagini"
       "sottotitolo immagini"
+      "switch      immagini"
       "dati        immagini"
       "descrizione immagini"
       ".           immagini"
@@ -538,10 +638,11 @@
     display: contents;
   }
 
-  .caso__torna        { grid-area: torna; margin-bottom: var(--space-l); }
+  .caso__barra        { grid-area: torna; margin-bottom: var(--space-l); }
   .caso__scheda > .heading-group > .text-label { grid-area: occhiello; margin-bottom: var(--space-fixed-xs); }
   .caso__titolo       { grid-area: titolo; margin-bottom: var(--space-l); }
   .caso__sottotitolo  { grid-area: sottotitolo; margin-bottom: var(--space-l); }
+  .caso__switch       { grid-area: switch; margin-bottom: var(--space-l); }
   .caso__dati         { grid-area: dati; margin-bottom: var(--space-xl); }
   .caso__descrizione  { grid-area: descrizione; margin-bottom: var(--space-xl); }
   .caso__immagini     { grid-area: immagini; margin-bottom: var(--space-xl); }
@@ -566,12 +667,13 @@
      (come su mobile). La riga 1fr prende lo spazio se le immagini sono più
      alte dei testi, così i testi non si allargano */
   .caso__scheda--immagini {
-    grid-template-rows: repeat(8, auto) 1fr auto;
+    grid-template-rows: repeat(9, auto) 1fr auto;
     grid-template-areas:
-      "torna       ."
+      "torna       torna"
       "occhiello   ."
       "titolo      immagini"
       "sottotitolo immagini"
+      "switch      immagini"
       "dati        immagini"
       "descrizione immagini"
       "potenziale  immagini"

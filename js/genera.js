@@ -602,6 +602,9 @@
     }
   }
 
+  // Per la mappa: riaprire "Genera" (es. dal pulsante del flow vuoto)
+  window.HFGenera = { apri: apri };
+
   var salvata = ritornoDallaScheda() ? leggiFrase() : null;
   if (salvata) {
     stato.attivi = salvata.attivi;

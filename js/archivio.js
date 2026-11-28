@@ -172,8 +172,46 @@
     return div;
   }
 
+  /* Vista griglia: in cima alla scheda la prima immagine del caso (come in
+     caso.html: nel foglio il nome di un file di assets/caso-studio/ oppure
+     un indirizzo https:// completo). Nella vista elenco è nascosta (CSS) e,
+     con loading="lazy", non viene scaricata */
+  function srcImmagine(valore) {
+    var v = typeof valore === "string" ? valore.trim() : "";
+    if (/^https?:\/\//i.test(v)) return v;
+    if (/^[\w.-]+\.(jpe?g|png|webp|avif|gif)$/i.test(v)) return "assets/caso-studio/" + v;
+    return null;
+  }
+
+  // Senza immagine (o se non si carica): riquadro scuro con il nome del
+  // caso in Brukt, centrato
+  function riquadroNome(a, caso) {
+    a.classList.add("archivio__immagine--vuota");
+    a.replaceChildren(crea("span", "archivio__immagine-nome text-h3-brukt", caso.titolo || ""));
+  }
+
+  function immagine(caso, href) {
+    // il link ripete quello del nome: fuori dall'ordine di tabulazione
+    var a = crea("a", "archivio__immagine");
+    a.href = href;
+    a.tabIndex = -1;
+    a.setAttribute("aria-hidden", "true");
+    var src = srcImmagine(caso.immagine_1);
+    if (!src) { riquadroNome(a, caso); return a; }
+    var img = crea("img");
+    img.src = src;
+    img.alt = "";
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.referrerPolicy = "no-referrer";
+    img.addEventListener("error", function () { riquadroNome(a, caso); });
+    a.appendChild(img);
+    return a;
+  }
+
   function voce(caso, attivi) {
     var li = crea("li", "archivio__voce");
+    li.appendChild(immagine(caso, "caso.html?id=" + encodeURIComponent(caso.id)));
     // Il nome apre la scheda del caso studio
     var nome = crea("h2", "archivio__nome text-label");
     var link = crea("a", "archivio__link", caso.titolo || "");
@@ -264,12 +302,34 @@
   }
 
   /* ------------------------------------------------------------------------
+     Vista elenco da L e vista griglia: tutta la riga (o la scheda) apre la
+     scheda del caso studio (come il link del nome), tranne le pillole, che
+     filtrano. Con Cmd/Ctrl o Maiusc
+     si apre in un'altra scheda del browser; un testo selezionato con il
+     trascinamento non apre nulla
+     ------------------------------------------------------------------------ */
+  var modoL = window.matchMedia("(min-width: 992px)");
+
+  function apriRiga(e) {
+    // elenco: solo da L (sotto è a schede); griglia: sempre
+    if (!main.classList.contains("archivio--griglia") && !modoL.matches) return;
+    if (e.target.closest("a")) return;   // il link del nome fa da sé
+    var riga = e.target.closest(".archivio__voce");
+    var link = riga && riga.querySelector(".archivio__link");
+    if (!link) return;
+    var selezione = window.getSelection && String(window.getSelection());
+    if (selezione) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) window.open(link.href, "_blank");
+    else window.location.href = link.href;
+  }
+
+  /* ------------------------------------------------------------------------
      Tag nella tabella come filtri: click = mostra solo i casi con quel
      valore (il tag resta colorato); secondo click = filtro tolto
      ------------------------------------------------------------------------ */
   lista.addEventListener("click", function (e) {
     var tag = e.target.closest(".chip--filtro");
-    if (!tag) return;
+    if (!tag) { apriRiga(e); return; }
     var campo = tag.dataset.campo;
     var valore = tag.dataset.valore;
     if (tagAttivo(campo, valore)) {
